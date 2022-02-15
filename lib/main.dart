@@ -48,11 +48,16 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   int _counter = 0;
   bool _decrement = false;
   List<int> _elements = [];
   Color _color = Colors.red;
+
+  dynamic _data = const {};
+  String _field = '';
+  List<String> _path = [];
 
   final List<Tab> myTabs = <Tab>[
     const Tab(icon: Icon(Icons.edit)),
@@ -74,24 +79,37 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       "title": "A registration form",
       "description": "A simple form example.",
       "type": "object",
-      "required": [
-        "firstName",
-        "lastName"
-      ],
+      "required": ["firstName", "lastName"],
       "properties": {
-        "firstName": {
-          "type": "string",
-          "title": "First name",
-          "default": "Chuck"
-        },
-        "lastName": {
-          "type": "string",
-          "title": "Last name"
-        },
-        "telephone": {
-          "type": "string",
-          "title": "Telephone",
-          "minLength": 10
+        // "firstName": {
+        //   "enum": ["a", "b", "c"],
+        //   "type": "string",
+        //   "title": "First name",
+        //   "default": "Chuck",
+        //   "description": "This is field description"
+        // },
+        "lastName": {"type": "boolean", "title": "Last name"},
+        "telephone": {"type": "string", "title": "Telephone", "minLength": 10},
+        "obj": {
+          "title": "A registration form",
+          "description": "A simple form example.",
+          "type": "object",
+          "required": ["firstName", "lastName"],
+          "properties": {
+            // "first": {
+            //   "enum": ["d", "e", "f"],
+            //   "type": "string",
+            //   "title": "First name",
+            //   "default": "Chuck",
+            //   "description": "This is field description"
+            // },
+            "lastName": {"type": "boolean", "title": "Last name"},
+            "telephone": {
+              "type": "string",
+              "title": "Telephone",
+              "minLength": 10
+            }
+          }
         }
       }
     };
@@ -129,19 +147,33 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       _counter = _decrement ? _counter - 1 : _counter + 1;
     });
   }
+
   void _changeMode() {
     setState(() {
       _decrement = !_decrement;
     });
   }
+
   void _addElement() {
     setState(() {
       _elements.add(_counter);
     });
   }
+
   void _incrementAdd() {
     _incrementCounter();
     _addElement();
+  }
+
+  void _updateData(
+      {dynamic data,
+      required String field,
+      required List<String> path}) {
+    setState(() {
+      _data = data;
+      _field = field;
+      _path = path;
+    });
   }
 
   @override
@@ -154,14 +186,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.title),
           bottom: TabBar(
             controller: _tabController,
             tabs: myTabs,
-          )
-      ),
+          )),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -191,8 +222,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             ),
             ElevatedButton(
                 onPressed: _changeMode,
-                child: Text(_decrement ? 'Increment' : 'Decrement')
-            ),
+                child: Text(_decrement ? 'Increment' : 'Decrement')),
             ListView.builder(
                 padding: const EdgeInsets.all(8),
                 shrinkWrap: true,
@@ -204,13 +234,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           height: 50,
                           color: _color,
                           child: Center(
-                              child: Text(_elements[index].toString())
-                          )
-                      )
-                  );
-                }
-            ),
-            JSONSchemaForm(schema: _schema)
+                              child: Text(_elements[index].toString()))));
+                }),
+            JSONSchemaForm(schema: _schema, onUpdate: _updateData),
+            Text('Data: $_data \n Field: $_field \n Path: $_path')
           ],
         ),
       ),
