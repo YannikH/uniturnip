@@ -1,12 +1,16 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-
+//
 // class UIModel extends ChangeNotifier {
+//   /// Internal, private state of the UI.
 //   final Map<String, dynamic> _data = {};
 //
+//   /// An unmodifiable view of the items in the cart.
 //   UnmodifiableMapView<String, dynamic> get data => UnmodifiableMapView<String, dynamic>(_data);
 //
+//
+//   /// Removes all items from the cart.
 //   Map<String, dynamic> modifyData(List<String> path, Map<String, dynamic> data, dynamic value) {
 //     if (path.isNotEmpty) {
 //       if (path.length > 1) {

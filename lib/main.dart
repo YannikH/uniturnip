@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_form.dart';
+import 'package:uniturnip/utils.dart';
 
 import 'json_schema_ui.dart';
 
@@ -169,29 +170,29 @@ class _MyHomePageState extends State<MyHomePage>
     _addElement();
   }
 
-  Map<String, dynamic> _modifyData(
-      List<String> path, Map<String, dynamic> data, dynamic value) {
-    if (path.isNotEmpty) {
-      if (path.length > 1) {
-        String field = path.removeAt(0);
-        data[field] ??= {};
-        _modifyData(path, data[field].cast<String, dynamic>(), value);
-      } else {
-        data[path.first] = value;
-      }
-    }
-    return data;
-  }
+  // Map<String, dynamic> _modifyData(
+  //     List<String> path,
+  //     Map<String, dynamic> data,
+  //     dynamic value) {
+  //   if (path.isNotEmpty) {
+  //     if (path.length > 1) {
+  //       String field = path.removeAt(0);
+  //       data[field] ??= {};
+  //       _modifyData(
+  //           path,
+  //           data[field].cast<String, dynamic>(),
+  //           value);
+  //     } else {
+  //       data[path.first] = value;
+  //     }
+  //   }
+  //   return data;
+  // }
 
   void _updateData(
       {dynamic data, required String field, required List<String> path}) {
-    // print('data: $data');
-    // print('field: $field');
-    // print('path: $path');
-    Map<String, dynamic> newData = {..._data};
-    List<String> newPath = [...path];
     setState(() {
-      _data = _modifyData(newPath, newData, data);
+      _data = Utils.modifyMapByPath(path, _data, data);
       _field = field;
       _path = path;
     });
