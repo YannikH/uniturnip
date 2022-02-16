@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_form.dart';
+
+import 'json_schema_ui.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage>
   List<int> _elements = [];
   Color _color = Colors.red;
 
-  dynamic _data = const {};
+  Map<String, dynamic> _data = const {};
   String _field = '';
   List<String> _path = [];
 
@@ -165,14 +169,37 @@ class _MyHomePageState extends State<MyHomePage>
     _addElement();
   }
 
+  Map<String, dynamic> _modifyData(
+      List<String> path, Map<String, dynamic> data, dynamic value) {
+    if (path.isNotEmpty) {
+      if (path.length > 1) {
+        String field = path.removeAt(0);
+        data[field] ??= {};
+        _modifyData(path, data[field].cast<String, dynamic>(), value);
+      } else {
+        data[path.first] = value;
+      }
+    }
+    return data;
+  }
+
   void _updateData(
-      {dynamic data,
-      required String field,
-      required List<String> path}) {
+      {dynamic data, required String field, required List<String> path}) {
+    // print('data: $data');
+    // print('field: $field');
+    // print('path: $path');
+    Map<String, dynamic> newData = {..._data};
+    List<String> newPath = [...path];
     setState(() {
-      _data = data;
+      _data = _modifyData(newPath, newData, data);
       _field = field;
       _path = path;
+    });
+  }
+
+  void _updateSchema({required Map<String, dynamic> schema}) {
+    setState(() {
+      _schema = schema;
     });
   }
 
@@ -236,8 +263,14 @@ class _MyHomePageState extends State<MyHomePage>
                           child: Center(
                               child: Text(_elements[index].toString()))));
                 }),
-            JSONSchemaForm(schema: _schema, onUpdate: _updateData),
-            Text('Data: $_data \n Field: $_field \n Path: $_path')
+            JSONSchemaUI(schema: _schema, onUpdate: _updateData, data: _data),
+            Text('Data: $_data \n Field: $_field \n Path: $_path'),
+            TextFormField(
+                onChanged: (val) => _updateSchema(schema: json.decode(val)),
+                decoration: const InputDecoration(labelText: 'SCHEMA'),
+                keyboardType: TextInputType.multiline,
+                maxLines: null
+            )
           ],
         ),
       ),
