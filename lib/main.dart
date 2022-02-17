@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:uniturnip/json_schema_form.dart';
 import 'package:uniturnip/schemas.dart';
 import 'package:uniturnip/utils.dart';
 
@@ -38,7 +37,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   Map<String, dynamic> _data = const {};
-  String _field = '';
   List<String> _path = [];
 
   final List<Tab> myTabs = <Tab>[
@@ -105,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage>
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               JSONSchemaUI(schema: _schema, onUpdate: _updateData, data: _data),
-              Text('Data: $_data \n Field: $_field \n Path: $_path'),
+              Text('Data: $_data \n Path: $_path'),
               TextFormField(
                 onChanged: (val) => _updateSchema(schema: json.decode(val)),
                 decoration: const InputDecoration(labelText: 'SCHEMA'),
