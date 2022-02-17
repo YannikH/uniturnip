@@ -34,20 +34,8 @@ class JSONSchemaUI extends StatelessWidget {
       this.path = const [],
       required this.onUpdate})
       : fields = schema['properties']?.keys?.toList() ?? [],
-        top = true,
         super(key: key);
 
-  JSONSchemaUI._(
-      {Key? key,
-      this.schema = const {},
-      this.ui = const {},
-      this.data,
-      this.name,
-      this.path = const [],
-      required this.onUpdate})
-      : fields = schema['properties']?.keys?.toList() ?? [],
-        top = false,
-        super(key: key);
 
   final Map<String, dynamic> schema;
   final Map<String, dynamic> ui;
@@ -55,7 +43,6 @@ class JSONSchemaUI extends StatelessWidget {
   final List<String> fields;
   final String? name;
   final List<String> path;
-  final bool top;
   final void Function(
       {dynamic data,
       required String field,
@@ -116,7 +103,7 @@ class JSONSchemaUI extends StatelessWidget {
           onChanged: (bool? val) =>
               onUpdate(data: val, field: name, path: path));
     } else if ((schema['type'] ?? 'not_defined') == 'object') {
-      return JSONSchemaUI._(
+      return JSONSchemaUI(
           schema: schema,
           data: data?.cast<String, dynamic>(),
           name: name,
