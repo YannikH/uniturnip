@@ -37,6 +37,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+  int _counter = 0;
+  bool _decrement = false;
+  List<int> _elements = [];
+  Color _color = Colors.red;
 
   Map<String, dynamic> _data = const {};
   String _field = '';
@@ -66,18 +70,44 @@ class _MyHomePageState extends State<MyHomePage>
       switch (_tabController.index) {
         case 0:
           setState(() {
+            _color = Colors.red;
           });
           break;
         case 1:
           setState(() {
+            _color = Colors.blue;
           });
           break;
         case 2:
           setState(() {
+            _color = Colors.green;
           });
           break;
       }
     }
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      _counter = _decrement ? _counter - 1 : _counter + 1;
+    });
+  }
+
+  void _changeMode() {
+    setState(() {
+      _decrement = !_decrement;
+    });
+  }
+
+  void _addElement() {
+    setState(() {
+      _elements.add(_counter);
+    });
+  }
+
+  void _incrementAdd() {
+    _incrementCounter();
+    _addElement();
   }
 
   void _updateData(
@@ -108,6 +138,28 @@ class _MyHomePageState extends State<MyHomePage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            ElevatedButton(
+                onPressed: _changeMode,
+                child: Text(_decrement ? 'Increment' : 'Decrement')),
+            ListView.builder(
+                padding: const EdgeInsets.all(8),
+                shrinkWrap: true,
+                itemCount: _elements.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                      child: Ink(
+                          height: 50,
+                          color: _color,
+                          child: Center(
+                              child: Text(_elements[index].toString()))));
+                }),
             JSONSchemaUI(schema: _schema, onUpdate: _updateData, data: _data),
             Text('Data: $_data \n Field: $_field \n Path: $_path'),
             TextFormField(
@@ -120,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage>
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: _incrementAdd,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
