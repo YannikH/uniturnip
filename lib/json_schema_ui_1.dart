@@ -1,16 +1,12 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-//
+
 // class UIModel extends ChangeNotifier {
-//   /// Internal, private state of the UI.
 //   final Map<String, dynamic> _data = {};
 //
-//   /// An unmodifiable view of the items in the cart.
 //   UnmodifiableMapView<String, dynamic> get data => UnmodifiableMapView<String, dynamic>(_data);
 //
-//
-//   /// Removes all items from the cart.
 //   Map<String, dynamic> modifyData(List<String> path, Map<String, dynamic> data, dynamic value) {
 //     if (path.isNotEmpty) {
 //       if (path.length > 1) {
@@ -38,20 +34,8 @@ class JSONSchemaUI extends StatelessWidget {
       this.path = const [],
       required this.onUpdate})
       : fields = schema['properties']?.keys?.toList() ?? [],
-        top = true,
         super(key: key);
 
-  JSONSchemaUI._(
-      {Key? key,
-      this.schema = const {},
-      this.ui = const {},
-      this.data,
-      this.name,
-      this.path = const [],
-      required this.onUpdate})
-      : fields = schema['properties']?.keys?.toList() ?? [],
-        top = false,
-        super(key: key);
 
   final Map<String, dynamic> schema;
   final Map<String, dynamic> ui;
@@ -59,7 +43,6 @@ class JSONSchemaUI extends StatelessWidget {
   final List<String> fields;
   final String? name;
   final List<String> path;
-  final bool top;
   final void Function(
       {dynamic data,
       required String field,
@@ -120,7 +103,7 @@ class JSONSchemaUI extends StatelessWidget {
           onChanged: (bool? val) =>
               onUpdate(data: val, field: name, path: path));
     } else if ((schema['type'] ?? 'not_defined') == 'object') {
-      return JSONSchemaUI._(
+      return JSONSchemaUI(
           schema: schema,
           data: data?.cast<String, dynamic>(),
           name: name,

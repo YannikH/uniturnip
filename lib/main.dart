@@ -37,7 +37,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-
   Map<String, dynamic> _data = const {};
   String _field = '';
   List<String> _path = [];
@@ -65,26 +64,22 @@ class _MyHomePageState extends State<MyHomePage>
     if (_tabController.indexIsChanging) {
       switch (_tabController.index) {
         case 0:
-          setState(() {
-          });
+          setState(() {});
           break;
         case 1:
-          setState(() {
-          });
+          setState(() {});
           break;
         case 2:
-          setState(() {
-          });
+          setState(() {});
           break;
       }
     }
   }
 
   void _updateData(
-      {dynamic data, required String field, required List<String> path}) {
+      {dynamic data, required List<String> path}) {
     setState(() {
       _data = Utils.modifyMapByPath(path, _data, data);
-      _field = field;
       _path = path;
     });
   }
@@ -105,22 +100,23 @@ class _MyHomePageState extends State<MyHomePage>
             tabs: myTabs,
           )),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            JSONSchemaUI(schema: _schema, onUpdate: _updateData, data: _data),
-            Text('Data: $_data \n Field: $_field \n Path: $_path'),
-            TextFormField(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              JSONSchemaUI(schema: _schema, onUpdate: _updateData, data: _data),
+              Text('Data: $_data \n Field: $_field \n Path: $_path'),
+              TextFormField(
                 onChanged: (val) => _updateSchema(schema: json.decode(val)),
                 decoration: const InputDecoration(labelText: 'SCHEMA'),
                 keyboardType: TextInputType.multiline,
-                maxLines: null
-            )
-          ],
+                maxLines: null)
+            ],
+          )
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

@@ -1,27 +1,21 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:uniturnip/utils.dart';
 
-// class UIModel extends ChangeNotifier {
-//   final Map<String, dynamic> _data = {};
+// class UIModelProvider extends ChangeNotifier {
+//   UIModelProvider({required data}) : _data = data;
+//
+//   Map<String, dynamic> _data;
 //
 //   UnmodifiableMapView<String, dynamic> get data => UnmodifiableMapView<String, dynamic>(_data);
 //
-//   Map<String, dynamic> modifyData(List<String> path, Map<String, dynamic> data, dynamic value) {
-//     if (path.isNotEmpty) {
-//       if (path.length > 1) {
-//         data[path.removeAt(0)] ??= {};
-//         Map<String, dynamic> rdata = data[path.removeAt(0)];
-//         modifyData(path, rdata, value);
-//       }
-//       else {
-//         data[path.first] = value;
-//       }
-//     }
-//     return data;
+//   void modifyData(List<String> path, dynamic value) {
+//     _data = Utils.modifyMapByPath(path, _data, value);
+//     notifyListeners();
 //   }
 //
-//   Map<String, dynamic>
+//   // Map<String, dynamic>
 // }
 
 class JSONSchemaUI extends StatelessWidget {
@@ -30,7 +24,6 @@ class JSONSchemaUI extends StatelessWidget {
       this.schema = const {},
       this.ui = const {},
       this.data,
-      this.name,
       this.path = const [],
       required this.onUpdate})
       : fields = schema['properties']?.keys?.toList() ?? [],
@@ -41,11 +34,9 @@ class JSONSchemaUI extends StatelessWidget {
   final Map<String, dynamic> ui;
   final Map<String, dynamic>? data;
   final List<String> fields;
-  final String? name;
   final List<String> path;
   final void Function(
       {dynamic data,
-      required String field,
       required List<String> path}) onUpdate;
 
   @override
@@ -61,10 +52,7 @@ class JSONSchemaUI extends StatelessWidget {
                 String field = fields[index];
                 List<String> newPath = [...path];
                 newPath.add(field);
-                // print('$path');
-                // print('$newPath');
                 return _buildJSONSchemaField(
-                    name: name ?? field,
                     schema: schema['properties']?[field] ?? {},
                     data: data?[field],
                     path: newPath);
@@ -74,11 +62,9 @@ class JSONSchemaUI extends StatelessWidget {
   }
 
   Widget _buildJSONSchemaField(
-      {required String name,
-      required Map<String, dynamic> schema,
+      {required Map<String, dynamic> schema,
       required dynamic data,
       required List<String> path}) {
-    // print('${schema['title']} IS REBUILDING');
     InputDecoration decoration = InputDecoration(labelText: schema['title']);
     if (schema.containsKey('enum')) {
       List<String> options;
@@ -95,23 +81,22 @@ class JSONSchemaUI extends StatelessWidget {
               .toList(),
           decoration: decoration,
           onChanged: (dynamic val) =>
-              onUpdate(data: val, field: name, path: path));
+              onUpdate(data: val, path: path));
     } else if ((schema['type'] ?? 'not_defined') == 'boolean') {
       return CheckboxListTile(
           title: Text(schema['title']),
           value: data ?? schema['default'] ?? false,
           onChanged: (bool? val) =>
-              onUpdate(data: val, field: name, path: path));
+              onUpdate(data: val, path: path));
     } else if ((schema['type'] ?? 'not_defined') == 'object') {
       return JSONSchemaUI(
           schema: schema,
           data: data?.cast<String, dynamic>(),
-          name: name,
           onUpdate: onUpdate,
           path: path);
     } else {
       return TextFormField(
-        onChanged: (val) => onUpdate(data: val, field: name, path: path),
+        onChanged: (val) => onUpdate(data: val, path: path),
         decoration: decoration,
       );
     }
