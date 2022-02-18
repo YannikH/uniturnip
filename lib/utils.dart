@@ -29,4 +29,15 @@ class Utils {
     }
     return data;
   }
+
+  static dynamic getDataBypath(List<String> path, Map<String, dynamic> data) {
+    dynamic selectedData = data;
+    for (final step in path) {
+      selectedData = selectedData[step];
+      if (selectedData == null) {
+        return selectedData;
+      }
+    }
+    return selectedData;
+  }
 }

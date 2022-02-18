@@ -76,10 +76,10 @@ class _MyHomePageState extends State<MyHomePage>
 
   void _updateData(
       {dynamic data, required List<String> path}) {
-    setState(() {
-      _data = Utils.modifyMapByPath(path, _data, data);
-      _path = path;
-    });
+    // setState(() {
+    //   _data = data;
+    //   _path = path;
+    // });
   }
 
   void _updateSchema({required Map<String, dynamic> schema}) {
