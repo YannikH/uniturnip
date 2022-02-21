@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uniturnip/ui_model.dart';
 
+import 'src/widgets/form/models/widget_data.dart';
+import 'src/widgets/form/utils.dart';
+
 class JSONSchemaFinalLeaf extends StatelessWidget {
   const JSONSchemaFinalLeaf(
       {Key? key,
@@ -19,34 +22,42 @@ class JSONSchemaFinalLeaf extends StatelessWidget {
     print('$path is rebuilding!');
     dynamic data = context.select((UIModel uiModel) => uiModel.getDataByPath(path));
     // print('Data inside field: $data');
-    InputDecoration decoration = InputDecoration(labelText: schema['title']);
-    if (schema.containsKey('enum')) {
-      List<String> options;
-      try {
-        options = schema['enum'].cast<String>();
-      } on NoSuchMethodError catch (error) {
-        return Text(
-            'Error: Enum field of ${schema['title']} field must be a List!');
-      }
-      return DropdownButtonFormField(
-          value: data ?? options[0],
-          items: options
-              .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-              .toList(),
-          decoration: decoration,
-          onChanged: (dynamic val) => onUpdate(context, path, val));
-    } else if ((schema['type'] ?? 'not_defined') == 'boolean') {
-      return CheckboxListTile(
-          title: Text(schema['title']),
-          value: data ?? schema['default'] ?? false,
-          onChanged: (bool? val) => onUpdate(context, path, val));
-    } else {
-      return TextFormField(
-        onChanged: (val) => onUpdate(context, path, val),
-        decoration: decoration,
-      );
-    }
+
+    // Old (Have left for testing purposes)
+    // InputDecoration decoration = InputDecoration(labelText: schema['title']);
+    // if (schema.containsKey('enum')) {
+    //   List<String> options;
+    //   try {
+    //     options = schema['enum'].cast<String>();
+    //   } on NoSuchMethodError catch (error) {
+    //     return Text(
+    //         'Error: Enum field of ${schema['title']} field must be a List!');
+    //   }
+    //   return DropdownButtonFormField(
+    //       value: data ?? options[0],
+    //       items: options
+    //           .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+    //           .toList(),
+    //       decoration: decoration,
+    //       onChanged: (dynamic val) => onUpdate(context, path, val));
+    // } else if ((schema['type'] ?? 'not_defined') == 'boolean') {
+    //   return CheckboxListTile(
+    //       title: Text(schema['title']),
+    //       value: data ?? schema['default'] ?? false,
+    //       onChanged: (bool? val) => onUpdate(context, path, val));
+    // } else {
+    //   return TextFormField(
+    //     onChanged: (val) => onUpdate(context, path, val),
+    //     decoration: decoration,
+    //   );
+    // }
     // return const SizedBox.shrink();
+
+
+    // New
+    final WidgetData widgetData =
+    WidgetData(schema: schema, value: data, path: path, onChange: onUpdate);
+    return Utils.formWidget(widgetData);
   }
 
   void onUpdate(BuildContext context, List<String> path, dynamic value) {
