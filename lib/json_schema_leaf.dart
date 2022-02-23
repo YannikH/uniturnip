@@ -12,13 +12,15 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField{
         Map<String, dynamic> ui = const {},
         required MapPath path,
         required dynamic pointer,
-      }): super(key: key, schema: schema, pointer: pointer, path: path);
+      }): super(key: key, schema: schema, pointer: pointer, path: path){
+    print('Path: ${this.path}');
+  }
 
   final TextEditingController textControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    //print('$path is rebuilding!');
+    // print('$path is rebuilding!');
     // print('Schema: $schema');
     List<dynamic> dataList = context.select(
             (UIModel uiModel) => [uiModel.getDataByPath(path), uiModel.isExternal]

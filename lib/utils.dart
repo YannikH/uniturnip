@@ -29,7 +29,11 @@ class Utils {
             data[step.pointer],
             value);
       } else {
-        data[path.steps[0].pointer] = value;
+        try {
+          data[path.steps[0].pointer] = value;
+        } on RangeError {
+          data.add(value);
+        }
       }
     }
     return data;

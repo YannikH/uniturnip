@@ -11,7 +11,7 @@ class JSONSchemaUIField extends StatelessWidget {
         required this.schema,
         this.ui = const {},
         MapPath? path,
-        String? pointer
+        dynamic pointer,
       }): path = (path == null) ? MapPath() : path.add(schema['type'], pointer),
         super(key: key);
 
@@ -26,10 +26,12 @@ class JSONSchemaUIField extends StatelessWidget {
     if (schema['properties'] != null) {
       fields = schema['properties'].keys.toList();
       length = fields.length;
+
     } else if (schema['items'] != null) {
       length = context.select(
-              (UIModel uiModel) => uiModel.getDataByPath(path).length
+              (UIModel uiModel) => uiModel.getDataByPath(path)?.length ?? 1
       );
+      print('Properties length: $length');
       fields = Iterable<int>.generate(length).toList();
     } else {
       return const SizedBox.shrink();
@@ -47,7 +49,7 @@ class JSONSchemaUIField extends StatelessWidget {
                 Map<String, dynamic> newSchema = schema['properties']?[field] ??
                     schema['items'] ?? {};
                 String schemaType = newSchema['type'] ?? 'not_defined';
-                if (schemaType == 'object') {
+                if (schemaType == 'object' || schemaType == 'array') {
                   return JSONSchemaUIField(
                       schema: newSchema,
                       pointer: field,

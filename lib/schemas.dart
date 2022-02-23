@@ -12,6 +12,14 @@ class Schemas {
         "default": "Chuck",
         "description": "This is field description"
       },
+      "newInput1": {
+        "items": {
+          "type": "string",
+          "title": "lkmk"
+        },
+        "title": "New Input 1",
+        "type": "array"
+      },
       "lastName": {"type": "boolean", "title": "Last name"},
       "telephone": {"type": "string", "title": "Telephone", "minLength": 10},
       "obj": {
