@@ -1,53 +1,39 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../models/widget_data.dart';
 
-class SelectWidget extends StatefulWidget {
+class SelectWidget extends StatelessWidget {
   const SelectWidget({Key? key, required this.widgetData}) : super(key: key);
 
   final WidgetData widgetData;
 
   @override
-  State<SelectWidget> createState() => _SelectWidgetState();
-}
-
-class _SelectWidgetState extends State<SelectWidget> {
-  late List<String> _options;
-  String selectedChoice = "";
-
-
-  _buildList() {
-    List<Widget> choices = [];
-    _options = widget.widgetData.schema['enum'].cast<String>();
-    for (var item in _options) {
-      choices.add(Container(
-        padding: EdgeInsets.only(top: 10.0, right: 10.0),
-        child: ChoiceChip(
-          label: Text(item),
-          selectedColor: Colors.green,
-          selected: selectedChoice == item,
-          onSelected: (selected) {
-            setState(() {
-              selectedChoice = item;
-              widget.widgetData.onChange(context, widget.widgetData.path, selected);
-            });
-          },
-        ),
-      ));
-    }
-    return choices;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    _options = widget.widgetData.schema['enum'].cast<String>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(widget.widgetData.schema['title']),
-        Row(
-          children: _buildList(),
-        ),
-      ],
+    return DropdownButton<String>(
+      alignment: Alignment.center,
+      autofocus: widgetData.autofocus,
+      hint: const Text('Select item'),
+      value: widgetData.value ,
+      icon: const Icon(Icons.arrow_downward, color: Colors.amber,),
+      elevation: 16,
+      isExpanded: true,
+      style: const TextStyle(color: Colors.indigoAccent),
+      underline: Container(
+        height: 2,
+        color: Colors.blueGrey,
+      ),
+      onChanged: (String? newValue) {
+        widgetData.onChange(context, widgetData.path, newValue);
+      },
+      items: widgetData.schema['enum'].cast<String>()
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          alignment: AlignmentDirectional.center,
+          enabled: !widgetData.disabled,
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }
