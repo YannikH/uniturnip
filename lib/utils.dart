@@ -51,7 +51,11 @@ class Utils {
   static dynamic getDataBypath(MapPath path, Map<String, dynamic> data) {
     dynamic selectedData = data;
     for (final step in path.steps) {
-      selectedData = selectedData[step.pointer];
+      try {
+        selectedData = selectedData[step.pointer];
+      } on RangeError {
+        return null;
+      }
       if (selectedData == null) {
         return selectedData;
       }

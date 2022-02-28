@@ -26,7 +26,7 @@ class JSONSchemaUI extends StatelessWidget {
   final Map<String, dynamic> ui;
   final Map<String, dynamic> data;
   final List<String> fields;
-  UIModel controller;
+  final UIModel controller;
   final void Function(
       {required MapPath path, required Map<String, dynamic> data})? onUpdate;
 

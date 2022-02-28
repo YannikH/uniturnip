@@ -51,6 +51,17 @@ class UIModel extends ChangeNotifier {
     onUpdate!(path: path, data: data);
   }
 
+  void removeArrayElement(MapPath path) {
+    List<dynamic>? array = Utils.getDataBypath(path, _data);
+    if (array != null && array.length > 1) {
+      array.removeLast();
+      _data = Utils.modifyMapByPath(path, _data, array);
+      _isExternal = false;
+      notifyListeners();
+      onUpdate!(path: path, data: data);
+    }
+  }
+
   getDataByPath(MapPath path) {
     return Utils.getDataBypath(path, _data);
   }

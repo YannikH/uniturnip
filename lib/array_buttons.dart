@@ -14,13 +14,20 @@ class ArrayPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ElevatedButton(onPressed: () => onUpdate(context, path), child: const Text('+')),
-        ElevatedButton(onPressed: () => print('- pressed'), child: const Text('-')),
+        ElevatedButton(
+            onPressed: () => onAdd(context, path), child: const Text('+')
+        ),
+        ElevatedButton(
+            onPressed: () => onRemove(context, path), child: const Text('-')
+        ),
       ],
     );
   }
 
-  void onUpdate(BuildContext context, MapPath path) {
+  void onAdd(BuildContext context, MapPath path) {
     Provider.of<UIModel>(context, listen: false).addArrayElement(path);
+  }
+  void onRemove(BuildContext context, MapPath path) {
+    Provider.of<UIModel>(context, listen: false).removeArrayElement(path);
   }
 }
