@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:uniturnip/mapPath.dart';
 
 class Utils {
@@ -24,15 +25,23 @@ class Utils {
         } else if (step.type == StepType.array) {
           data[step.pointer] ??= [];
         }
-        _modifyMapByPath(
+        data[step.pointer] = _modifyMapByPath(
             path.removeAt(0),
             data[step.pointer],
-            value);
+            value) as dynamic;
       } else {
         try {
           data[path.steps[0].pointer] = value;
         } on RangeError {
           data.add(value);
+        } on TypeError {
+          if (data is List<Null>) {
+            List<dynamic> array = [...data];
+            array[path.steps[0].pointer] = value;
+            return array;
+          } else {
+            rethrow;
+          }
         }
       }
     }

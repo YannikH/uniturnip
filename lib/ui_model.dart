@@ -37,6 +37,20 @@ class UIModel extends ChangeNotifier {
     onUpdate!(path: path, data: data);
   }
 
+  void addArrayElement(MapPath path) {
+    List<dynamic>? array = Utils.getDataBypath(path, _data);
+    if (array == null) {
+      _data = Utils.modifyMapByPath(path, _data, [null, null]);
+    } else {
+      int arrayLength = array.length;
+      MapPath newPath = path.add('leaf', arrayLength);
+      _data = Utils.modifyMapByPath(newPath, _data, null);
+    }
+    _isExternal = false;
+    notifyListeners();
+    onUpdate!(path: path, data: data);
+  }
+
   getDataByPath(MapPath path) {
     return Utils.getDataBypath(path, _data);
   }
