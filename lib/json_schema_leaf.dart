@@ -20,12 +20,15 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField{
 
   @override
   Widget build(BuildContext context) {
-    // print('$path is rebuilding!');
+    print('$path is rebuilding!');
     // print('Schema: $schema');
-    List<dynamic> dataList = context.select(
-            (UIModel uiModel) => [uiModel.getDataByPath(path), uiModel.isExternal]
+    bool isExternal = false;
+    dynamic data = context.select(
+            (UIModel uiModel) {
+              isExternal = uiModel.isExternal;
+              return uiModel.getDataByPath(path);
+            }
     );
-    dynamic data = dataList[0];
     InputDecoration decoration = InputDecoration(labelText: schema['title']);
     if (schema.containsKey('enum')) {
       List<String> options;
@@ -48,7 +51,7 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField{
           value: data ?? schema['default'] ?? false,
           onChanged: (bool? val) => onUpdate(context, path, val));
     } else {
-      if (dataList[1]) {
+      if (isExternal) {
         textControl.text = data ?? '';
         textControl.selection = TextSelection.fromPosition(
           TextPosition(offset: textControl.text.length),
