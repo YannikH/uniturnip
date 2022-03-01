@@ -6,8 +6,8 @@ class Utils {
   static Widget _formWidget(
       {required String widget, required WidgetData widgetData}) {
     switch (widget) {
-// case 'checkbox':
-//   return CheckboxWidget(widgetData: widgetData);
+      case 'checkbox':
+        return CheckboxWidget(widgetData: widgetData);
 // case 'radio':
 //   return RadioWidget(widgetData: widgetData);
 // case 'select':
