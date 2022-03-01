@@ -10,8 +10,8 @@ class Utils {
         return CheckboxWidget(widgetData: widgetData);
 // case 'radio':
 //   return RadioWidget(widgetData: widgetData);
-// case 'select':
-//   return SelectWidget(widgetData: widgetData);
+      case 'select':
+        return SelectWidget(widgetData: widgetData);
 // case 'hidden':
 //   return HiddenWidget(widgetData: widgetData);
       case 'text':
