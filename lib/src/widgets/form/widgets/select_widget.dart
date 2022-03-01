@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../models/widget_data.dart';
 
@@ -14,7 +13,6 @@ class SelectWidget extends StatelessWidget {
       autofocus: widgetData.autofocus,
       hint: const Text('Select item'),
       value: widgetData.value ,
-      icon: const Icon(Icons.arrow_downward, color: Colors.amber,),
       elevation: 16,
       isExpanded: true,
       style: const TextStyle(color: Colors.indigoAccent),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/widget_data.dart';
 
-// TODO: Implement CheckboxWidget
 class CheckboxWidget extends StatelessWidget {
   const CheckboxWidget({Key? key, required this.widgetData}) : super(key: key);
 
