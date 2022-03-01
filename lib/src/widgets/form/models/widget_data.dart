@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:uniturnip/mapPath.dart';
 
 class WidgetData {
   final Map<String, dynamic> schema;
-  final List<String> path;
+  final MapPath path;
   final dynamic uiSchema;
   final dynamic value;
   final dynamic options;
@@ -10,11 +11,11 @@ class WidgetData {
   final bool disabled;
   final bool required;
   final bool autofocus;
-  final void Function(BuildContext context, List<String> path, dynamic value)
+  final void Function(BuildContext context, MapPath path, dynamic value)
       onChange;
-  final Function(BuildContext context, List<String> path, dynamic value)?
+  final Function(BuildContext context, MapPath path, dynamic value)?
       onBlur;
-  final Function(BuildContext context, List<String> path, dynamic value)?
+  final Function(BuildContext context, MapPath path, dynamic value)?
       onFocus;
 
   WidgetData({
