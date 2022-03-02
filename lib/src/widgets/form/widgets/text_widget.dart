@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uniturnip/src/widgets/form/models/widget_data.dart';
 
-// TODO: Implement TextWidget
 class TextWidget extends StatelessWidget {
   TextWidget({Key? key, required this.widgetData}) : super(key: key);
 
