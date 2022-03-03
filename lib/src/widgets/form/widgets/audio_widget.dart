@@ -1,53 +1,87 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:audio_session/audio_session.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: RecordToStreamExample(),
-//     );
-//   }
-// }
+void main() {
+  runApp(MyApp());
+}
 
-const int tSampleRate = 44000;
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: SimpleRecorder(),
+    );
+  }
+}
 
 typedef _Fn = void Function();
 
-class RecordToStreamExample extends StatefulWidget {
-  const RecordToStreamExample({Key? key}) : super(key: key);
+const theSource = AudioSource.microphone;
 
+/// Example app.
+class SimpleRecorder extends StatefulWidget {
   @override
-  _RecordToStreamExampleState createState() => _RecordToStreamExampleState();
+  _SimpleRecorderState createState() => _SimpleRecorderState();
 }
 
-class _RecordToStreamExampleState extends State<RecordToStreamExample> {
+class _SimpleRecorderState extends State<SimpleRecorder> {
+  Codec _codec = Codec.aacMP4;
+  String _mPath = 'tau_file.mp4';
   FlutterSoundPlayer? _mPlayer = FlutterSoundPlayer();
   FlutterSoundRecorder? _mRecorder = FlutterSoundRecorder();
   bool _mPlayerIsInited = false;
   bool _mRecorderIsInited = false;
   bool _mplaybackReady = false;
-  String? _mPath;
-  StreamSubscription? _mRecordingDataSubscription;
 
-  Future<void> _openRecorder() async {
-    var status = await Permission.microphone.request();
-    if (status != PermissionStatus.granted) {
-      throw RecordingPermissionException('Microphone permission not granted');
+  @override
+  void initState() {
+    _mPlayer!.openPlayer().then((value) {
+      setState(() {
+        _mPlayerIsInited = true;
+      });
+    });
+
+    openTheRecorder().then((value) {
+      setState(() {
+        _mRecorderIsInited = true;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _mPlayer!.closePlayer();
+    _mPlayer = null;
+
+    _mRecorder!.closeRecorder();
+    _mRecorder = null;
+    super.dispose();
+  }
+
+  Future<void> openTheRecorder() async {
+    if (!kIsWeb) {
+      var status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        throw RecordingPermissionException('Microphone permission not granted');
+      }
     }
     await _mRecorder!.openRecorder();
-
+    if (!await _mRecorder!.isEncoderSupported(_codec) && kIsWeb) {
+      _codec = Codec.opusWebM;
+      _mPath = 'tau_file.webm';
+      if (!await _mRecorder!.isEncoderSupported(_codec) && kIsWeb) {
+        _mRecorderIsInited = true;
+        return;
+      }
+    }
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration(
       avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
@@ -67,120 +101,70 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
       androidWillPauseWhenDucked: true,
     ));
 
-    setState(() {
-      _mRecorderIsInited = true;
+    _mRecorderIsInited = true;
+  }
+
+  // ----------------------  Here is the code for recording and playback -------
+
+  void record() {
+    _mRecorder!
+        .startRecorder(
+      toFile: _mPath,
+      codec: _codec,
+      audioSource: theSource,
+    )
+        .then((value) {
+      setState(() {});
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // Be careful : openAudioSession return a Future.
-    _mPlayer!.openPlayer().then((value) {
+  void stopRecorder() async {
+    await _mRecorder!.stopRecorder().then((value) {
       setState(() {
-        _mPlayerIsInited = true;
+        //var url = value;
+        _mplaybackReady = true;
       });
     });
-    _openRecorder();
   }
 
-  @override
-  void dispose() {
-    stopPlayer();
-    _mPlayer!.closePlayer();
-    _mPlayer = null;
-
-    stopRecorder();
-    _mRecorder!.closeRecorder();
-    _mRecorder = null;
-    super.dispose();
+  void play() {
+    assert(_mPlayerIsInited &&
+        _mplaybackReady &&
+        _mRecorder!.isStopped &&
+        _mPlayer!.isStopped);
+    _mPlayer!
+        .startPlayer(
+        fromURI: _mPath,
+        //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+        whenFinished: () {
+          setState(() {});
+        })
+        .then((value) {
+      setState(() {});
+    });
   }
 
-  Future<IOSink> createFile() async {
-    var tempDir = await getTemporaryDirectory();
-    _mPath = '${tempDir.path}/flutter_sound_example.pcm';
-    var outputFile = File(_mPath!);
-    if (outputFile.existsSync()) {
-      await outputFile.delete();
-    }
-    return outputFile.openWrite();
+  void stopPlayer() {
+    _mPlayer!.stopPlayer().then((value) {
+      setState(() {});
+    });
   }
 
-  // ----------------------  Here is the code to record to a Stream ------------
-
-  Future<void> record() async {
-    assert(_mRecorderIsInited && _mPlayer!.isStopped);
-    var sink = await createFile();
-    var recordingDataController = StreamController<Food>();
-    _mRecordingDataSubscription =
-        recordingDataController.stream.listen((buffer) {
-          if (buffer is FoodData) {
-            sink.add(buffer.data!);
-          }
-        });
-    await _mRecorder!.startRecorder(
-      toStream: recordingDataController.sink,
-      codec: Codec.pcm16,
-      numChannels: 1,
-      sampleRate: tSampleRate,
-    );
-    setState(() {});
-  }
-  // ----------------------  Here is the code to record to a Stream ------------
-
-
-  Future<void> stopRecorder() async {
-    await _mRecorder!.stopRecorder();
-    if (_mRecordingDataSubscription != null) {
-      await _mRecordingDataSubscription!.cancel();
-      _mRecordingDataSubscription = null;
-    }
-    _mplaybackReady = true;
-  }
+// ----------------------------- UI --------------------------------------------
 
   _Fn? getRecorderFn() {
     if (!_mRecorderIsInited || !_mPlayer!.isStopped) {
       return null;
     }
-    return _mRecorder!.isStopped
-        ? record
-        : () {
-      stopRecorder().then((value) => setState(() {}));
-    };
-  }
-
-  void play() async {
-    assert(_mPlayerIsInited &&
-        _mplaybackReady &&
-        _mRecorder!.isStopped &&
-        _mPlayer!.isStopped);
-    await _mPlayer!.startPlayer(
-        fromURI: _mPath,
-        sampleRate: tSampleRate,
-        codec: Codec.pcm16,
-        numChannels: 1,
-        whenFinished: () {
-          setState(() {});
-        });
-    setState(() {});
-  }
-
-  Future<void> stopPlayer() async {
-    await _mPlayer!.stopPlayer();
+    return _mRecorder!.isStopped ? record : stopRecorder;
   }
 
   _Fn? getPlaybackFn() {
     if (!_mPlayerIsInited || !_mplaybackReady || !_mRecorder!.isStopped) {
       return null;
     }
-    return _mPlayer!.isStopped
-        ? play
-        : () {
-      stopPlayer().then((value) => setState(() {}));
-    };
+    return _mPlayer!.isStopped ? play : stopPlayer;
   }
-
-  // ----------------------------------------------------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -189,21 +173,18 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.all(3),
-            padding: const EdgeInsets.all(3),
-            height: 80,
-            width: double.infinity,
             alignment: Alignment.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
+                ElevatedButton.icon(
                   onPressed: getRecorderFn(),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.only(
                         left: 34, top: 20, right: 30, bottom: 20),
-                    side: const BorderSide(
-                      color: Colors.blue,
+                    side: BorderSide(
+                      color:
+                      (_mRecorder!.isRecording ? Colors.red : Colors.blue),
                       width: 2.0,
                     ),
                     shape: RoundedRectangleBorder(
@@ -211,33 +192,43 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
                     primary: Colors.white,
                     elevation: 10.0,
                   ),
-                  child: Text(_mRecorder!.isRecording ? 'Stop' : 'Record'),
+                  icon: Icon(
+                    _mRecorder!.isRecording
+                        ? Icons.stop_circle_outlined
+                        : Icons.mic,
+                    color: Colors.black,
+                  ),
+                  label: const Text(''),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text(_mRecorder!.isRecording
-                    ? 'Recording in progress'
-                    : 'Recorder is stopped'),
               ],
             ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(_mRecorder!.isRecording
+                  ? 'Recording in progress'
+                  : 'Recorder is stopped'),
+            ],
+          ),
+          const SizedBox(
+            height: 40,
+          ),
           Container(
-            margin: const EdgeInsets.all(3),
-            padding: const EdgeInsets.all(3),
-            height: 80,
-            width: double.infinity,
             alignment: Alignment.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
+                ElevatedButton.icon(
                   onPressed: getPlaybackFn(),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.only(
                         left: 34, top: 20, right: 30, bottom: 20),
-                    side: const BorderSide(
-                      color: Colors.blue,
+                    side: BorderSide(
+                      color: (_mPlayer!.isPlaying ? Colors.red : Colors.blue),
                       width: 2.0,
                     ),
                     shape: RoundedRectangleBorder(
@@ -245,17 +236,27 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
                     primary: Colors.white,
                     elevation: 10.0,
                   ),
-                  // disabledColor: Colors.grey,
-                  child: Text(_mPlayer!.isPlaying ? 'Stop' : 'Play'),
+                  icon: Icon(
+                    _mPlayer!.isPlaying
+                        ? Icons.stop_circle_outlined
+                        : Icons.play_arrow,
+                    color: Colors.black,
+                  ),
+                  label: const Text(''),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text(_mPlayer!.isPlaying
-                    ? 'Playback in progress'
-                    : 'Player is stopped'),
               ],
             ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(_mPlayer!.isPlaying
+                  ? 'Playback in progress'
+                  : 'Player is stopped'),
+            ],
           ),
         ],
       );
@@ -264,7 +265,7 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Record & playback sound'),
+        title: const Text('Simple Recorder'),
       ),
       body: makeBody(),
     );

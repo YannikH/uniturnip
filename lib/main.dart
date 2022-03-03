@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:uniturnip/schemas.dart';
 import 'package:uniturnip/utils.dart';
+import 'package:uniturnip/src/widgets/form/widgets/text_widget.dart';
 
 import 'json_schema_ui.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Flutter Demo oihdsvoihdsfovhj'),
+      home: const TextWidget(widgetData: 'asdasd',),
     );
   }
 }
