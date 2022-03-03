@@ -1,85 +1,68 @@
 class Schemas {
   static const Map<String, dynamic> demoNested = {
-    "title":"A registration form",
-    "description":"A simple form example.",
     "type":"object",
-    "required":[
-      "firstName",
-      "lastName"
-    ],
     "properties":{
-      "firstName":{
-        "enum":[
-          "a",
-          "b",
-          "c"
-        ],
-        "type":"string",
-        "title":"First name",
-        "default":"Chuck",
-        "description":"This is field description"
-      },
       "newInput1":{
-        "items":{
-          "type":"string",
-          "title":"lkmk"
-        },
+        "enum":[
+          "1",
+          "2",
+          "3"
+        ],
         "title":"New Input 1",
+        "type":"string"
+      },
+      "newInput3":{
+        "title":"New Input 3",
+        "type":"string"
+      },
+      "newInput4":{
+        "items":{
+          "type":"string"
+        },
+        "title":"New Input 4",
         "type":"array"
       },
-      "lastName":{
-        "type":"boolean",
-        "title":"Last name"
+      "newInput5":{
+        "title":"New Input 5",
+        "type":"string"
       },
-      "telephone":{
-        "type":"string",
-        "title":"Telephone",
-        "minLength":10
+      "newInput6":{
+        "title":"New Input 6",
+        "type":"string"
       },
-      "obj":{
-        "title":"A registration form",
-        "description":"A simple form example.",
+      "newInput7":{
+        "title":"New Input 7",
         "type":"object",
-        "required":[
-          "firstName",
-          "lastName"
-        ],
         "properties":{
-          "first":{
-            "enum":[
-              "d",
-              "e",
-              "f"
-            ],
-            "type":"string",
-            "title":"First name",
-            "default":"Chuck",
-            "description":"This is field description"
+          "newInput1":{
+            "title":"New Input 1",
+            "type":"boolean"
           },
-          "lastName":{
-            "type":"boolean",
-            "title":"Last name"
-          },
-          "telephone":{
-            "type":"string",
-            "title":"Telephone",
-            "minLength":10
+          "newInput2":{
+            "title":"New Input 2",
+            "type":"string"
           }
-        }
+        },
+        "dependencies":{
+
+        },
+        "required":[
+
+        ]
       }
     },
     "dependencies":{
-      "firstName":{
+      "newInput1":{
         "oneOf":[
           {
             "properties":{
-              "firstName":{
+              "newInput1":{
                 "enum":[
-                  "b"
+                  "2"
                 ]
               },
-              "dependentInput":{
-                "title":"Dependent Input",
+              "newInput2":{
+                "title":"New Input 2",
                 "type":"string"
               }
             },
@@ -89,6 +72,43 @@ class Schemas {
           }
         ]
       }
-    }
+    },
+    "required":[
+
+    ]
+  };
+  static const Map<String, dynamic> demoUi = {
+    "newInput1":{
+      "ui:widget":"radio"
+    },
+    "newInput2":{
+      "ui:widget":"textarea"
+    },
+    "newInput4":{
+      "items":{
+        "ui:widget":"password"
+      }
+    },
+    "newInput5":{
+      "ui:widget":"password"
+    },
+    "newInput7":{
+      "newInput2":{
+        "ui:widget":"textarea"
+      },
+      "ui:order":[
+        "newInput1",
+        "newInput2"
+      ]
+    },
+    "ui:order":[
+      "newInput1",
+      "newInput2",
+      "newInput3",
+      "newInput4",
+      "newInput5",
+      "newInput6",
+      "newInput7"
+    ]
   };
 }

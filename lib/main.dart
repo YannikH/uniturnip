@@ -50,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage>
   late TabController _tabController;
 
   late Map<String, dynamic> _schema;
+  late Map<String, dynamic> _ui;
 
   TextEditingController textControl = TextEditingController();
   UIModel formController = UIModel();
@@ -61,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage>
 
     _tabController.addListener(_handleTabSelection);
     _schema = Schemas.demoNested;
+    _ui = Schemas.demoUi;
   }
 
   void _handleTabSelection() {
@@ -91,6 +93,12 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
+  void _updateUi({required Map<String, dynamic> ui}) {
+    setState(() {
+      _ui = ui;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,16 +115,23 @@ class _MyHomePageState extends State<MyHomePage>
             children: <Widget>[
               JSONSchemaUI(
                   schema: _schema,
+                  ui: _ui,
                   onUpdate: _updateDataAndPath,
                   data: _data,
                 controller: formController,),
               Text('Data: $_data \n Path: $_path'),
+              TextFormField(
+                  initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
+                  onChanged: (val) => _updateSchema(schema: json.decode(val)),
+                  decoration: const InputDecoration(labelText: 'SCHEMA'),
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null),
               Row(children: [
                 Expanded(child:
                   TextFormField(
-                    initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
-                    onChanged: (val) => _updateSchema(schema: json.decode(val)),
-                    decoration: const InputDecoration(labelText: 'SCHEMA'),
+                    initialValue: JsonEncoder.withIndent(' ' * 4).convert(_ui),
+                    onChanged: (val) => _updateUi(ui: json.decode(val)),
+                    decoration: const InputDecoration(labelText: 'UI'),
                     keyboardType: TextInputType.multiline,
                     maxLines: null)
                 ),

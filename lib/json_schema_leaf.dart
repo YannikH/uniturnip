@@ -12,7 +12,7 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField{
         Map<String, dynamic> ui = const {},
         required MapPath path,
         required dynamic pointer,
-      }): super(key: key, schema: schema, pointer: pointer, path: path){
+      }): super(key: key, schema: schema, ui: ui, pointer: pointer, path: path){
     print('Path: ${this.path}');
   }
 
@@ -30,6 +30,7 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField{
             }
     );
     InputDecoration decoration = InputDecoration(labelText: schema['title']);
+    print('UI: $ui');
     if (schema.containsKey('enum')) {
       List<String> options;
       try {
