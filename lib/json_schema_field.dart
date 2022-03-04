@@ -31,6 +31,12 @@ class JSONSchemaUIField extends StatelessWidget {
     if (schema['properties'] != null) {
       fields = schema['properties'].keys.toList();
       length = fields.length;
+      if (ui.containsKey('ui:order')) {
+        List<dynamic> uiOrder = ui['ui:order'] ?? [];
+        List<dynamic> orderList = [...uiOrder, ...fields];
+        Map<String, dynamic> order = { for (var key in orderList) key : orderList.indexOf(key) };
+        fields.sort((a, b) => order[a].compareTo(order[b]));
+      }
     } else if (schema['items'] != null) {
       length = context.select(
           (UIModel uiModel) => uiModel.getDataByPath(path)?.length ?? 1);
@@ -51,9 +57,11 @@ class JSONSchemaUIField extends StatelessWidget {
                 Map<String, dynamic> newSchema =
                     schema['properties']?[field] ?? schema['items'] ?? {};
                 String schemaType = newSchema['type'] ?? 'not_defined';
+                Map<String, dynamic> newUiSchema = ui[field] ?? ui['items'] ?? {};
                 if (schemaType == 'object' || schemaType == 'array') {
                   return JSONSchemaUIField(
                     schema: newSchema,
+                    ui: newUiSchema,
                     pointer: field,
                     path: path,
                   );
@@ -64,14 +72,16 @@ class JSONSchemaUIField extends StatelessWidget {
                       children: <Widget>[
                         JSONSchemaFinalLeaf(
                           schema: newSchema,
+                          ui: newUiSchema,
                           pointer: field,
                           path: path,
                         ),
                         field != null && schema['dependencies']?[field] != null && path != null
                             ? JSONSchemaTest(
-                                schema: schema['dependencies']?[field],
-                                path: path,
-                                pointer: field)
+                            schema: schema['dependencies']?[field],
+                            ui: ui,
+                            path: path,
+                            pointer: field)
                             : const SizedBox.shrink(),
                       ]);
                 }
@@ -118,7 +128,7 @@ class JSONSchemaTest extends StatelessWidget {
   JSONSchemaTest({
     Key? key,
     required Map<String, dynamic> this.schema,
-    Map<String, dynamic> ui = const {},
+    this.ui = const {},
     required MapPath path,
     required this.pointer,
   }) : path = path.add('leaf', pointer), super(key: key);
@@ -126,6 +136,7 @@ class JSONSchemaTest extends StatelessWidget {
   final dynamic pointer;
   final MapPath path;
   final Map<String, dynamic> schema;
+  final Map<String, dynamic> ui;
 
 
   @override
@@ -134,7 +145,7 @@ class JSONSchemaTest extends StatelessWidget {
     dynamic data =
     context.select((UIModel uiModel) => uiModel.getDataByPath(path));
     print('Detected dependency controller change: $data');
-    List<Map<String, dynamic>> oneOf = schema['oneOf'] ?? [];
+    List<dynamic> oneOf = schema['oneOf'] ?? [];
     for (Map<String, dynamic> dependency in oneOf) {
       List<dynamic> options = dependency['properties']?[pointer]?['enum'] ?? [];
       if (options.contains(data)) {
@@ -144,7 +155,9 @@ class JSONSchemaTest extends StatelessWidget {
         newSchema['properties'] = newSchemaProperties;
         newSchema['type'] = 'object';
         MapPath newPath = path.removeLast();
-        return JSONSchemaUIField(schema: newSchema, path: newPath);
+        String field = newSchemaProperties.keys.first;
+        Map<String, dynamic> newUiSchema = ui.containsKey(field) ? {field : ui[field]} : {};
+        return JSONSchemaUIField(schema: newSchema, ui: newUiSchema, path: newPath);
       }
     }
     return Text('DEPENDENCY POINTER: $pointer, SCHEMA: $schema, PATH: $path');
