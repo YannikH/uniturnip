@@ -18,8 +18,8 @@ class Utils {
         return TextWidget(widgetData: widgetData);
 // case 'password':
 //   return PasswordWidget(widgetData: widgetData);
-// case 'email':
-//   return EmailWidget(widgetData: widgetData);
+case 'email':
+  return EmailWidget(widgetData: widgetData);
 // case 'uri':
 //   return URLWidget(widgetData: widgetData);
 // case 'data-url':
@@ -64,6 +64,8 @@ class Utils {
         return 'checkbox';
       case 'null':
         return 'null';
+      default:
+        return type;
     }
   }
 
