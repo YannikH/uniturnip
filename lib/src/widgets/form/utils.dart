@@ -30,10 +30,10 @@ case 'data-url':
 //   return TextareaWidget(widgetData: widgetData);
 case 'date':
   return DateWidget(widgetData: widgetData);
-// case 'datetime':
-//   return DateTimeWidget(widgetData: widgetData);
-// case 'date-time':
-//   return DateTimeWidget(widgetData: widgetData);
+case 'datetime':
+  return DateTimeWidget(widgetData: widgetData);
+case 'date-time':
+  return DateTimeWidget(widgetData: widgetData);
 // case 'color':
 //   return ColorWidget(widgetData: widgetData);
 case 'file':
