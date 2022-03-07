@@ -1,4 +1,3 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class EmailFieldWidget extends StatefulWidget {
@@ -47,9 +46,6 @@ class _EmailFieldWidgetState extends State<EmailFieldWidget> {
       ),
     ),
     keyboardType: TextInputType.emailAddress,
-    autofillHints: [AutofillHints.email],
-    validator: (email) => email != null && !EmailValidator.validate(email)
-        ? 'Enter a valid email'
-        : null,
+    autofillHints: [AutofillHints.email]
   );
 }
