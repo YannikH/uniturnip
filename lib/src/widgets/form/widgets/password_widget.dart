@@ -6,6 +6,11 @@ class PasswordWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return TextFormField(
+      obscureText: true,
+      decoration: const InputDecoration(
+        labelText: 'Password',
+      ),
+    );
   }
 }
