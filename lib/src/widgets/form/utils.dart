@@ -16,8 +16,8 @@ class Utils {
 //   return HiddenWidget(widgetData: widgetData);
       case 'text':
         return TextWidget(widgetData: widgetData);
-// case 'password':
-//   return PasswordWidget(widgetData: widgetData);
+case 'password':
+  return PasswordWidget(widgetData: widgetData);
 case 'email':
   return EmailWidget(widgetData: widgetData);
 // case 'uri':
