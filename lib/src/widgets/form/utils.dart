@@ -28,8 +28,8 @@ case 'data-url':
   return FileWidget(widgetData: widgetData);
 // case 'textarea':
 //   return TextareaWidget(widgetData: widgetData);
-// case 'date':
-//   return DateWidget(widgetData: widgetData);
+case 'date':
+  return DateWidget(widgetData: widgetData);
 case 'datetime':
   return DateTimeWidget(widgetData: widgetData);
 case 'date-time':
