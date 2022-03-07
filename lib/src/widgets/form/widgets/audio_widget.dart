@@ -6,32 +6,23 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-/*void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SimpleRecorder(),
-    );
-  }
-}*/
+import '../models/widget_data.dart';
 
 typedef _Fn = void Function();
 
 const theSource = AudioSource.microphone;
 
 /// Example app.
-class SimpleRecorder extends StatefulWidget {
+class AudioWidget extends StatefulWidget {
+  const AudioWidget({Key? key, required this.widgetData}) : super(key: key);
+
+  final WidgetData widgetData;
+
   @override
-  _SimpleRecorderState createState() => _SimpleRecorderState();
+  _AudioWidgetState createState() => _AudioWidgetState();
 }
 
-class _SimpleRecorderState extends State<SimpleRecorder> {
+class _AudioWidgetState extends State<AudioWidget> {
   Codec _codec = Codec.aacMP4;
   String _mPath = 'tau_file.mp4';
   FlutterSoundPlayer? _mPlayer = FlutterSoundPlayer();
@@ -168,106 +159,96 @@ class _SimpleRecorderState extends State<SimpleRecorder> {
 
   @override
   Widget build(BuildContext context) {
-    Widget makeBody() {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: getRecorderFn(),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.only(
-                        left: 34, top: 20, right: 30, bottom: 20),
-                    side: BorderSide(
-                      color:
-                      (_mRecorder!.isRecording ? Colors.red : Colors.blue),
-                      width: 2.0,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    primary: Colors.white,
-                    elevation: 10.0,
-                  ),
-                  icon: Icon(
-                    _mRecorder!.isRecording
-                        ? Icons.stop_circle_outlined
-                        : Icons.mic,
-                    color: Colors.black,
-                  ),
-                  label: const Text(''),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          alignment: Alignment.center,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(_mRecorder!.isRecording
-                  ? 'Recording in progress'
-                  : 'Recorder is stopped'),
+              ElevatedButton.icon(
+                onPressed: getRecorderFn(),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.only(
+                      left: 34, top: 20, right: 30, bottom: 20),
+                  side: BorderSide(
+                    color:
+                    (_mRecorder!.isRecording ? Colors.red : Colors.blue),
+                    width: 2.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  primary: Colors.white,
+                  elevation: 10.0,
+                ),
+                icon: Icon(
+                  _mRecorder!.isRecording
+                      ? Icons.stop_circle_outlined
+                      : Icons.mic,
+                  color: Colors.black,
+                ),
+                label: const Text(''),
+              ),
             ],
           ),
-          const SizedBox(
-            height: 40,
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: getPlaybackFn(),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.only(
-                        left: 34, top: 20, right: 30, bottom: 20),
-                    side: BorderSide(
-                      color: (_mPlayer!.isPlaying ? Colors.red : Colors.blue),
-                      width: 2.0,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    primary: Colors.white,
-                    elevation: 10.0,
-                  ),
-                  icon: Icon(
-                    _mPlayer!.isPlaying
-                        ? Icons.stop_circle_outlined
-                        : Icons.play_arrow,
-                    color: Colors.black,
-                  ),
-                  label: const Text(''),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(_mRecorder!.isRecording
+                ? 'Recording in progress'
+                : 'Recorder is stopped'),
+          ],
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(_mPlayer!.isPlaying
-                  ? 'Playback in progress'
-                  : 'Player is stopped'),
+              ElevatedButton.icon(
+                onPressed: getPlaybackFn(),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.only(
+                      left: 34, top: 20, right: 30, bottom: 20),
+                  side: BorderSide(
+                    color: (_mPlayer!.isPlaying ? Colors.red : Colors.blue),
+                    width: 2.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  primary: Colors.white,
+                  elevation: 10.0,
+                ),
+                icon: Icon(
+                  _mPlayer!.isPlaying
+                      ? Icons.stop_circle_outlined
+                      : Icons.play_arrow,
+                  color: Colors.black,
+                ),
+                label: const Text(''),
+              ),
             ],
           ),
-        ],
-      );
-    }
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Simple Recorder'),
-      ),
-      body: makeBody(),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(_mPlayer!.isPlaying
+                ? 'Playback in progress'
+                : 'Player is stopped'),
+          ],
+        ),
+      ],
     );
   }
 }

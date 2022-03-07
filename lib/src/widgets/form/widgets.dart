@@ -1,3 +1,4 @@
+export 'widgets/audio_widget.dart';
 export 'widgets/checkbox_widget.dart';
 export 'widgets/checkboxes_widget.dart';
 export 'widgets/color_widget.dart';
