@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+/*void main() {
   runApp(MyApp());
 }
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       home: FIleWidget(),
     );
   }
-}
+}*/
 
 
 class FIleWidget extends StatefulWidget {
