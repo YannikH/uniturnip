@@ -6,7 +6,7 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-void main() {
+/*void main() {
   runApp(MyApp());
 }
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       home: SimpleRecorder(),
     );
   }
-}
+}*/
 
 typedef _Fn = void Function();
 
