@@ -22,8 +22,8 @@ case 'email':
   return EmailWidget(widgetData: widgetData);
 // case 'uri':
 //   return URLWidget(widgetData: widgetData);
-// case 'data-url':
-//   return FileWidget(widgetData: widgetData);
+case 'data-url':
+  return FileWidget(widgetData: widgetData);
 // case 'textarea':
 //   return TextareaWidget(widgetData: widgetData);
 // case 'date':
@@ -34,8 +34,8 @@ case 'email':
 //   return DateTimeWidget(widgetData: widgetData);
 // case 'color':
 //   return ColorWidget(widgetData: widgetData);
-// case 'file':
-//   return FileWidget(widgetData: widgetData);
+case 'file':
+  return FileWidget(widgetData: widgetData);
 // case 'updown':
 //   return UpDownWidget(widgetData: widgetData);
 // case 'range':
