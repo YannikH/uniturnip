@@ -6,20 +6,20 @@ class Utils {
   static Widget _formWidget(
       {required String widget, required WidgetData widgetData}) {
     switch (widget) {
-// case 'checkbox':
-//   return CheckboxWidget(widgetData: widgetData);
+      case 'checkbox':
+        return CheckboxWidget(widgetData: widgetData);
 // case 'radio':
 //   return RadioWidget(widgetData: widgetData);
-// case 'select':
-//   return SelectWidget(widgetData: widgetData);
+      case 'select':
+        return SelectWidget(widgetData: widgetData);
 // case 'hidden':
 //   return HiddenWidget(widgetData: widgetData);
       case 'text':
         return TextWidget(widgetData: widgetData);
-// case 'password':
-//   return PasswordWidget(widgetData: widgetData);
-// case 'email':
-//   return EmailWidget(widgetData: widgetData);
+case 'password':
+  return PasswordWidget(widgetData: widgetData);
+case 'email':
+  return EmailWidget(widgetData: widgetData);
 // case 'uri':
 //   return URLWidget(widgetData: widgetData);
 // case 'data-url':
@@ -64,6 +64,8 @@ class Utils {
         return 'checkbox';
       case 'null':
         return 'null';
+      default:
+        return type;
     }
   }
 

@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:uniturnip/mapPath.dart';
 import 'package:uniturnip/schemas.dart';
+import 'package:uniturnip/ui_model.dart';
 import 'package:uniturnip/utils.dart';
+import 'package:uniturnip/src/widgets/form/widgets/text_widget.dart';
 
 import 'json_schema_ui.dart';
 
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Flutter Demo oihdsvoihdsfovhj'),
+      home: const TextWidget(widgetData: 'asdasd',),
     );
   }
 }
@@ -37,7 +40,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   Map<String, dynamic> _data = const {};
-  List<String> _path = [];
+  String _path = '';
 
   final List<Tab> myTabs = <Tab>[
     const Tab(icon: Icon(Icons.edit)),
@@ -48,6 +51,9 @@ class _MyHomePageState extends State<MyHomePage>
   late TabController _tabController;
 
   late Map<String, dynamic> _schema;
+
+  TextEditingController textControl = TextEditingController();
+  UIModel formController = UIModel();
 
   @override
   void initState() {
@@ -74,12 +80,10 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
-  void _updateData(
-      {dynamic data, required List<String> path}) {
-    // setState(() {
-    //   _data = data;
-    //   _path = path;
-    // });
+  void _updateData({dynamic data}) {
+    setState(() {
+       _data = data;
+     });
   }
 
   void _updateSchema({required Map<String, dynamic> schema}) {
@@ -102,13 +106,32 @@ class _MyHomePageState extends State<MyHomePage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              JSONSchemaUI(schema: _schema, onUpdate: _updateData, data: _data),
+              JSONSchemaUI(
+                  schema: _schema,
+                  onUpdate: _updateDataAndPath,
+                  data: _data,
+                controller: formController,),
               Text('Data: $_data \n Path: $_path'),
-              TextFormField(
-                onChanged: (val) => _updateSchema(schema: json.decode(val)),
-                decoration: const InputDecoration(labelText: 'SCHEMA'),
-                keyboardType: TextInputType.multiline,
-                maxLines: null)
+              Row(children: [
+                Expanded(child:
+                  TextFormField(
+                    initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
+                    onChanged: (val) => _updateSchema(schema: json.decode(val)),
+                    decoration: const InputDecoration(labelText: 'SCHEMA'),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null)
+                ),
+                Expanded(child:
+                TextFormField(
+                    // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_data),
+                    controller: textControl,
+                    onChanged: (val) => formController.data = json.decode(val),
+                    decoration: const InputDecoration(labelText: 'DATA'),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null)
+                ),
+
+              ],)
             ],
           )
         ),
@@ -119,5 +142,12 @@ class _MyHomePageState extends State<MyHomePage>
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void _updateDataAndPath({required Map<String, dynamic> data, required MapPath path}) {
+    textControl.text = JsonEncoder.withIndent(' ' * 4).convert(formController.data);
+    // setState(() {
+    //   _data = data;
+    // });
   }
 }
