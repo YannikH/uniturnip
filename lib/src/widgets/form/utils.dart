@@ -26,8 +26,8 @@ case 'email':
 //   return URLWidget(widgetData: widgetData);
 case 'data-url':
   return FileWidget(widgetData: widgetData);
-// case 'textarea':
-//   return TextareaWidget(widgetData: widgetData);
+case 'textarea':
+  return TextareaWidget(widgetData: widgetData);
 case 'date':
   return DateWidget(widgetData: widgetData);
 case 'datetime':
