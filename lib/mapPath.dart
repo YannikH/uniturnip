@@ -33,6 +33,12 @@ class MapPath {
     return MapPath(steps: steps);
   }
 
+  MapPath removeLast() {
+    List<PathStep> steps = [..._steps];
+    steps.removeAt(steps.length - 1);
+    return MapPath(steps: steps);
+  }
+
   bool isLastArray() {
     return _steps.isNotEmpty ? _steps.last.type == StepType.array : false;
   }

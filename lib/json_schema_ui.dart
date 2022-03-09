@@ -37,6 +37,7 @@ class JSONSchemaUI extends StatelessWidget {
       // create: (context) => UIModel(data: data, onUpdate: onUpdate),
       child: JSONSchemaUIField(
         schema: schema,
+        ui: ui,
       ),
     );
   }
