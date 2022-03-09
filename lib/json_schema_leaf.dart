@@ -22,7 +22,7 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField{
 
   @override
   Widget build(BuildContext context) {
-    print('$path is rebuilding!');
+    print('$path is rebuilding! $ui');
     dynamic data = context.select(
             (UIModel uiModel) {
               return uiModel.getDataByPath(path);
@@ -30,7 +30,7 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField{
     );
 
     final WidgetData widgetData =
-    WidgetData(schema: schema, value: data, path: path, onChange: onUpdate);
+    WidgetData(schema: schema, value: data, path: path, uiSchema: ui, onChange: onUpdate);
     return Utils.formWidget(widgetData);
   }
 

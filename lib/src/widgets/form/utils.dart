@@ -10,42 +10,42 @@ class Utils {
         return AudioWidget(widgetData: widgetData);
       case 'checkbox':
         return CheckboxWidget(widgetData: widgetData);
-// case 'radio':
-//   return RadioWidget(widgetData: widgetData);
+      case 'radio':
+        return RadioWidget(widgetData: widgetData);
       case 'select':
         return SelectWidget(widgetData: widgetData);
 // case 'hidden':
 //   return HiddenWidget(widgetData: widgetData);
       case 'text':
         return TextWidget(widgetData: widgetData);
-case 'password':
-  return PasswordWidget(widgetData: widgetData);
-case 'email':
-  return EmailWidget(widgetData: widgetData);
+      case 'password':
+        return PasswordWidget(widgetData: widgetData);
+      case 'email':
+        return EmailWidget(widgetData: widgetData);
 // case 'uri':
 //   return URLWidget(widgetData: widgetData);
-case 'data-url':
-  return FileWidget(widgetData: widgetData);
-case 'textarea':
-  return TextareaWidget(widgetData: widgetData);
-case 'date':
-  return DateWidget(widgetData: widgetData);
-case 'datetime':
-  return DateTimeWidget(widgetData: widgetData);
-case 'date-time':
-  return DateTimeWidget(widgetData: widgetData);
+      case 'data-url':
+        return FileWidget(widgetData: widgetData);
+      case 'textarea':
+        return TextareaWidget(widgetData: widgetData);
+      case 'date':
+        return DateWidget(widgetData: widgetData);
+      case 'datetime':
+        return DateTimeWidget(widgetData: widgetData);
+      case 'date-time':
+        return DateTimeWidget(widgetData: widgetData);
 // case 'color':
 //   return ColorWidget(widgetData: widgetData);
-case 'file':
-  return FileWidget(widgetData: widgetData);
+      case 'file':
+        return FileWidget(widgetData: widgetData);
 // case 'updown':
 //   return UpDownWidget(widgetData: widgetData);
 // case 'range':
 //   return RangeWidget(widgetData: widgetData);
 // case 'checkboxes':
 //   return CheckboxesWidget(widgetData: widgetData);
-// case 'files':
-//   return FileWidget(widgetData: widgetData);
+      case 'files':
+        return FileWidget(widgetData: widgetData);
 // case 'null':
 //   return NullWidget(widgetData: widgetData);
       default:
