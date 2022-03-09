@@ -22,7 +22,13 @@ class RadioWidget extends StatelessWidget {
     }
 
     return Column(
-      children: radioButtons,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widgetData.schema['title']),
+        Column(
+          children: radioButtons,
+        ),
+      ],
     );
   }
 }
