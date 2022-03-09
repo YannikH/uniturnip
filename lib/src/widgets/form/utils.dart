@@ -38,8 +38,8 @@ class Utils {
 //   return ColorWidget(widgetData: widgetData);
       case 'file':
         return FileWidget(widgetData: widgetData);
-// case 'updown':
-//   return UpDownWidget(widgetData: widgetData);
+case 'number':
+  return NumberWidget(widgetData: widgetData);
 // case 'range':
 //   return RangeWidget(widgetData: widgetData);
 // case 'checkboxes':
@@ -59,9 +59,9 @@ class Utils {
       case 'string':
         return 'text';
       case 'integer':
-        return 'updown';
+        return 'number';
       case 'number':
-        return 'updown';
+        return 'number';
       case 'boolean':
         return 'checkbox';
       case 'null':

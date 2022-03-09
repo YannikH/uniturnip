@@ -13,6 +13,6 @@ export 'widgets/range_widget.dart';
 export 'widgets/select_widget.dart';
 export 'widgets/text_widget.dart';
 export 'widgets/textarea_widget.dart';
-export 'widgets/up_down_widget.dart';
+export 'widgets/number_widget.dart';
 export 'widgets/url_widget.dart';
 export 'widgets/null_widget.dart';
