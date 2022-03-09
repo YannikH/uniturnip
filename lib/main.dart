@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:uniturnip/mapPath.dart';
 import 'package:uniturnip/schemas.dart';
 import 'package:uniturnip/ui_model.dart';
-import 'package:uniturnip/utils.dart';
 
 import 'json_schema_ui.dart';
 
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Flutter Demo oihdsvoihdsfovhj'),
+      home: const MyHomePage(title: 'asdasd',),
     );
   }
 }

@@ -8,6 +8,11 @@ class Schemas {
           "2",
           "3"
         ],
+        "enumNames": [
+          'a',
+          'b',
+          'c'
+        ],
         "title":"New Input 1",
         "type":"string"
       },
