@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import '../models/widget_data.dart';
+import '../../../../json_schema_ui/models/widget_data.dart';
 
 // TODO: Implement DateWidget
 class DateWidget extends StatelessWidget {

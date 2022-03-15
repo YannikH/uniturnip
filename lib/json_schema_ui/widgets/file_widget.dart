@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import '../models/widget_data.dart';
+import '../../../../json_schema_ui/models/widget_data.dart';
 
 // TODO: Refactor FileWidget
 class FileWidget extends StatefulWidget {
@@ -17,7 +17,6 @@ class FileWidget extends StatefulWidget {
 }
 
 class _FileWidgetState extends State<FileWidget> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   String? _fileName;
   String? _saveAsFileName;

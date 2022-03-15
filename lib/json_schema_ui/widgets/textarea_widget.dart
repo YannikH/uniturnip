@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:uniturnip/src/widgets/form/models/widget_data.dart';
 
-class TextWidget extends StatelessWidget {
-  TextWidget({Key? key, required this.widgetData}) : super(key: key);
+import '../../../../json_schema_ui/models/widget_data.dart';
+
+class TextareaWidget extends StatelessWidget {
+  TextareaWidget({Key? key, required this.widgetData}) : super(key: key);
 
   final WidgetData widgetData;
   final TextEditingController textControl = TextEditingController();
@@ -20,6 +21,8 @@ class TextWidget extends StatelessWidget {
       autofocus: widgetData.autofocus,
       readOnly: widgetData.readonly,
       decoration: InputDecoration(labelText: widgetData.schema['title']),
+      maxLines: null,
+      minLines: 4,
     );
   }
 }

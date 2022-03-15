@@ -50,7 +50,6 @@ class MapPath {
   bool isLastLeaf() {
     return _steps.isNotEmpty ? _steps.last.type == StepType.leaf : false;
   }
-
 }
 
 class PathStep {
@@ -63,8 +62,6 @@ class PathStep {
 
   final StepType type;
   final dynamic pointer;
-
-
 }
 
 enum StepType {object, array, leaf}

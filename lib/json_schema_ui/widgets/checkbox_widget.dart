@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/widget_data.dart';
+import '../../../../json_schema_ui/models/widget_data.dart';
 
 class CheckboxWidget extends StatelessWidget {
   const CheckboxWidget({Key? key, required this.widgetData}) : super(key: key);

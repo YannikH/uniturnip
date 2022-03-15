@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:uniturnip/mapPath.dart';
-import 'package:uniturnip/schemas.dart';
-import 'package:uniturnip/ui_model.dart';
+import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
+import 'package:uniturnip/json_schema_ui/examples/schemas.dart';
+import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
-import 'json_schema_ui.dart';
+import 'json_schema_ui/json_schema_ui.dart';
 
 void main() {
   runApp(const MyApp());
@@ -78,12 +78,6 @@ class _MyHomePageState extends State<MyHomePage>
           break;
       }
     }
-  }
-
-  void _updateData({dynamic data}) {
-    setState(() {
-       _data = data;
-     });
   }
 
   void _updateSchema({required Map<String, dynamic> schema}) {

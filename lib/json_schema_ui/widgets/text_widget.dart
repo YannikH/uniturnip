@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
 
-import '../models/widget_data.dart';
-
-class NumberWidget extends StatelessWidget {
-  NumberWidget({Key? key, required this.widgetData}) : super(key: key);
+class TextWidget extends StatelessWidget {
+  TextWidget({Key? key, required this.widgetData}) : super(key: key);
 
   final WidgetData widgetData;
   final TextEditingController textControl = TextEditingController();
@@ -17,10 +15,6 @@ class NumberWidget extends StatelessWidget {
     );
     return TextFormField(
       controller: textControl,
-      keyboardType: TextInputType.number,
-      inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(RegExp(r'[.0-9]')),
-      ],
       onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
       enabled: !widgetData.disabled,
       autofocus: widgetData.autofocus,
