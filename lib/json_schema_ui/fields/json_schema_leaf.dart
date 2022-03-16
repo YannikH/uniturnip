@@ -31,7 +31,9 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField {
       uiSchema: ui,
       onChange: onUpdate,
     );
+    
+    Widget formWidget = Utils.formWidget(widgetData);
 
-    return Utils.formWidget(widgetData);
+    return Padding(padding: const EdgeInsets.symmetric(vertical: 16), child: formWidget);
   }
 }

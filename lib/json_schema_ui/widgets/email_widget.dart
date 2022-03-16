@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../json_schema_ui/models/widget_data.dart';
+import 'widget_ui.dart';
 
 class EmailWidget extends StatelessWidget {
   EmailWidget({Key? key, required this.widgetData}) : super(key: key);
@@ -10,31 +11,29 @@ class EmailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String title = widgetData.schema['title'] ?? '';
+    String description = widgetData.schema['description'] ?? '';
     textControl.text = widgetData.value ?? '';
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
-    return TextFormField(
+
+    return WidgetUI(
+      title: title,
+      description: description,
+      child: TextFormField(
         controller: textControl,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: 'Email',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          prefixIcon: Icon(Icons.mail),
-          suffixIcon: textControl.text.isEmpty
-              ? Container(width: 0)
-              : IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () => textControl.clear(),
-          ),
+          border: OutlineInputBorder(),
         ),
         keyboardType: TextInputType.emailAddress,
         onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
         enabled: !widgetData.disabled,
         autofocus: widgetData.autofocus,
         readOnly: widgetData.readonly,
-        autofillHints: const [AutofillHints.email]
+        autofillHints: const [AutofillHints.email],
+      ),
     );
   }
 }

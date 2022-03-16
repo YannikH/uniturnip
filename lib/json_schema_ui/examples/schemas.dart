@@ -18,7 +18,7 @@ class Schemas {
       },
       "newInput3":{
         "title":"New Input 3",
-        "type":"string"
+        "type":"audio"
       },
       "newInput4":{
         "items":{
@@ -29,7 +29,8 @@ class Schemas {
       },
       "newInput5":{
         "title":"New Input 5",
-        "type":"string"
+        "type":"string",
+        "description": "A simple form example. A simple form example. A simple form example. A simple form example. A simple form example. A simple form example. A simple form example. A simple form example. A simple form example. A simple form example. ",
       },
       "newInput6":{
         "title":"New Input 6",
@@ -83,9 +84,9 @@ class Schemas {
     ]
   };
   static const Map<String, dynamic> demoUi = {
-    "newInput1":{
-      "ui:widget":"radio"
-    },
+    // "newInput1":{
+    //   "ui:widget":"radio"
+    // },
     "newInput2":{
       "ui:widget":"textarea"
     },
@@ -93,9 +94,6 @@ class Schemas {
       "items":{
         "ui:widget":"password"
       }
-    },
-    "newInput5":{
-      "ui:widget":"password"
     },
     "newInput7":{
       "newInput2":{

@@ -7,6 +7,7 @@ import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../json_schema_ui/models/widget_data.dart';
+import 'widget_ui.dart';
 
 typedef _Fn = void Function();
 
@@ -30,12 +31,16 @@ class _AudioWidgetState extends State<AudioWidget> {
   bool _mPlayerIsInited = false;
   bool _mRecorderIsInited = false;
   bool _mplaybackReady = false;
+  String title = '';
+  String description = '';
 
   @override
   void initState() {
     _mPlayer!.openPlayer().then((value) {
       setState(() {
         _mPlayerIsInited = true;
+        title = widget.widgetData.schema['title'] ?? '';
+        description = widget.widgetData.schema['description'] ?? '';
       });
     });
 
@@ -76,12 +81,10 @@ class _AudioWidgetState extends State<AudioWidget> {
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration(
       avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
-      avAudioSessionCategoryOptions:
-      AVAudioSessionCategoryOptions.allowBluetooth |
-      AVAudioSessionCategoryOptions.defaultToSpeaker,
+      avAudioSessionCategoryOptions: AVAudioSessionCategoryOptions.allowBluetooth |
+          AVAudioSessionCategoryOptions.defaultToSpeaker,
       avAudioSessionMode: AVAudioSessionMode.spokenAudio,
-      avAudioSessionRouteSharingPolicy:
-      AVAudioSessionRouteSharingPolicy.defaultPolicy,
+      avAudioSessionRouteSharingPolicy: AVAudioSessionRouteSharingPolicy.defaultPolicy,
       avAudioSessionSetActiveOptions: AVAudioSessionSetActiveOptions.none,
       androidAudioAttributes: const AndroidAudioAttributes(
         contentType: AndroidAudioContentType.speech,
@@ -119,17 +122,14 @@ class _AudioWidgetState extends State<AudioWidget> {
   }
 
   void play() {
-    assert(_mPlayerIsInited &&
-        _mplaybackReady &&
-        _mRecorder!.isStopped &&
-        _mPlayer!.isStopped);
+    assert(_mPlayerIsInited && _mplaybackReady && _mRecorder!.isStopped && _mPlayer!.isStopped);
     _mPlayer!
         .startPlayer(
-        fromURI: _mPath,
-        //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
-        whenFinished: () {
-          setState(() {});
-        })
+            fromURI: _mPath,
+            //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+            whenFinished: () {
+              setState(() {});
+            })
         .then((value) {
       setState(() {});
     });
@@ -159,96 +159,40 @@ class _AudioWidgetState extends State<AudioWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          child: Row(
+    return WidgetUI(
+      title: title,
+      description: description,
+      child: Row(
+        children: [
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton.icon(
+              IconButton(
                 onPressed: getRecorderFn(),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.only(
-                      left: 34, top: 20, right: 30, bottom: 20),
-                  side: BorderSide(
-                    color:
-                    (_mRecorder!.isRecording ? Colors.red : Colors.blue),
-                    width: 2.0,
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  primary: Colors.white,
-                  elevation: 10.0,
-                ),
                 icon: Icon(
-                  _mRecorder!.isRecording
-                      ? Icons.stop_circle_outlined
-                      : Icons.mic,
+                  _mRecorder!.isRecording ? Icons.stop_circle_outlined : Icons.mic,
                   color: Colors.black,
                 ),
-                label: const Text(''),
               ),
+              Text(_mRecorder!.isRecording ? 'Recording in progress' : 'Recorder is stopped')
             ],
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(_mRecorder!.isRecording
-                ? 'Recording in progress'
-                : 'Recorder is stopped'),
-          ],
-        ),
-        const SizedBox(
-          height: 40,
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: Row(
+          const SizedBox(width: 8),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton.icon(
+              IconButton(
                 onPressed: getPlaybackFn(),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.only(
-                      left: 34, top: 20, right: 30, bottom: 20),
-                  side: BorderSide(
-                    color: (_mPlayer!.isPlaying ? Colors.red : Colors.blue),
-                    width: 2.0,
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  primary: Colors.white,
-                  elevation: 10.0,
-                ),
                 icon: Icon(
-                  _mPlayer!.isPlaying
-                      ? Icons.stop_circle_outlined
-                      : Icons.play_arrow,
+                  _mPlayer!.isPlaying ? Icons.stop_circle_outlined : Icons.play_arrow,
                   color: Colors.black,
                 ),
-                label: const Text(''),
               ),
+              Text(_mPlayer!.isPlaying ? 'Playback in progress' : 'Player is stopped'),
             ],
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(_mPlayer!.isPlaying
-                ? 'Playback in progress'
-                : 'Player is stopped'),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

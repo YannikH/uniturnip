@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../json_schema_ui/models/widget_data.dart';
+import '../models/widget_data.dart';
+import 'widget_ui.dart';
 
 class PasswordWidget extends StatelessWidget {
   PasswordWidget({Key? key, required this.widgetData}) : super(key: key);
@@ -10,19 +11,25 @@ class PasswordWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String title = widgetData.schema['title'] ?? '';
+    String description = widgetData.schema['description'] ?? '';
+
     textControl.text = widgetData.value ?? '';
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
-    return TextFormField(
-      obscureText: true,
-      controller: textControl,
-      onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
-      enabled: !widgetData.disabled,
-      autofocus: widgetData.autofocus,
-      readOnly: widgetData.readonly,
-      decoration: const InputDecoration(
-        labelText: 'Password',
+
+    return WidgetUI(
+      title: title,
+      description: description,
+      child: TextFormField(
+        obscureText: true,
+        controller: textControl,
+        onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
+        enabled: !widgetData.disabled,
+        autofocus: widgetData.autofocus,
+        readOnly: widgetData.readonly,
+        decoration: const InputDecoration(border: OutlineInputBorder()),
       ),
     );
   }
