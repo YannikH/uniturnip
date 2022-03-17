@@ -35,9 +35,12 @@ class JSONSchemaUI extends StatelessWidget {
     return ChangeNotifierProvider<UIModel>.value(
       value: controller,
       // create: (context) => UIModel(data: data, onUpdate: onUpdate),
-      child: JSONSchemaUIField(
-        schema: schema,
-        ui: ui,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: JSONSchemaUIField(
+          schema: schema,
+          ui: ui,
+        ),
       ),
     );
   }

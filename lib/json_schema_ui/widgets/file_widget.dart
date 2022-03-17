@@ -132,24 +132,21 @@ class _FileWidgetState extends State<FileWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Row(
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () => _pickFiles(),
-                  child: Text(_multiPick ? 'Pick files' : 'Pick file'),
-                ),
-                ElevatedButton(
-                  onPressed: () => _saveFile(),
-                  child: const Text('Save file'),
-                ),
-                ElevatedButton(
-                  onPressed: () => _clearCachedFiles(),
-                  child: const Text('Clear temporary files'),
-                ),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () => _pickFiles(),
+                child: Text(_multiPick ? 'Pick files' : 'Pick file'),
+              ),
+              ElevatedButton(
+                onPressed: () => _saveFile(),
+                child: const Text('Save file'),
+              ),
+              ElevatedButton(
+                onPressed: () => _clearCachedFiles(),
+                child: const Text('Clear temporary files'),
+              ),
+            ],
           ),
           Builder(
             builder: (BuildContext context) {

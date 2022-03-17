@@ -23,7 +23,6 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField {
   @override
   Widget build(BuildContext context) {
     dynamic data = context.select((UIModel uiModel) => uiModel.getDataByPath(path));
-
     final WidgetData widgetData = WidgetData(
       schema: schema,
       value: data,
@@ -34,6 +33,6 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField {
     
     Widget formWidget = Utils.formWidget(widgetData);
 
-    return Padding(padding: const EdgeInsets.symmetric(vertical: 16), child: formWidget);
+    return Padding(padding: EdgeInsets.symmetric(vertical: path.length() > 1 ? 2 : 4), child: formWidget);
   }
 }

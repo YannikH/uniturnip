@@ -22,20 +22,40 @@ class JSONSchemaUIField extends StatelessWidget {
   Widget build(BuildContext context) {
     List fields = Utils.retrieveSchemaFields(context: context, schema: schema, ui: ui, path: path);
     int length = fields.length;
+
     if (fields.isEmpty) {
       return const SizedBox.shrink();
     }
 
-    return Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-      ListView.builder(
-          padding: const EdgeInsets.all(8),
-          shrinkWrap: true,
-          itemCount: length,
-          itemBuilder: (BuildContext context, int index) {
-            dynamic field = fields[index];
-            return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
-          }),
-      path.isLastArray() ? ArrayPanel(path) : const SizedBox.shrink(),
-    ]);
+    String title = schema['title'] ?? '';
+    String description = schema['description'] ?? '';
+
+    Widget header;
+    if (path.isLastObject() || path.isLastArray()) {
+      header = ListTile(
+        contentPadding: EdgeInsets.zero,
+        title: Text(title),
+        subtitle: Text(description),
+      );
+    } else {
+      header = const SizedBox.shrink();
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        header,
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: length,
+            itemBuilder: (BuildContext context, int index) {
+              dynamic field = fields[index];
+              return Utils.getFieldLeaf(
+                  path: path, ui: ui, schema: schema, field: field);
+            }),
+        path.isLastArray() ? ArrayPanel(path) : const SizedBox.shrink(),
+      ],
+    );
   }
 }
