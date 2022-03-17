@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
-import 'package:uniturnip/json_schema_ui/examples/schemas.dart';
-import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
+import 'package:uniturnip/mapPath.dart';
+import 'package:uniturnip/schemas.dart';
+import 'package:uniturnip/ui_model.dart';
+import 'package:uniturnip/utils.dart';
 
-import 'json_schema_ui/json_schema_ui.dart';
+import 'json_schema_ui.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'asdasd',),
+      home: const MyHomePage(title: 'Flutter Demo oihdsvoihdsfovhj'),
     );
   }
 }
@@ -48,10 +49,14 @@ class _MyHomePageState extends State<MyHomePage>
 
   late TabController _tabController;
 
+  late List<String> _labels;
+  late List<Map<String, dynamic>> _schemas;
   late Map<String, dynamic> _schema;
   late Map<String, dynamic> _ui;
 
   TextEditingController textControl = TextEditingController();
+  TextEditingController formControl = TextEditingController();
+  TextEditingController uiControl = TextEditingController();
   UIModel formController = UIModel();
 
   @override
@@ -60,8 +65,13 @@ class _MyHomePageState extends State<MyHomePage>
     _tabController = TabController(vsync: this, length: myTabs.length);
 
     _tabController.addListener(_handleTabSelection);
-    _schema = Schemas.demoNested;
-    _ui = Schemas.demoUi;
+    _schemas = Schemas.schemas;
+    _schema = Schemas.schemas[0]['schema'];
+    _ui = Schemas.schemas[0]['ui'];
+    _data = Schemas.schemas[0]['formData'];
+    formControl.text = JsonEncoder.withIndent(' ' * 4).convert(_schema);
+    uiControl.text = JsonEncoder.withIndent(' ' * 4).convert(_ui);
+    textControl.text = JsonEncoder.withIndent(' ' * 4).convert(_data);
   }
 
   void _handleTabSelection() {
@@ -78,6 +88,23 @@ class _MyHomePageState extends State<MyHomePage>
           break;
       }
     }
+  }
+
+  void _setSchema(int index) {
+    setState(() {
+      _schema = _schemas[index]['schema'];
+      _ui = _schemas[index]['ui'];
+      _data = _schemas[index]['formData'];
+      formControl.text = JsonEncoder.withIndent(' ' * 4).convert(_schema);
+      uiControl.text = JsonEncoder.withIndent(' ' * 4).convert(_ui);
+      textControl.text = JsonEncoder.withIndent(' ' * 4).convert(_data);
+    });
+  }
+
+  void _updateData({dynamic data}) {
+    setState(() {
+       _data = data;
+     });
   }
 
   void _updateSchema({required Map<String, dynamic> schema}) {
@@ -101,6 +128,19 @@ class _MyHomePageState extends State<MyHomePage>
             controller: _tabController,
             tabs: myTabs,
           )),
+      drawer: Drawer(
+        child: ListView.builder(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          itemCount: _schemas.length,
+          itemBuilder: (BuildContext context, int index ) {
+            return ListTile(
+              title: Text(_schemas[index]['label']),
+              onTap: () => _setSchema(index),
+            );
+          },
+        ),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -114,7 +154,8 @@ class _MyHomePageState extends State<MyHomePage>
                 controller: formController,),
               Text('Data: $_data \n Path: $_path'),
               TextFormField(
-                  initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
+                  // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
+                  controller: formControl,
                   onChanged: (val) => _updateSchema(schema: json.decode(val)),
                   decoration: const InputDecoration(labelText: 'SCHEMA'),
                   keyboardType: TextInputType.multiline,
@@ -122,7 +163,8 @@ class _MyHomePageState extends State<MyHomePage>
               Row(children: [
                 Expanded(child:
                   TextFormField(
-                    initialValue: JsonEncoder.withIndent(' ' * 4).convert(_ui),
+                    // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_ui),
+                    controller: uiControl,
                     onChanged: (val) => _updateUi(ui: json.decode(val)),
                     decoration: const InputDecoration(labelText: 'UI'),
                     keyboardType: TextInputType.multiline,
