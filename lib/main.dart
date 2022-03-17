@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:uniturnip/mapPath.dart';
-import 'package:uniturnip/schemas.dart';
-import 'package:uniturnip/ui_model.dart';
-import 'package:uniturnip/utils.dart';
-
-import 'json_schema_ui.dart';
+import 'package:uniturnip/json_schema_ui/examples/schemas.dart';
+import 'package:uniturnip/json_schema_ui/json_schema_ui.dart';
+import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
+import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,8 +34,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   Map<String, dynamic> _data = const {};
   String _path = '';
 
@@ -49,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage>
 
   late TabController _tabController;
 
-  late List<String> _labels;
   late List<Map<String, dynamic>> _schemas;
   late Map<String, dynamic> _schema;
   late Map<String, dynamic> _ui;
@@ -103,8 +99,8 @@ class _MyHomePageState extends State<MyHomePage>
 
   void _updateData({dynamic data}) {
     setState(() {
-       _data = data;
-     });
+      _data = data;
+    });
   }
 
   void _updateSchema({required Map<String, dynamic> schema}) {
@@ -131,9 +127,10 @@ class _MyHomePageState extends State<MyHomePage>
       drawer: Drawer(
         child: ListView.builder(
           // Important: Remove any padding from the ListView.
+          controller: ScrollController(),
           padding: EdgeInsets.zero,
           itemCount: _schemas.length,
-          itemBuilder: (BuildContext context, int index ) {
+          itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: Text(_schemas[index]['label']),
               onTap: () => _setSchema(index),
@@ -143,47 +140,68 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              JSONSchemaUI(
-                  schema: _schema,
-                  ui: _ui,
-                  onUpdate: _updateDataAndPath,
-                  data: _data,
-                controller: formController,),
-              Text('Data: $_data \n Path: $_path'),
-              TextFormField(
-                  // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
-                  controller: formControl,
-                  onChanged: (val) => _updateSchema(schema: json.decode(val)),
-                  decoration: const InputDecoration(labelText: 'SCHEMA'),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null),
-              Row(children: [
-                Expanded(child:
-                  TextFormField(
-                    // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_ui),
-                    controller: uiControl,
-                    onChanged: (val) => _updateUi(ui: json.decode(val)),
-                    decoration: const InputDecoration(labelText: 'UI'),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null)
-                ),
-                Expanded(child:
-                TextFormField(
-                    // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_data),
-                    controller: textControl,
-                    onChanged: (val) => formController.data = json.decode(val),
-                    decoration: const InputDecoration(labelText: 'DATA'),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null)
-                ),
-
-              ],)
-            ],
-          )
-        ),
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            JSONSchemaUI(
+              schema: _schema,
+              ui: _ui,
+              onUpdate: _updateDataAndPath,
+              data: _data,
+              controller: formController,
+            ),
+            Text('Data: $_data \n Path: $_path'),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(border: Border.all()),
+                    height: 500,
+                    child: TextFormField(
+                        // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
+                        controller: formControl,
+                        onChanged: (val) => _updateSchema(schema: json.decode(val)),
+                        decoration: const InputDecoration(labelText: 'SCHEMA'),
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(border: Border.all()),
+                        height: 500,
+                        child: TextFormField(
+                            // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_ui),
+                            controller: uiControl,
+                            onChanged: (val) => _updateUi(ui: json.decode(val)),
+                            decoration: const InputDecoration(labelText: 'UI'),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null),
+                      )),
+                      Expanded(
+                          child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(border: Border.all()),
+                        height: 500,
+                        child: TextFormField(
+                            // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_data),
+                            controller: textControl,
+                            onChanged: (val) => formController.data = json.decode(val),
+                            decoration: const InputDecoration(labelText: 'DATA'),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null),
+                      )),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        )),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
