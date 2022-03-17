@@ -15,6 +15,8 @@ class Utils {
         return AudioWidget(widgetData: widgetData);
       case 'checkbox':
         return CheckboxWidget(widgetData: widgetData);
+      case 'checkboxes':
+        return CheckboxesWidget(widgetData: widgetData);
       case 'radio':
         return RadioWidget(widgetData: widgetData);
       case 'select':
@@ -47,8 +49,6 @@ class Utils {
         return NumberWidget(widgetData: widgetData);
 // case 'range':
 //   return RangeWidget(widgetData: widgetData);
-// case 'checkboxes':
-//   return CheckboxesWidget(widgetData: widgetData);
       case 'files':
         return FileWidget(widgetData: widgetData);
 // case 'null':
@@ -81,23 +81,19 @@ class Utils {
     // Conditions priority: [ui:widget] --> [format] --> [enum] --> [type].
     final uiSchema = widgetData.uiSchema;
     final schema = widgetData.schema;
-
     final String widget;
     final String type = schema['type'];
 
     if (uiSchema != null && uiSchema.containsKey('ui:widget')) {
       widget = uiSchema['ui:widget'];
-      return _formWidget(widget: widget, widgetData: widgetData);
     } else if (schema.containsKey('format')) {
       widget = schema['format'];
-      return _formWidget(widget: widget, widgetData: widgetData);
     } else if (schema.containsKey('enum') && (type != 'boolean' || type != 'null')) {
       widget = 'select';
-      return _formWidget(widget: widget, widgetData: widgetData);
     } else {
       widget = _defaultWidgetType(type: type);
-      return _formWidget(widget: widget, widgetData: widgetData);
     }
+    return _formWidget(widget: widget, widgetData: widgetData);
   }
 
   static Map<String, dynamic> modifyMapByPath(
@@ -163,7 +159,7 @@ class Utils {
     return path.add(schema['type'], pointer);
   }
 
-  /// Sort <fields> by <order> list.
+  /// Sort [fields] by [order] list.
   static List _sortFields(List fields, List order) {
     List orderList = <dynamic>{...order, ...fields}.toList();
     Map<String, dynamic> orderMap = {for (var key in orderList) key: orderList.indexOf(key)};
@@ -171,7 +167,7 @@ class Utils {
     return fields;
   }
 
-  /// Return dependency if it exists in schema.
+  /// Return dependency if it exists in [schema].
   static Widget _dependency({
     required Map<String, dynamic> schema,
     required Map<String, dynamic> ui,
@@ -186,6 +182,7 @@ class Utils {
     }
   }
 
+  /// Return keys from schema [Schema]<Map>.
   static List retrieveSchemaFields({
     required Map<String, dynamic> schema,
     required Map<String, dynamic> ui,
@@ -201,6 +198,12 @@ class Utils {
         fields = _sortFields(fields, order);
       }
     } else if (schema['items'] != null) {
+      // if (schema['items']['enum'] != null) {
+      //   fields = [];
+      // } else {
+      //   length = context.select((UIModel uiModel) => uiModel.getDataByPath(path)?.length ?? 1);
+      //   fields = Iterable<int>.generate(length).toList();
+      // }
       length = context.select((UIModel uiModel) => uiModel.getDataByPath(path)?.length ?? 1);
       fields = Iterable<int>.generate(length).toList();
     }
@@ -216,8 +219,41 @@ class Utils {
     Map<String, dynamic> newSchema = schema['properties']?[field] ?? schema['items'] ?? {};
     Map<String, dynamic> newUiSchema = ui[field] ?? ui['items'] ?? {};
     String schemaType = newSchema['type'] ?? 'not_defined';
-
     if (schemaType == 'object' || schemaType == 'array') {
+      if (newSchema['items'] != null && newSchema['items']['enum'] != null) {
+        return JSONSchemaFinalLeaf(
+          schema: newSchema['items'],
+          ui: newUiSchema['items'],
+          pointer: field,
+          path: path,
+        );
+        // List _items = newSchema['items']['enum'];
+        // for (int i = 0; i < _items.length; i++) {
+        //   path.add('array', i);
+        // }
+        // String _type = newSchema['items']['type'];
+        //   Map<String, dynamic> _schema = {
+        //     'title': newSchema['title'],
+        //     'type': 'object',
+        //     'properties': {
+        //
+        //     }
+        //   };
+        //   Map<String, dynamic> _ui = {};
+        //   for (String _item in _items) {
+        //     _schema['properties'][_item] = {
+        //       'title': _item,
+        //       'type': _type,
+        //     };
+        //     _ui[_item] = newUiSchema['items'];
+        //   }
+        //   return JSONSchemaUIField(
+        //     schema: _schema,
+        //     ui: _ui,
+        //     pointer: field,
+        //     path: path,
+        //   );
+      }
       return JSONSchemaUIField(
         schema: newSchema,
         ui: newUiSchema,
