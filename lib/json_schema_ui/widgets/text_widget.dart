@@ -12,7 +12,7 @@ class TextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
-    textControl.text = widgetData.value ?? '';
+    textControl.text = widgetData.value.toString();
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );

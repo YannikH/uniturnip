@@ -23,9 +23,9 @@ class RadioWidget extends StatelessWidget {
         shrinkWrap: true,
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) => RadioListTile(
-            title: Text(names[index] ?? items[index]),
-            value: items[index],
-            groupValue: widgetData.value,
+            title: Text(names.length > index ? names[index] ?? items[index].toString() : items[index].toString()),
+            value: items[index].toString(),
+            groupValue: widgetData.value.toString(),
             onChanged: (dynamic newValue) =>
                 widgetData.onChange(context, widgetData.path, newValue)),
       ),

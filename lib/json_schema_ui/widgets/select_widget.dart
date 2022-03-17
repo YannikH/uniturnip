@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+
 import '../../../../json_schema_ui/models/widget_data.dart';
 import 'widget_ui.dart';
 
@@ -12,6 +14,8 @@ class SelectWidget extends StatelessWidget {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
     List items = widgetData.schema['enum'] ?? [];
+    // TODO: Implement enumNames
+    List names = widgetData.schema['enumNames'] ?? [];
 
     return WidgetUI(
       title: title,
@@ -19,18 +23,20 @@ class SelectWidget extends StatelessWidget {
       child: DropdownButtonFormField(
         autofocus: widgetData.autofocus,
         hint: const Text('Select item'),
-        value: widgetData.value,
+        value: widgetData.value.toString(),
         decoration: const InputDecoration(border: OutlineInputBorder()),
-        onChanged: (newValue) {
+        onChanged: (dynamic newValue) {
           widgetData.onChange(context, widgetData.path, newValue);
         },
         items: items
-            .map<DropdownMenuItem<String>>((value) => DropdownMenuItem<String>(
+            .mapIndexed<DropdownMenuItem>((index, item) {
+              return DropdownMenuItem(
                   alignment: AlignmentDirectional.centerStart,
                   enabled: !widgetData.disabled,
-                  value: value,
-                  child: Text(value),
-                ))
+                  value: item.toString(),
+                  child: Text(item.toString()),
+                );
+            })
             .toList(),
       ),
     );

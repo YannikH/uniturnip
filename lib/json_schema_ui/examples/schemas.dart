@@ -544,7 +544,7 @@ class Schemas {
         }
       }
     },
-    "ui": {},
+    "ui": {"":""},
     "formData": {
       "firstName": "Chuck",
       "active": "wrong",
@@ -566,7 +566,7 @@ class Schemas {
         }
       }
     },
-    "ui": {},
+    "ui": {"":""},
     "formData": {
       "firstName": "Chuck",
       "active": "wrong",
@@ -703,7 +703,7 @@ class Schemas {
     "ui": {
       "choice1": {"ui:placeholder": "Choose one"}
     },
-    "formData": {}
+    "formData": {"":""}
   };
   static const Map<String, dynamic> dateTime = {
     "label": "Date-Time",
@@ -748,7 +748,7 @@ class Schemas {
         }
       }
     },
-    "formData": {"native": {}, "alternative": {}}
+    "formData": {"native": {"":""}, "alternative": {"":""}}
   };
   static const Map<String, dynamic> validation = {
     "label": "Validation",
@@ -767,7 +767,7 @@ class Schemas {
       "pass1": {"ui:widget": "password"},
       "pass2": {"ui:widget": "password"}
     },
-    "formData": {}
+    "formData": {"":""}
   };
   static const Map<String, dynamic> files = {
     "label": "Files",
@@ -797,12 +797,12 @@ class Schemas {
         "ui:options": {"accept": ".pdf"}
       }
     },
-    "formData": {}
+    "formData": {"":""}
   };
   static const Map<String, dynamic> single = {
     "label": "Single",
     "schema": {"title": "A single-field form", "type": "string"},
-    "ui": {},
+    "ui": {"":""},
     "formData": "initial value"
   };
   static const Map<String, dynamic> customArray = {
@@ -812,7 +812,7 @@ class Schemas {
       "type": "array",
       "items": {"type": "string"}
     },
-    "ui": {},
+    "ui": {"":""},
     "formData": ["react", "jsonschema", "form"]
   };
   static const Map<String, dynamic> customObject = {
@@ -832,7 +832,7 @@ class Schemas {
         "telephone": {"type": "string", "title": "Telephone", "minLength": 10}
       }
     },
-    "ui": {},
+    "ui": {"":""},
     "formData": {
       "firstName": "Chuck",
       "lastName": "Norris",
@@ -1192,7 +1192,7 @@ class Schemas {
         }
       ]
     },
-    "ui": {},
+    "ui": {"":""},
     "formData": {"firstName": "Chuck"}
   };
   static const Map<String, dynamic> oneOf = {
@@ -1214,8 +1214,8 @@ class Schemas {
         }
       ]
     },
-    "ui": {},
-    "formData": {}
+    "ui": {"":""},
+    "formData": {"":""}
   };
   static const Map<String, dynamic> allOf = {
     "label": "All Of",
@@ -1238,7 +1238,7 @@ class Schemas {
         }
       ]
     },
-    "ui": {},
+    "ui": {"":""},
     "formData": {"lorem": true}
   };
   static const Map<String, dynamic> ifThenElse = {
@@ -1292,8 +1292,8 @@ class Schemas {
         }
       ]
     },
-    "ui": {},
-    "formData": {}
+    "ui": {"":""},
+    "formData": {"":""}
   };
 
   static const Map<String, dynamic> nullFields = {
@@ -1471,7 +1471,7 @@ class Schemas {
         }
       }
     },
-    "ui": {},
+    "ui": {"":""},
     "formData": {
       "valuesInFormData": {
         "scalar": "value",
@@ -1491,7 +1491,7 @@ class Schemas {
     }
   };
 
-  static const schemas = [
+  static List<Map<String, dynamic>> schemas = [
     simple,
     nested,
     arrays,
