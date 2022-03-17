@@ -50,6 +50,10 @@ class MapPath {
   bool isLastLeaf() {
     return _steps.isNotEmpty ? _steps.last.type == StepType.leaf : false;
   }
+
+  int length() {
+    return _steps.length;
+  }
 }
 
 class PathStep {
