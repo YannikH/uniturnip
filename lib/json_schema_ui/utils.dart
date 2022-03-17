@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'fields/json_schema_dependency.dart';
 import 'fields/json_schema_field.dart';
-import './fields/json_schema_leaf.dart';
+import 'fields/json_schema_leaf.dart';
 import 'models/mapPath.dart';
 import 'models/ui_model.dart';
 import 'models/widget_data.dart';
@@ -51,8 +51,8 @@ class Utils {
 //   return RangeWidget(widgetData: widgetData);
       case 'files':
         return FileWidget(widgetData: widgetData);
-// case 'null':
-//   return NullWidget(widgetData: widgetData);
+      case 'null':
+        return NullWidget(widgetData: widgetData);
       default:
         return TextWidget(widgetData: widgetData);
     }
