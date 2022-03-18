@@ -13,9 +13,21 @@ class SelectWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
-    List items = ["", ...widgetData.schema['enum']];
-    List names = ["", ...widgetData.schema['enumNames']];
-    String value = widgetData.value ?? "";
+    print("ENUM ${widgetData.schema['enum']}");
+    
+    String type = widgetData.schema['type'];
+
+    List items = [""];
+    List names = [""];
+    
+    if (type == 'boolean') {
+      items.addAll(['true', 'false']);
+      names.addAll(['Yes', 'No']);
+    } else {
+      items.addAll(widgetData.schema['enum']);
+      names.addAll(widgetData.schema['enumNames']);
+    }
+    String value = widgetData.value != null ? widgetData.value.toString() : "";
 
     return WidgetUI(
       title: title,
