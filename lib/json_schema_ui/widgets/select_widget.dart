@@ -13,9 +13,9 @@ class SelectWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
-    List items = widgetData.schema['enum'] ?? [];
-    // TODO: Implement enumNames
-    List names = widgetData.schema['enumNames'] ?? [];
+    List items = ["", ...widgetData.schema['enum']];
+    List names = ["", ...widgetData.schema['enumNames']];
+    String value = widgetData.value ?? "";
 
     return WidgetUI(
       title: title,
@@ -23,7 +23,7 @@ class SelectWidget extends StatelessWidget {
       child: DropdownButtonFormField(
         autofocus: widgetData.autofocus,
         hint: const Text('Select item'),
-        value: widgetData.value.toString(),
+        value: value,
         decoration: const InputDecoration(border: OutlineInputBorder()),
         onChanged: (dynamic newValue) {
           widgetData.onChange(context, widgetData.path, newValue);
@@ -34,7 +34,7 @@ class SelectWidget extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   enabled: !widgetData.disabled,
                   value: item.toString(),
-                  child: Text(item.toString()),
+                  child: Text( names.asMap().containsKey(index) ? names[index] : item.toString()),
                 );
             })
             .toList(),
