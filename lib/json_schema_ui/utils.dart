@@ -162,9 +162,19 @@ class Utils {
   /// Sort [fields] by [order] list.
   static List _sortFields(List fields, List order) {
     List orderList = <dynamic>{...order, ...fields}.toList();
-    Map<String, dynamic> orderMap = {for (var key in orderList) key: orderList.indexOf(key)};
-    fields.sort((a, b) => orderMap[a].compareTo(orderMap[b]));
-    return fields;
+    Map<String, dynamic> fieldsMap = {for (var key in fields) key: orderList.indexOf(key)};
+    List orderFiltered = order.where(
+            (prop) => prop == "*" || fieldsMap.containsKey(prop)
+    ).toList();
+    Map<String, dynamic> orderMap = {for (var key in orderFiltered) key: orderList.indexOf(key)};
+    List rest = fields.where((prop) => !orderMap.containsKey(prop)).toList();
+    List complete = [...orderFiltered];
+    int restIndex = complete.indexOf('*');
+    complete.insertAll(restIndex, rest);
+    complete.remove('*');
+    // TODO: Add wildcard verification
+
+    return complete;
   }
 
   /// Return dependency if it exists in [schema].
