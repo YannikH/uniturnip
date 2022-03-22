@@ -17,6 +17,43 @@ class TextWidget extends StatelessWidget {
       TextPosition(offset: textControl.text.length),
     );
 
+    if (widgetData.schema.containsKey('examples')) {
+      List<String> _options = widgetData.schema['examples'];
+
+      return WidgetUI(
+        title: title,
+        description: description,
+        child: Autocomplete<String>(
+          fieldViewBuilder: (BuildContext context,
+              TextEditingController textEditingController,
+              FocusNode focusNode, VoidCallback onFieldSubmitted) {
+            return TextFormField(
+              controller: textEditingController,
+              decoration: const InputDecoration(border: OutlineInputBorder()),
+              focusNode: focusNode,
+              onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
+              onFieldSubmitted: (String value) {
+                onFieldSubmitted();
+                print('You just typed a new entry  $value');
+              },
+            );
+          },
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            if (textEditingValue.text == '') {
+              return const Iterable<String>.empty();
+            }
+            return _options.where((String option) {
+              String lowerOption = option.toString().toLowerCase();
+              return lowerOption.contains(textEditingValue.text.toLowerCase());
+            });
+          },
+          onSelected: (String selection) {
+            widgetData.onChange(context, widgetData.path, selection);
+          },
+        ),
+      );
+    }
+
     return WidgetUI(
       title: title,
       description: description,
