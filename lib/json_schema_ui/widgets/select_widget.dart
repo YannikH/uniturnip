@@ -13,21 +13,23 @@ class SelectWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
-    print("ENUM ${widgetData.schema['enum']}");
     
     String type = widgetData.schema['type'];
 
-    List items = [""];
+    List items = [null];
     List names = [""];
     
     if (type == 'boolean') {
-      items.addAll(['true', 'false']);
-      names.addAll(['Yes', 'No']);
+      items.addAll([true, false]);
+      if (widgetData.schema['enumNames'] == null) {
+        names.addAll(['Yes', 'No']);
+      }
     } else {
       items.addAll(widgetData.schema['enum']);
-      names.addAll(widgetData.schema['enumNames']);
+      if (widgetData.schema['enumNames'] != null) {
+        names.addAll(widgetData.schema['enumNames']);
+      }
     }
-    String value = widgetData.value != null ? widgetData.value.toString() : "";
 
     return WidgetUI(
       title: title,
@@ -35,7 +37,7 @@ class SelectWidget extends StatelessWidget {
       child: DropdownButtonFormField(
         autofocus: widgetData.autofocus,
         hint: const Text('Select item'),
-        value: value,
+        value: widgetData.value,
         decoration: const InputDecoration(border: OutlineInputBorder()),
         onChanged: (dynamic newValue) {
           widgetData.onChange(context, widgetData.path, newValue);
@@ -45,7 +47,7 @@ class SelectWidget extends StatelessWidget {
               return DropdownMenuItem(
                   alignment: AlignmentDirectional.centerStart,
                   enabled: !widgetData.disabled,
-                  value: item.toString(),
+                  value: item,
                   child: Text( names.asMap().containsKey(index) ? names[index] : item.toString()),
                 );
             })
