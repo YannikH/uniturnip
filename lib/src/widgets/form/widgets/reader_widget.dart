@@ -97,16 +97,16 @@ class _TextReaderState extends State<TextReader> {
                           clickedWord = '';
                         })),
                 (textList.indexOf(sentence) == textList.length - 1) ? Container() : Container(
-                    color: Colors.grey,
-                    child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          updateText(true);
-                          clickedWord = '';
-                        }),
+                  color: Colors.grey,
+                  child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        updateText(true);
+                        clickedWord = '';
+                      }),
                 ),
               ],
             ),
