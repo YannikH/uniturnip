@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:uniturnip/mapPath.dart';
 import 'package:uniturnip/utils.dart';
@@ -65,5 +66,65 @@ class UIModel extends ChangeNotifier {
   getDataByPath(MapPath path) {
     return Utils.getDataBypath(path, _data);
   }
+
+  /// for ReaderWidget
+  //final String text = 'A child and his father were visiting an elderly neighbor. They were raking the neighbors leaves, organizing the neighbors garage, putting the trash out, and performing other small jobs around the neighbors house. The child had not really seen the elderly neighbor up close, but on this day the child was going to meet the neighbor up close for the first time. When the child met the neighbor up close he asked the neighbor how old he was, and the father was flabbergasted by his childs question and attempted to apologize to the neighbor, but the neighbor laughed and said that was ok, the child is curious. The elderly neighbor told the child he was 92 years old. The child had a look of unbelief and asked the neighbor, "Did you start at the number one?"';
+  //int counter = 0;
+
+  String _clickedWord = '';
+  String get clickedWord => _clickedWord;
+
+  TextSpan getTextSpan(String sentence) {
+    final arrayStrings = sentence.split(" ");
+    List<TextSpan> arrayOfTextSpan = [];
+    late TextSpan textSpan;
+
+    for (int index = 0; index < arrayStrings.length; index++) {
+      arrayOfTextSpan.add(TextSpan(text: arrayStrings[index] + ' '));
+    }
+
+    textSpan = TextSpan(
+        children: arrayOfTextSpan
+            .map((e) => TextSpan(
+            text: e.text,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: (_clickedWord == e.text) ? Colors.greenAccent : Colors.black,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _clickedWord = e.text!;
+                getTextSpan(sentence);
+                notifyListeners();
+              }))
+            .toList());
+    return textSpan;
+  }
+
+  void closeClickedWord() {
+    _clickedWord = '';
+    notifyListeners();
+  }
+
+// textList = text.split('.');
+// sentence = textList[0];
+
+
+// updateText(bool value) {
+//   if (value) {
+//     counter++;
+//     if (counter < textList.length) {
+//       sentence = textList[counter];
+//       getTextSpan();
+//     }
+//   } else {
+//     counter--;
+//     if (counter >= 0) {
+//       sentence = textList[counter];
+//       getTextSpan();
+//     }
+//   }
+//   notifyListeners();
+// }
 
 }

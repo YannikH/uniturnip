@@ -54,7 +54,23 @@ class Schemas {
         "required":[
 
         ]
-      }
+      },
+      "newInput8":{
+        "title":"A child and his father were visiting an elderly neighbor",
+        "type":"string",
+        "words":{
+          "A": false,
+          "child": false,
+          "and": false,
+          "his": false,
+          "father": false,
+          "were": false,
+          "visiting": false,
+          "an": false,
+          "elderly": false,
+          "neighbor": false,
+        }
+      },
     },
     "dependencies":{
       "newInput1":{
@@ -106,6 +122,9 @@ class Schemas {
         "newInput2"
       ]
     },
+    "newInput8":{
+      "ui:widget":"reader"
+    },
     "ui:order":[
       "newInput1",
       "newInput2",
@@ -113,7 +132,8 @@ class Schemas {
       "newInput4",
       "newInput5",
       "newInput6",
-      "newInput7"
+      "newInput7",
+      "newInput8"
     ]
   };
 }

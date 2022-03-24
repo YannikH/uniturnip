@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uniturnip/src/widgets/form/widgets/reader_widget.dart';
 import 'models/widget_data.dart';
 import 'widgets.dart';
 
@@ -48,6 +49,8 @@ case 'number':
         return FileWidget(widgetData: widgetData);
 // case 'null':
 //   return NullWidget(widgetData: widgetData);
+      case 'reader':
+        return ReaderWidget(widgetData: widgetData);
       default:
         return TextWidget(widgetData: widgetData);
     }
