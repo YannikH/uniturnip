@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:uniturnip/mapPath.dart';
+import 'package:uniturnip/src/widgets/form/models/widget_data.dart';
 import 'package:uniturnip/utils.dart';
 
 class UIModel extends ChangeNotifier {
@@ -101,7 +102,12 @@ class UIModel extends ChangeNotifier {
     return textSpan;
   }
 
-  void closeClickedWord() {
+  void onChangeData(BuildContext context, String word, WidgetData widgetData) {
+    widgetData.onChange(context, widgetData.path, word);
+    //notifyListeners();
+  }
+
+  void hideClickedWord() {
     _clickedWord = '';
     notifyListeners();
   }

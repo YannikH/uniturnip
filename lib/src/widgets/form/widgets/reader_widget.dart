@@ -54,14 +54,14 @@ class ReaderWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: ListTile(
               title: Text(
-                clickedWord,
+                _showClickedWord(context, clickedWord, widgetData),
+                //clickedWord,
                 style: const TextStyle(fontSize: 20.0),
               ),
               trailing: IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
-                  Provider.of<UIModel>(context).closeClickedWord();
-                  clickedWord = _getClickedWord(context);
+                  _hideClickedWord(context);
                 },
               ),
             ),
@@ -75,7 +75,20 @@ class ReaderWidget extends StatelessWidget {
   }
 
   String _getClickedWord(BuildContext context) {
-    return context.watch<UIModel>().clickedWord;
+    return Provider.of<UIModel>(context).clickedWord;
+    //return //context.watch<UIModel>().clickedWord;
   }
+
+  void _hideClickedWord(BuildContext context) {
+    Provider.of<UIModel>(context, listen: false).hideClickedWord();
+    //context.read<UIModel>().hideClickedWord();
+  }
+
+  String _showClickedWord(BuildContext context, String word, WidgetData widgetData) {
+    //Provider.of<UIModel>(context, listen: false).onChangeData(context, word, widgetData);
+    context.read<UIModel>().onChangeData(context, word, widgetData);
+    return word;
+  }
+
 }
 

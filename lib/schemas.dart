@@ -56,20 +56,26 @@ class Schemas {
         ]
       },
       "newInput8":{
-        "title":"A child and his father were visiting an elderly neighbor",
+        "title": "A child and his father were visiting an elderly neighbor",
         "type":"string",
-        "words":{
-          "A": false,
-          "child": false,
-          "and": false,
-          "his": false,
-          "father": false,
-          "were": false,
-          "visiting": false,
-          "an": false,
-          "elderly": false,
-          "neighbor": false,
-        }
+        // "properties":{
+        //   "newInput8.1":{
+        //     "title":"newInput8.1",
+        //     "type":"string"
+        //   },
+        // }
+        // "words":{
+        //   "A": false,
+        //   "child": false,
+        //   "and": false,
+        //   "his": false,
+        //   "father": false,
+        //   "were": false,
+        //   "visiting": false,
+        //   "an": false,
+        //   "elderly": false,
+        //   "neighbor": false,
+        // }
       },
     },
     "dependencies":{
