@@ -11,13 +11,13 @@ class ReaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var sentence = widgetData.schema['title'];
-    var clickedWord = _getClickedWord(context);
+    var clickedWord = context.watch<UIModel>().clickedWord;
 
     return Column(
         children: [
           Container(
               padding: const EdgeInsets.all(16.0),
-              child: RichText(text: _getTextSpan(context, sentence))),
+              child: RichText(text: context.watch<UIModel>().getTextSpan(sentence, widgetData, context))),
           Container(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -54,40 +54,19 @@ class ReaderWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: ListTile(
               title: Text(
-                _showClickedWord(context, clickedWord, widgetData),
-                //clickedWord,
+                clickedWord,
                 style: const TextStyle(fontSize: 20.0),
               ),
               trailing: IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
-                  _hideClickedWord(context);
+                  context.read<UIModel>().hideClickedWord();
                 },
               ),
             ),
           ),
         ],
     );
-  }
-
-  TextSpan _getTextSpan(BuildContext context, String sentence) {
-    return Provider.of<UIModel>(context).getTextSpan(sentence);
-  }
-
-  String _getClickedWord(BuildContext context) {
-    return Provider.of<UIModel>(context).clickedWord;
-    //return //context.watch<UIModel>().clickedWord;
-  }
-
-  void _hideClickedWord(BuildContext context) {
-    Provider.of<UIModel>(context, listen: false).hideClickedWord();
-    //context.read<UIModel>().hideClickedWord();
-  }
-
-  String _showClickedWord(BuildContext context, String word, WidgetData widgetData) {
-    //Provider.of<UIModel>(context, listen: false).onChangeData(context, word, widgetData);
-    context.read<UIModel>().onChangeData(context, word, widgetData);
-    return word;
   }
 
 }

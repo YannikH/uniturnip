@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uniturnip/src/widgets/form/widgets/reader_widget.dart';
+import '../../../json_schema_field.dart';
 import 'models/widget_data.dart';
 import 'widgets.dart';
 
@@ -83,7 +84,12 @@ case 'number':
     final String widget;
     final String type = schema['type'];
 
-    if (uiSchema != null && uiSchema.containsKey('ui:widget')) {
+    // if (uiSchema != null && uiSchema.containsKey('ui:widget')) {
+    //   widget = uiSchema['ui:widget'];
+    //   return _formWidget(widget: widget, widgetData: widgetData);
+    if (type == 'object' && !uiSchema.containsKey('ui:widget')) {
+      return JSONSchemaUIField(schema: schema, ui: uiSchema);
+    } else if (uiSchema != null && uiSchema.containsKey('ui:widget')) {
       widget = uiSchema['ui:widget'];
       return _formWidget(widget: widget, widgetData: widgetData);
     } else if (schema.containsKey('format')) {

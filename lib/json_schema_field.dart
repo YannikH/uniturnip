@@ -58,7 +58,8 @@ class JSONSchemaUIField extends StatelessWidget {
                     schema['properties']?[field] ?? schema['items'] ?? {};
                 String schemaType = newSchema['type'] ?? 'not_defined';
                 Map<String, dynamic> newUiSchema = ui[field] ?? ui['items'] ?? {};
-                if (schemaType == 'object' || schemaType == 'array') {
+                //if (schemaType == 'object' || schemaType == 'array') {
+                if (schemaType == 'array') {
                   return JSONSchemaUIField(
                     schema: newSchema,
                     ui: newUiSchema,

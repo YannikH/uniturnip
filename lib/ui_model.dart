@@ -75,7 +75,7 @@ class UIModel extends ChangeNotifier {
   String _clickedWord = '';
   String get clickedWord => _clickedWord;
 
-  TextSpan getTextSpan(String sentence) {
+  TextSpan getTextSpan(String sentence, WidgetData widgetData, BuildContext context) {
     final arrayStrings = sentence.split(" ");
     List<TextSpan> arrayOfTextSpan = [];
     late TextSpan textSpan;
@@ -95,16 +95,12 @@ class UIModel extends ChangeNotifier {
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 _clickedWord = e.text!;
-                getTextSpan(sentence);
+                getTextSpan(sentence, widgetData, context);
+                widgetData.onChange(context, widgetData.path, _clickedWord);
                 notifyListeners();
               }))
             .toList());
     return textSpan;
-  }
-
-  void onChangeData(BuildContext context, String word, WidgetData widgetData) {
-    widgetData.onChange(context, widgetData.path, word);
-    //notifyListeners();
   }
 
   void hideClickedWord() {
