@@ -27,15 +27,24 @@ class JSONSchemaUIField extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    String title = schema['title'] ?? '';
-    String description = schema['description'] ?? '';
-
     Widget header;
-    if (path.isLastObject() || path.isLastArray()) {
-      header = ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: Text(title),
-        subtitle: Text(description),
+    if ((path.isLastObject() || path.isLastArray()) && schema['title'] != null) {
+      Widget title = schema['title'] != null
+          ? Text(schema['title'], style: Theme.of(context).textTheme.headline6)
+          : const SizedBox.shrink();
+      Widget description =
+          schema['description'] != null ? Text(schema['description']) : const SizedBox.shrink();
+
+      header = Padding(
+        padding: const EdgeInsets.only(top: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            title,
+            description,
+            const Divider(height: 10),
+          ],
+        ),
       );
     } else {
       header = const SizedBox.shrink();
@@ -51,8 +60,7 @@ class JSONSchemaUIField extends StatelessWidget {
             itemCount: length,
             itemBuilder: (BuildContext context, int index) {
               dynamic field = fields[index];
-              return Utils.getFieldLeaf(
-                  path: path, ui: ui, schema: schema, field: field);
+              return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
             }),
         path.isLastArray() ? ArrayPanel(path) : const SizedBox.shrink(),
       ],
