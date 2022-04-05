@@ -56,15 +56,136 @@ class Schemas {
         ]
       },
       "newInput8":{
-        "title": "A child and his father were visiting an elderly neighbor",
-        "type":"object",
-        "dependencies":{
-
+        "title": "",
+        "type": "object",
+        "properties": {
+          "text": {
+            "enum": [
+              "child",
+              "and",
+              "father",
+              "were",
+              "visiting",
+              "elderly",
+              "neighbor"
+            ],
+            "title": "A child and father were visiting an elderly neighbor",
+            "type": "string"
+          }
         },
-        "required":[
-
-        ]
-      },
+        "dependencies": {
+          "text": {
+            "oneOf": [
+              {
+                "properties": {
+                  "text": {
+                    "enum": [
+                      "child"
+                    ]
+                  },
+                  "newInput1": {
+                    "title": "child",
+                    "type": "boolean",
+                    "description": "ребенок"
+                  }
+                },
+                "required": []
+              },
+              {
+                "properties": {
+                  "text": {
+                    "enum": [
+                      "and"
+                    ]
+                  },
+                  "newInput2": {
+                    "type": "boolean",
+                    "description": "и",
+                    "title": "and"
+                  }
+                },
+                "required": []
+              },
+              {
+                "properties": {
+                  "text": {
+                    "enum": [
+                      "father"
+                    ]
+                  },
+                  "newInput3": {
+                    "title": "father",
+                    "type": "boolean",
+                    "description": "папа"
+                  }
+                },
+                "required": []
+              },
+              {
+                "properties": {
+                  "text": {
+                    "enum": [
+                      "were"
+                    ]
+                  },
+                  "newInput4": {
+                    "title": "were",
+                    "type": "boolean",
+                    "description": "были"
+                  }
+                },
+                "required": []
+              },
+              {
+                "properties": {
+                  "text": {
+                    "enum": [
+                      "visiting"
+                    ]
+                  },
+                  "newInput5": {
+                    "title": "visiting",
+                    "type": "boolean",
+                    "description": "посещать"
+                  }
+                },
+                "required": []
+              },
+              {
+                "properties": {
+                  "text": {
+                    "enum": [
+                      "elderly"
+                    ]
+                  },
+                  "newInput6": {
+                    "title": "elderly",
+                    "type": "boolean",
+                    "description": "пожилой"
+                  }
+                },
+                "required": []
+              },
+              {
+                "properties": {
+                  "text": {
+                    "enum": [
+                      "neighbor"
+                    ]
+                  },
+                  "newInput7": {
+                    "title": "neighbor",
+                    "type": "boolean",
+                    "description": "сосед"
+                  }
+                },
+                "required": []
+              }
+            ]
+          }
+        },
+        "required": []
+      }
     },
     "dependencies":{
       "newInput1":{
@@ -117,7 +238,20 @@ class Schemas {
       ]
     },
     "newInput8":{
-      "ui:widget":"reader"
+      "ui:widget":"reader",
+      "text": {
+        "ui:widget": "radio"
+      },
+      "ui:order": [
+        "text",
+        "newInput1",
+        "newInput2",
+        "newInput3",
+        "newInput4",
+        "newInput5",
+        "newInput6",
+        "newInput7"
+      ]
     },
     "ui:order":[
       "newInput1",

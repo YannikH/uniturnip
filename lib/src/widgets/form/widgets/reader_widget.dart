@@ -10,10 +10,11 @@ class ReaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var sentence = widgetData.schema['title'];
+    var sentence = widgetData.schema['properties']['text']['title'];
     var clickedWord = context.watch<UIModel>().clickedWord;
+    List words = context.watch<UIModel>().words;
 
-    return Column(
+      return Column(
         children: [
           Container(
               padding: const EdgeInsets.all(16.0),
@@ -66,8 +67,9 @@ class ReaderWidget extends StatelessWidget {
             ),
           ),
         ],
-    );
-  }
+      );
+    }
+
 
 }
 

@@ -74,6 +74,9 @@ class UIModel extends ChangeNotifier {
 
   String _clickedWord = '';
   String get clickedWord => _clickedWord;
+  String _translation = '';
+  String get translation => _translation;
+  List words = [];
 
   TextSpan getTextSpan(String sentence, WidgetData widgetData, BuildContext context) {
     final arrayStrings = sentence.split(" ");
@@ -96,11 +99,19 @@ class UIModel extends ChangeNotifier {
               ..onTap = () {
                 _clickedWord = e.text!;
                 getTextSpan(sentence, widgetData, context);
-                widgetData.onChange(context, widgetData.path, _clickedWord);
+                words.add(clickedWord);
+                widgetData.onChange(context, widgetData.path, words);
                 notifyListeners();
               }))
             .toList());
     return textSpan;
+  }
+
+  void getTranslation(String word, WidgetData widgetData) {
+    List items = widgetData.schema['properties']['text']['enum'];
+    _clickedWord = word;
+    _translation = '';
+    notifyListeners();
   }
 
   void hideClickedWord() {
