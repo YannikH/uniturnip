@@ -13,8 +13,22 @@ class RadioWidget extends StatelessWidget {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
 
-    List items = widgetData.schema['enum'] ?? [];
-    List names = widgetData.schema['enumNames'] ?? [];
+    String type = widgetData.schema['type'];
+
+    List items = [];
+    List names = [];
+
+    if (type == 'boolean') {
+      items.addAll([true, false]);
+      if (widgetData.schema['enumNames'] == null) {
+        names.addAll(['Yes', 'No']);
+      }
+    } else {
+      items.addAll(widgetData.schema['enum']);
+      if (widgetData.schema['enumNames'] != null) {
+        names.addAll(widgetData.schema['enumNames']);
+      }
+    }
 
     return WidgetUI(
       title: title,
@@ -24,8 +38,9 @@ class RadioWidget extends StatelessWidget {
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) => RadioListTile(
             title: Text(names.length > index ? names[index] ?? items[index].toString() : items[index].toString()),
-            value: items[index].toString(),
-            groupValue: widgetData.value.toString(),
+            value: items[index],
+            groupValue: widgetData.value,
+            contentPadding: EdgeInsets.zero,
             onChanged: (dynamic newValue) =>
                 widgetData.onChange(context, widgetData.path, newValue)),
       ),

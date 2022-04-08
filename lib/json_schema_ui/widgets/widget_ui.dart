@@ -14,7 +14,7 @@ class WidgetUI extends StatelessWidget {
       children: [
         ListTile(
           contentPadding: EdgeInsets.zero,
-          title: title.isNotEmpty ? Text(title) : null,
+          title: title.isNotEmpty ? Text(title, style: const TextStyle(fontWeight: FontWeight.bold),) : null,
           subtitle: description.isNotEmpty ? Text(description) : null,
         ),
         description.isNotEmpty ? const SizedBox(height: 8) : const SizedBox.shrink(),

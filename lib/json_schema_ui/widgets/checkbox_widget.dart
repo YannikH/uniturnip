@@ -9,9 +9,10 @@ class CheckboxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
-    String description = widgetData.schema['description'] ?? '';
+    // String description = widgetData.schema['description'] ?? '';
 
     return CheckboxListTile(
+      contentPadding: EdgeInsets.zero,
       controlAffinity: ListTileControlAffinity.leading,
       autofocus: widgetData.autofocus,  //true
       title: Text(title),
