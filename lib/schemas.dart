@@ -56,9 +56,9 @@ class Schemas {
         ]
       },
       "newInput8":{
-        "title": "",
+        "title": "A child and father were visiting an elderly neighbor. They were raking the neighbors leaves, organizing the neighbors garage, putting the trash out, and performing other small jobs around the neighbors house. The child had not really seen the elderly neighbor up close, but on this day the child was going to meet the neighbor up close for the first time. When the child met the neighbor up close he asked the neighbor how old he was, and the father was flabbergasted by his childs question and attempted to apologize to the neighbor, but the neighbor laughed and said that was ok, the child is curious. The elderly neighbor told the child he was 92 years old. The child had a look of unbelief and asked the neighbor, 'Did you start at the number one?'",
         "type": "object",
-        "properties": {
+        /*"properties": {
           "text": {
             "enum": [
               "child",
@@ -69,7 +69,7 @@ class Schemas {
               "elderly",
               "neighbor"
             ],
-            "title": "A child and father were visiting an elderly neighbor",
+            "title": "",
             "type": "string"
           }
         },
@@ -183,7 +183,7 @@ class Schemas {
               }
             ]
           }
-        },
+        },*/
         "required": []
       }
     },
@@ -239,19 +239,52 @@ class Schemas {
     },
     "newInput8":{
       "ui:widget":"reader",
-      "text": {
-        "ui:widget": "radio"
+      "wordsWithTranslation":{
+        "child":"ребенок",
+        "and":"и",
+        "his":"его",
+        "father":"отец",
+        "were":"были",
+        "visiting":"посещение",
+        "an":"артикль",
+        "elderly":"пожилой",
+        "neighbor":"сосед"
       },
-      "ui:order": [
-        "text",
-        "newInput1",
-        "newInput2",
-        "newInput3",
-        "newInput4",
-        "newInput5",
-        "newInput6",
-        "newInput7"
-      ]
+      "child":{
+        "type":"boolean",
+        "title":"child",
+        "description":"ребенок"
+      },
+      "and":{
+        "type":"boolean",
+        "title":"and",
+        "description":"и"
+      },
+      "father":{
+        "type":"boolean",
+        "title":"father",
+        "description":"отец"
+      },
+      "were":{
+        "type":"boolean",
+        "title":"were",
+        "description":"были"
+      },
+      "visiting":{
+        "type":"boolean",
+        "title":"visiting",
+        "description":"посещать"
+      },
+      "elderly":{
+        "type":"boolean",
+        "title":"elderly",
+        "description":"пожилой"
+      },
+      "neighbor":{
+        "type":"boolean",
+        "title":"neighbor",
+        "description":"сосед"
+      }
     },
     "ui:order":[
       "newInput1",

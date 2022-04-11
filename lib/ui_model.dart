@@ -9,10 +9,12 @@ import 'package:uniturnip/utils.dart';
 class UIModel extends ChangeNotifier {
   UIModel({
     Map<String, dynamic> data = const {},
+    //Map<String, dynamic> words = const {},
     this.onUpdate
-  }) : _data = data;
+  }) : _data = data/*, _words = words*/;
 
   Map<String, dynamic> _data;
+  //Map<String, dynamic> _words;
   bool _isExternal = false;
 
   bool get isExternal => _isExternal;
@@ -22,8 +24,12 @@ class UIModel extends ChangeNotifier {
     _isExternal = true;
     notifyListeners();
     // onUpdate!(path: MapPath(), data: _data);
-
   }
+
+  // set words(Map<String, dynamic> value) {
+  //   _words = value;
+  //   notifyListeners();
+  // }
 
   void Function(
       {required MapPath path,
@@ -68,26 +74,42 @@ class UIModel extends ChangeNotifier {
     return Utils.getDataBypath(path, _data);
   }
 
-  /// for ReaderWidget
-  //final String text = 'A child and his father were visiting an elderly neighbor. They were raking the neighbors leaves, organizing the neighbors garage, putting the trash out, and performing other small jobs around the neighbors house. The child had not really seen the elderly neighbor up close, but on this day the child was going to meet the neighbor up close for the first time. When the child met the neighbor up close he asked the neighbor how old he was, and the father was flabbergasted by his childs question and attempted to apologize to the neighbor, but the neighbor laughed and said that was ok, the child is curious. The elderly neighbor told the child he was 92 years old. The child had a look of unbelief and asked the neighbor, "Did you start at the number one?"';
-  //int counter = 0;
+  /// -------------- for ReaderWidget --------------
+
+  int _counter = 0;
+
+  List<String> _textList = [];
+  List<String> get textList => _textList;
+
+  TextSpan _sentenceAsTextSpan = const TextSpan();
+  TextSpan get sentenceAsTextSpan => _sentenceAsTextSpan;
 
   String _clickedWord = '';
   String get clickedWord => _clickedWord;
+
+  String _sentenceAsString = '';
+  String get sentenceAsString => _sentenceAsString;
+
   String _translation = '';
   String get translation => _translation;
-  List words = [];
 
-  TextSpan getTextSpan(String sentence, WidgetData widgetData, BuildContext context) {
-    final arrayStrings = sentence.split(" ");
-    List<TextSpan> arrayOfTextSpan = [];
-    late TextSpan textSpan;
+  List<String> words = [];
+
+  void getTextAsList(String text) {
+    _textList = text.split('.');
+    _sentenceAsString = _textList[_counter];
+  }
+
+  void getTextSpan(WidgetData widgetData, BuildContext context) {
+    final List<String> arrayStrings = sentenceAsString.split(" ");
+    final List<TextSpan> arrayOfTextSpan = [];
+    Map<String, String> wordsWithTranslation = widgetData.uiSchema['wordsWithTranslation'];
 
     for (int index = 0; index < arrayStrings.length; index++) {
       arrayOfTextSpan.add(TextSpan(text: arrayStrings[index] + ' '));
     }
 
-    textSpan = TextSpan(
+    _sentenceAsTextSpan = TextSpan(
         children: arrayOfTextSpan
             .map((e) => TextSpan(
             text: e.text,
@@ -97,20 +119,38 @@ class UIModel extends ChangeNotifier {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                _clickedWord = e.text!;
-                getTextSpan(sentence, widgetData, context);
+                _clickedWord = e.text!.substring(0, e.text!.length - 1);
+                getTextSpan(widgetData, context);
+                getTranslation(clickedWord, wordsWithTranslation); //1
+                // _translation = widgetData.uiSchema[clickedWord]['description'];  //2
                 words.add(clickedWord);
-                widgetData.onChange(context, widgetData.path, words);
+                widgetData.onChange(context, widgetData.path, words.toSet().toList());
                 notifyListeners();
               }))
             .toList());
-    return textSpan;
   }
 
-  void getTranslation(String word, WidgetData widgetData) {
-    List items = widgetData.schema['properties']['text']['enum'];
-    _clickedWord = word;
-    _translation = '';
+  void updateText(bool value) {
+    if (value) {
+      _counter++;
+      if (_counter < textList.length) {
+      _sentenceAsString = textList[_counter];
+      }
+    } else {
+      _counter--;
+      if (_counter >= 0) {
+        _sentenceAsString = textList[_counter];
+      }
+    }
+    notifyListeners();
+  }
+
+  void getTranslation(String word, Map wordsWithTranslation) {
+    if (wordsWithTranslation.containsKey(word)) {
+      _translation = wordsWithTranslation[word];
+    } else {
+      print("NO word '$word' in $wordsWithTranslation");
+    }
     notifyListeners();
   }
 
@@ -118,26 +158,5 @@ class UIModel extends ChangeNotifier {
     _clickedWord = '';
     notifyListeners();
   }
-
-// textList = text.split('.');
-// sentence = textList[0];
-
-
-// updateText(bool value) {
-//   if (value) {
-//     counter++;
-//     if (counter < textList.length) {
-//       sentence = textList[counter];
-//       getTextSpan();
-//     }
-//   } else {
-//     counter--;
-//     if (counter >= 0) {
-//       sentence = textList[counter];
-//       getTextSpan();
-//     }
-//   }
-//   notifyListeners();
-// }
 
 }
