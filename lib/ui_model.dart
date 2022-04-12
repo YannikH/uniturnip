@@ -104,6 +104,7 @@ class UIModel extends ChangeNotifier {
     final List<String> arrayStrings = sentenceAsString.split(" ");
     final List<TextSpan> arrayOfTextSpan = [];
     Map<String, String> wordsWithTranslation = widgetData.uiSchema['wordsWithTranslation'];
+    String wordWithSpace ='';
 
     for (int index = 0; index < arrayStrings.length; index++) {
       arrayOfTextSpan.add(TextSpan(text: arrayStrings[index] + ' '));
@@ -119,9 +120,10 @@ class UIModel extends ChangeNotifier {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                _clickedWord = e.text!.substring(0, e.text!.length - 1);
+                _clickedWord = e.text!;
+                wordWithSpace = e.text!;
                 getTextSpan(widgetData, context);
-                getTranslation(clickedWord, wordsWithTranslation); //1
+                getTranslation(wordWithSpace, wordsWithTranslation); //1
                 // _translation = widgetData.uiSchema[clickedWord]['description'];  //2
                 words.add(clickedWord);
                 widgetData.onChange(context, widgetData.path, words.toSet().toList());
@@ -146,8 +148,9 @@ class UIModel extends ChangeNotifier {
   }
 
   void getTranslation(String word, Map wordsWithTranslation) {
-    if (wordsWithTranslation.containsKey(word)) {
-      _translation = wordsWithTranslation[word];
+    var wordWithoutSpace = word.substring(0, word.length - 1);
+    if (wordsWithTranslation.containsKey(wordWithoutSpace)) {
+      _translation = wordsWithTranslation[wordWithoutSpace];
     } else {
       print("NO word '$word' in $wordsWithTranslation");
     }
