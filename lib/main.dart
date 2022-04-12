@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     _schemas = Schemas.schemas;
     _schema = Schemas.schemas[0]['schema'];
     _ui = Schemas.schemas[0]['ui'];
-    _data = Schemas.schemas[0]['formData'];
+    _data = Schemas.schemas[0]['formData'] ?? {};
     formControl.text = JsonEncoder.withIndent(' ' * 4).convert(_schema);
     uiControl.text = JsonEncoder.withIndent(' ' * 4).convert(_ui);
     textControl.text = JsonEncoder.withIndent(' ' * 4).convert(_data);

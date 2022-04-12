@@ -19,7 +19,7 @@ class ReaderWidget extends StatelessWidget {
     var sentenceAsString = context.watch<UIModel>().sentenceAsString;
     var clickedWord = context.watch<UIModel>().clickedWord;
     var translation = context.watch<UIModel>().translation;
-
+    print("Reader");
     return Column(
       children: [
         Container(

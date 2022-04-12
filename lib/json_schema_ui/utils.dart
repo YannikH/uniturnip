@@ -53,6 +53,8 @@ class Utils {
         return FileWidget(widgetData: widgetData);
       case 'null':
         return NullWidget(widgetData: widgetData);
+      case 'reader':
+        return ReaderWidget(widgetData: widgetData);
       default:
         return TextWidget(widgetData: widgetData);
     }
@@ -93,6 +95,7 @@ class Utils {
     } else {
       widget = _defaultWidgetType(type: type);
     }
+    print("$schema Widget: $widget");
     return _formWidget(widget: widget, widgetData: widgetData);
   }
 

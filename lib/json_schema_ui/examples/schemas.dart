@@ -1,4 +1,44 @@
 class Schemas {
+  static const Map<String, dynamic> test = {
+    "label": "Simple",
+    "schema": {
+      "title": "A registration form",
+      "description": "A simple form example.",
+      "type": "object",
+      "required": ["firstName", "lastName"],
+      "properties": {
+        "firstName": {
+          "title": "A child and father were visiting an elderly neighbor. They were raking the neighbors leaves, organizing the neighbors garage, putting the trash out, and performing other small jobs around the neighbors house. The child had not really seen the elderly neighbor up close, but on this day the child was going to meet the neighbor up close for the first time. When the child met the neighbor up close he asked the neighbor how old he was, and the father was flabbergasted by his childs question and attempted to apologize to the neighbor, but the neighbor laughed and said that was ok, the child is curious. The elderly neighbor told the child he was 92 years old. The child had a look of unbelief and asked the neighbor, 'Did you start at the number one?'",
+          "type": "string",
+        },
+        "lastName": {"type": "string", "title": "Last name"},
+        "telephone": {"type": "string", "title": "Telephone", "minLength": 10}
+      }
+    },
+    "ui": {
+      "firstName": {
+        "ui:widget":"reader",
+        "wordsWithTranslation":{
+          "child":"ребенок",
+          "and":"и",
+          "his":"его",
+          "father":"отец",
+          "were":"были",
+          "visiting":"посещение",
+          "an":"артикль",
+          "elderly":"пожилой",
+          "neighbor":"сосед"
+        },
+      },
+      "lastName": {"ui:emptyValue": "", "ui:autocomplete": "given-name"},
+      "age": {
+        "ui:widget": "updown",
+        "ui:title": "Age of person",
+        "ui:description": "(earthian year)"
+      },
+    }
+  };
+
   static const Map<String, dynamic> simple = {
     "label": "Simple",
     "schema": {
@@ -1492,6 +1532,7 @@ class Schemas {
   };
 
   static List<Map<String, dynamic>> schemas = [
+    test,
     simple,
     nested,
     arrays,
