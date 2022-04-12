@@ -2,19 +2,14 @@ import 'dart:collection';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:uniturnip/mapPath.dart';
-import 'package:uniturnip/src/widgets/form/models/widget_data.dart';
-import 'package:uniturnip/utils.dart';
+import 'mapPath.dart';
+import '../utils.dart';
+import 'widget_data.dart';
 
 class UIModel extends ChangeNotifier {
-  UIModel({
-    Map<String, dynamic> data = const {},
-    //Map<String, dynamic> words = const {},
-    this.onUpdate
-  }) : _data = data/*, _words = words*/;
+  UIModel({Map<String, dynamic> data = const {}, this.onUpdate}) : _data = data;
 
   Map<String, dynamic> _data;
-  //Map<String, dynamic> _words;
   bool _isExternal = false;
 
   bool get isExternal => _isExternal;
@@ -26,14 +21,8 @@ class UIModel extends ChangeNotifier {
     // onUpdate!(path: MapPath(), data: _data);
   }
 
-  // set words(Map<String, dynamic> value) {
-  //   _words = value;
-  //   notifyListeners();
-  // }
-
-  void Function(
-      {required MapPath path,
-      required Map<String, dynamic> data})? onUpdate;
+  void Function({required MapPath path, required Map<String, dynamic> data})?
+      onUpdate;
 
   UnmodifiableMapView<String, dynamic> get data =>
       UnmodifiableMapView<String, dynamic>(_data);

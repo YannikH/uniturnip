@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uniturnip/mapPath.dart';
-import 'package:uniturnip/ui_model.dart';
+import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
+import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
-import 'json_schema_field.dart';
+import 'fields/json_schema_field.dart';
 
 class JSONSchemaUI extends StatelessWidget {
   JSONSchemaUI(
@@ -35,9 +35,12 @@ class JSONSchemaUI extends StatelessWidget {
     return ChangeNotifierProvider<UIModel>.value(
       value: controller,
       // create: (context) => UIModel(data: data, onUpdate: onUpdate),
-      child: JSONSchemaUIField(
-        schema: schema,
-        ui: ui,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: JSONSchemaUIField(
+          schema: schema,
+          ui: ui,
+        ),
       ),
     );
   }

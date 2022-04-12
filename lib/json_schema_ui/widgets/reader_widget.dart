@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uniturnip/src/widgets/form/models/widget_data.dart';
-import '../../../../ui_model.dart';
+
+import '../models/ui_model.dart';
+import '../models/widget_data.dart';
 
 class ReaderWidget extends StatelessWidget {
   const ReaderWidget({Key? key, required this.widgetData}) : super(key: key);
