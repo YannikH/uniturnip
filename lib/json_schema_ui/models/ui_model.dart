@@ -1,14 +1,11 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:uniturnip/mapPath.dart';
-import 'package:uniturnip/utils.dart';
+import 'mapPath.dart';
+import '../utils.dart';
 
 class UIModel extends ChangeNotifier {
-  UIModel({
-    Map<String, dynamic> data = const {},
-    this.onUpdate
-  }) : _data = data;
+  UIModel({Map<String, dynamic> data = const {}, this.onUpdate}) : _data = data;
 
   Map<String, dynamic> _data;
   bool _isExternal = false;
@@ -20,12 +17,10 @@ class UIModel extends ChangeNotifier {
     _isExternal = true;
     notifyListeners();
     // onUpdate!(path: MapPath(), data: _data);
-
   }
 
-  void Function(
-      {required MapPath path,
-      required Map<String, dynamic> data})? onUpdate;
+  void Function({required MapPath path, required Map<String, dynamic> data})?
+      onUpdate;
 
   UnmodifiableMapView<String, dynamic> get data =>
       UnmodifiableMapView<String, dynamic>(_data);
@@ -65,5 +60,4 @@ class UIModel extends ChangeNotifier {
   getDataByPath(MapPath path) {
     return Utils.getDataBypath(path, _data);
   }
-
 }

@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uniturnip/ui_model.dart';
+import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
-import 'mapPath.dart';
+import '../models/mapPath.dart';
 
 class ArrayPanel extends StatelessWidget {
   const ArrayPanel(this.path, {Key? key}) : super(key: key);

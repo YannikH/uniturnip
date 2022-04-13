@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uniturnip/mapPath.dart';
+import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 
 class WidgetData {
   final Map<String, dynamic> schema;
