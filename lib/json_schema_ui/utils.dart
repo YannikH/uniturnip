@@ -232,7 +232,14 @@ class Utils {
     Map<String, dynamic> newSchema = schema['properties']?[field] ?? schema['items'] ?? {};
     Map<String, dynamic> newUiSchema = ui[field] ?? ui['items'] ?? {};
     String schemaType = newSchema['type'] ?? 'not_defined';
-    if (schemaType == 'object' || schemaType == 'array') {
+    if (schemaType == 'array' || ui['ui:widget'] == "reader") {  /// <--- WERE ADDED
+      return JSONSchemaFinalLeaf(
+        schema: newSchema,
+        ui: newUiSchema,
+        pointer: field,
+        path: path,
+      );
+    } else if (schemaType == 'object' || schemaType == 'array') {
       if (newSchema['items'] != null && newSchema['items']['enum'] != null) {
         return JSONSchemaFinalLeaf(
           schema: newSchema['items'],

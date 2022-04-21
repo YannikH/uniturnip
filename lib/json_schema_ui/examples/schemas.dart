@@ -1,7 +1,7 @@
 class Schemas {
   static const Map<String, dynamic> test = {
     "label": "Simple",
-    "schema": {
+    "schema": /*{
       "title": "A registration form",
       "description": "A simple form example.",
       "type": "object",
@@ -14,21 +14,46 @@ class Schemas {
         "lastName": {"type": "string", "title": "Last name"},
         "telephone": {"type": "string", "title": "Telephone", "minLength": 10}
       }
+    }*/
+    {
+      "title": "A registration form",
+      "description": "A simple form example.",
+      "type": "object",
+      "properties": {
+        "fixedItemsList": {
+          "type": "array",
+          "title": "A list of fixed items",
+          "items": {
+            "type": "object",
+            "properties": {
+              "word": {
+                "default": "Some word",
+                "type": "string",
+                "readOnly": true
+              },
+              "translation": {
+                "default": "Какое-то слово",
+                "type": "string",
+                "readOnly": true
+              },
+              "count": {
+                "title": "Кол-во нажатий",
+                "default": 0,
+                "type": "integer",
+                "readOnly": true
+              },
+              "active": {
+                "title": "Активен",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
     },
     "ui": {
-      "firstName": {
-        "ui:widget":"reader",
-        "wordsWithTranslation":{
-          "child":"ребенок",
-          "and":"и",
-          "his":"его",
-          "father":"отец",
-          "were":"были",
-          "visiting":"посещение",
-          "an":"артикль",
-          "elderly":"пожилой",
-          "neighbor":"сосед"
-        },
+      "fixedItemsList": {
+        "ui:widget":"reader"
       },
       "lastName": {"ui:emptyValue": "", "ui:autocomplete": "given-name"},
       "age": {
@@ -36,6 +61,38 @@ class Schemas {
         "ui:title": "Age of person",
         "ui:description": "(earthian year)"
       },
+    },
+    "formData": {
+      "fixedItemsList":  [
+        {
+          "word": "The",
+          "translation": "артикль",
+          "count": 0,
+          "active": true
+        },
+        {
+          "word": "first",
+          "translation": "первый",
+          "count": 0,
+          "active": true
+        },
+        {
+          "word": "simple",
+          "translation": "простой",
+          "count": 0,
+          "active": true
+        },
+        {
+          "word": "text",
+          "translation": "текст",
+          "count": 0,
+          "active": true
+        }
+      ],
+      "lastName": "Norris",
+      "age": 75,
+      "bio": "Roundhouse kicking asses since 1940",
+      "password": "noneed"
     }
   };
 

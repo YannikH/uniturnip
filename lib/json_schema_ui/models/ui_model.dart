@@ -65,38 +65,42 @@ class UIModel extends ChangeNotifier {
 
   /// -------------- for ReaderWidget --------------
 
-  int _counter = 0;
-
-  List<String> _textList = [];
-  List<String> get textList => _textList;
-
   TextSpan _sentenceAsTextSpan = const TextSpan();
   TextSpan get sentenceAsTextSpan => _sentenceAsTextSpan;
 
   String _clickedWord = '';
   String get clickedWord => _clickedWord;
 
-  String _sentenceAsString = '';
-  String get sentenceAsString => _sentenceAsString;
-
   String _translation = '';
   String get translation => _translation;
 
-  List<String> words = [];
+  final List<String> _sentenceAsList = [];
+  List<String> get sentenceAsList => _sentenceAsList;
 
-  void getTextAsList(String text) {
-    _textList = text.split('.');
-    _sentenceAsString = _textList[_counter];
+  List<Map<String, dynamic>> _dataValue = [];
+  List<Map<String, dynamic>> get dataValue => _dataValue;
+
+  int _index = 0;
+  int get index => _index;
+
+  void setData(List<Map<String, dynamic>> value) {
+    _dataValue = value;
+  }
+
+  void getSentenceAsList() {
+    sentenceAsList.clear();
+    for (var map in dataValue) {
+      if (map['word'] != null) {
+        _sentenceAsList.add(map['word']);
+      }
+    }
   }
 
   void getTextSpan(WidgetData widgetData, BuildContext context) {
-    final List<String> arrayStrings = sentenceAsString.split(" ");
     final List<TextSpan> arrayOfTextSpan = [];
-    Map<String, String> wordsWithTranslation = widgetData.uiSchema['wordsWithTranslation'];
-    String wordWithSpace ='';
 
-    for (int index = 0; index < arrayStrings.length; index++) {
-      arrayOfTextSpan.add(TextSpan(text: arrayStrings[index] + ' '));
+    for (int index = 0; index < sentenceAsList.length; index++) {
+      arrayOfTextSpan.add(TextSpan(text: sentenceAsList[index] + ' '));
     }
 
     _sentenceAsTextSpan = TextSpan(
@@ -110,45 +114,35 @@ class UIModel extends ChangeNotifier {
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 _clickedWord = e.text!;
-                wordWithSpace = e.text!;
                 getTextSpan(widgetData, context);
-                getTranslation(wordWithSpace, wordsWithTranslation); //1
-                // _translation = widgetData.uiSchema[clickedWord]['description'];  //2
-                words.add(clickedWord);
-                widgetData.onChange(context, widgetData.path, words.toSet().toList());
+                getTranslate();
+                changeCount(widgetData, context);
                 notifyListeners();
               }))
             .toList());
   }
 
-  void updateText(bool value) {
-    if (value) {
-      _counter++;
-      if (_counter < textList.length) {
-      _sentenceAsString = textList[_counter];
-      }
-    } else {
-      _counter--;
-      if (_counter >= 0) {
-        _sentenceAsString = textList[_counter];
-      }
-    }
-    notifyListeners();
-  }
-
-  void getTranslation(String word, Map wordsWithTranslation) {
-    var wordWithoutSpace = word.substring(0, word.length - 1);
-    if (wordsWithTranslation.containsKey(wordWithoutSpace)) {
-      _translation = wordsWithTranslation[wordWithoutSpace];
-    } else {
-      print("NO word '$word' in $wordsWithTranslation");
-    }
-    notifyListeners();
-  }
-
   void hideClickedWord() {
     _clickedWord = '';
     notifyListeners();
+  }
+
+  void getTranslate() {
+    var wordWithoutSpace = clickedWord.substring(0, clickedWord.length - 1);
+    _index = sentenceAsList.indexOf(wordWithoutSpace);
+    _translation = dataValue[index]['translation'];
+  }
+
+  void changeCount(WidgetData widgetData, BuildContext context) {
+    List<Map<String, dynamic>> copyDataList = List.from(dataValue);
+    Map<String, dynamic> copyDataMap = {...dataValue[index]};
+    copyDataMap['count'] = copyDataMap['count'] + 1;
+    if (copyDataMap['count'] == 1) {
+      if (copyDataMap['active'] == true)  copyDataMap['active'] = false;
+    }
+    copyDataList.removeAt(index);
+    copyDataList.insert(index, copyDataMap);
+    widgetData.onChange(context, widgetData.path, copyDataList);
   }
 
 }
