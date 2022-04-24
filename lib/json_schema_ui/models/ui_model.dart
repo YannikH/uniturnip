@@ -83,6 +83,12 @@ class UIModel extends ChangeNotifier {
   int _index = 0;
   int get index => _index;
 
+  List<String> _clickedWordList = [];
+  List<String> get clickedWordList => _clickedWordList;
+
+  List<String> _translationList = [];
+  List<String> get translationList => _translationList;
+
   void setData(List<Map<String, dynamic>> value) {
     _dataValue = value;
   }
@@ -90,9 +96,7 @@ class UIModel extends ChangeNotifier {
   void getSentenceAsList() {
     sentenceAsList.clear();
     for (var map in dataValue) {
-      if (map['word'] != null) {
-        _sentenceAsList.add(map['word']);
-      }
+      _sentenceAsList.add(map['word']);
     }
   }
 
@@ -117,6 +121,7 @@ class UIModel extends ChangeNotifier {
                 getTextSpan(widgetData, context);
                 getTranslate();
                 changeCount(widgetData, context);
+                addToWordsList();
                 notifyListeners();
               }))
             .toList());
@@ -143,6 +148,20 @@ class UIModel extends ChangeNotifier {
     copyDataList.removeAt(index);
     copyDataList.insert(index, copyDataMap);
     widgetData.onChange(context, widgetData.path, copyDataList);
+  }
+
+  void addToWordsList() {
+    if (clickedWordList.contains(clickedWord) && translationList.contains(translation)) {
+      var i = _clickedWordList.indexOf(clickedWord);
+      _clickedWordList.insert(i, clickedWord);
+      _clickedWordList.remove(clickedWord);
+      _translationList.insert(i, translation);
+      _translationList.remove(translation);
+    } else {
+      _clickedWordList.add(clickedWord);
+      _translationList.add(translation);
+    }
+    notifyListeners();
   }
 
 }
