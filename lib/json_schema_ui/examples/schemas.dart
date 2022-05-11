@@ -48,12 +48,70 @@ class Schemas {
               }
             }
           }
+        },
+        "itemsList": {
+          "type": "array",
+          "title": "A list of items",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question1": {
+                "enum": [
+                  "answer 1",
+                  "answer 2",
+                  "answer 3"
+                ],
+                "title": "Question 1",
+                "type": "string"
+              },
+              "question2": {
+                "enum": [
+                  "answer 1",
+                  "answer 2",
+                  "answer 3"
+                ],
+                "title": "Question 2",
+                "type": "string"
+              },
+              "question3": {
+                "enum": [
+                  "answer 1",
+                  "answer 2",
+                  "answer 3"
+                ],
+                "title": "Question 3",
+                "type": "string"
+              },
+              "question4": {
+                "title": "Type correct answer:",
+                "type": "string"
+              }
+            }
+          }
         }
       }
     },
     "ui": {
       "fixedItemsList": {
         "ui:widget":"reader"
+      },
+      "itemsList": {
+        "ui:widget":"learner",
+        "ui:order": [["question1", "question3", "question2"], ["question4"]],
+        "items": {
+          "question1": {
+            "ui:widget":"radio"
+          },
+          "question2": {
+            "ui:widget":"radio"
+          },
+          "question3": {
+            "ui:widget":"radio"
+          },
+          "question4": {
+            "ui:widget":"text"
+          }
+        }
       },
       "lastName": {"ui:emptyValue": "", "ui:autocomplete": "given-name"},
       "age": {
@@ -89,6 +147,7 @@ class Schemas {
           "active": true
         }
       ],
+      "itemsList":[],
       "lastName": "Norris",
       "age": 75,
       "bio": "Roundhouse kicking asses since 1940",

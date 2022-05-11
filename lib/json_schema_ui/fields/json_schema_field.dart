@@ -11,16 +11,18 @@ class JSONSchemaUIField extends StatelessWidget {
     this.ui = const {},
     MapPath? path,
     dynamic pointer,
+    this.learnerUiOrder
   })  : path = Utils.getPath(path, pointer, schema),
         super(key: key);
 
   final Map<String, dynamic> schema;
   final Map<String, dynamic> ui;
   final MapPath path;
+  final List<dynamic>? learnerUiOrder;  ///
 
   @override
   Widget build(BuildContext context) {
-    List fields = Utils.retrieveSchemaFields(context: context, schema: schema, ui: ui, path: path);
+    List fields = Utils.retrieveSchemaFields(context: context, schema: schema, ui: ui, path: path, learnerUiOrder: learnerUiOrder);  ///
     int length = fields.length;
 
     if (fields.isEmpty) {

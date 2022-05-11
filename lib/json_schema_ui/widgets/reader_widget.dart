@@ -17,11 +17,7 @@ class ReaderWidget extends StatelessWidget {
     var clickedWord = context.watch<UIModel>().clickedWord;
     var translation = context.watch<UIModel>().translation;
     var clickedWordList = context.watch<UIModel>().clickedWordList;
-    // clickedWordList.toSet().toList();
-    // print("LIST: $clickedWordList");
     var translationList = context.watch<UIModel>().translationList;
-    // translationList.toSet().toList();
-    print("VALUE: ${widgetData.value}");
 
     return Column(
       children: [
@@ -44,7 +40,7 @@ class ReaderWidget extends StatelessWidget {
                       ),
                       onPressed: () {
                         //context.read<UIModel>().updateText(false);
-                        context.read<UIModel>().getTextSpan(widgetData, context);
+                        //context.read<UIModel>().getTextSpan(widgetData, context);
                       })),
               //(textList.indexOf(sentenceAsString) == textList.length - 1) ? Container() :
                   Container(
@@ -56,7 +52,7 @@ class ReaderWidget extends StatelessWidget {
                       ),
                       onPressed: () {
                         //context.read<UIModel>().updateText(true);
-                        context.read<UIModel>().getTextSpan(widgetData, context);
+                        // context.read<UIModel>().getTextSpan(widgetData, context);
                       })),
             ],
           ),

@@ -164,4 +164,34 @@ class UIModel extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  /// -------------- for LearnerWidget --------------
+
+  List<dynamic> _uiOrderList = [];
+  List<dynamic> get uiOrderList => _uiOrderList;
+
+  int _uiOrderListLength = 0;
+  int get orderListLength => _uiOrderListLength;
+
+  int _counter = 0;
+  int get counter => _counter;
+
+  void initValues(WidgetData wData) {
+    _uiOrderList = wData.uiSchema['ui:order'] ?? [];
+    _uiOrderListLength = uiOrderList.length;
+  }
+
+  void getNextField() {
+    _counter ++;
+    if (counter == orderListLength) _counter = 0;
+    notifyListeners();
+  }
+
+  List getFirstField() {
+    List list = [];
+    list.addAll(uiOrderList[counter]);
+    print('=> list => $list');
+    return list;
+  }
+
 }

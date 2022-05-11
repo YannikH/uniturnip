@@ -9,7 +9,8 @@ import 'models/widget_data.dart';
 import 'widgets.dart';
 
 class Utils {
-  static Widget _formWidget({required String widget, required WidgetData widgetData}) {
+  // static Widget _formWidget({required String widget, required WidgetData widgetData}) {
+  static Widget _formWidget({required String widget, required WidgetData widgetData, Widget? widgets}) {  ///
     switch (widget) {
       case 'audio':
         return AudioWidget(widgetData: widgetData);
@@ -55,6 +56,9 @@ class Utils {
         return NullWidget(widgetData: widgetData);
       case 'reader':
         return ReaderWidget(widgetData: widgetData);
+      case 'learner':
+        // return LearnerWidget(widgetData: widgetData);
+        return LearnerWidget(widgetData: widgetData, widgets: widgets!); ///
       default:
         return TextWidget(widgetData: widgetData);
     }
@@ -85,9 +89,18 @@ class Utils {
     final schema = widgetData.schema;
     final String widget;
     final String type = schema['type'];
+    Widget? widgets;  ///
 
     if (uiSchema != null && uiSchema.containsKey('ui:widget')) {
       widget = uiSchema['ui:widget'];
+
+      if (widget == 'learner') {  ///
+        final Map<String, dynamic> learnerSchema = widgetData.schema['items'];  ///
+        final Map<String, dynamic> learnerUiSchema = widgetData.uiSchema['items'] ?? {}; ///
+        final List<dynamic> learnerUiOrder = widgetData.uiSchema['ui:order'];  ///
+        widgets = JSONSchemaUIField(schema: learnerSchema, ui: learnerUiSchema, learnerUiOrder: learnerUiOrder,);  ///
+      }
+
     } else if (schema.containsKey('format')) {
       widget = schema['format'];
     } else if (schema.containsKey('enum') && (type != 'boolean' || type != 'null')) {
@@ -96,7 +109,8 @@ class Utils {
       widget = _defaultWidgetType(type: type);
     }
     print("$schema Widget: $widget");
-    return _formWidget(widget: widget, widgetData: widgetData);
+    // return _formWidget(widget: widget, widgetData: widgetData);
+    return _formWidget(widget: widget, widgetData: widgetData, widgets: widgets); ///
   }
 
   static Map<String, dynamic> modifyMapByPath(
@@ -201,16 +215,25 @@ class Utils {
     required Map<String, dynamic> ui,
     required BuildContext context,
     required MapPath path,
+    List<dynamic>? learnerUiOrder  ///
   }) {
     List fields = [];
     int length;
     if (schema['properties'] != null) {
       fields = schema['properties'].keys.toList();
+
       if (ui.containsKey('ui:order')) {
         List order = ui['ui:order'] ?? [];
         fields = _sortFields(fields, order);
+      } else if (learnerUiOrder != null) {   ///
+        List newFields = context.watch<UIModel>().getFirstField();  ///
+        fields.clear();   ///
+        for (var element in newFields) {    ///
+          fields.add(element);   ///
+        }
       }
-    } else if (schema['items'] != null) {
+
+  } else if (schema['items'] != null) {
       // if (schema['items']['enum'] != null) {
       //   fields = [];
       // } else {
@@ -232,7 +255,7 @@ class Utils {
     Map<String, dynamic> newSchema = schema['properties']?[field] ?? schema['items'] ?? {};
     Map<String, dynamic> newUiSchema = ui[field] ?? ui['items'] ?? {};
     String schemaType = newSchema['type'] ?? 'not_defined';
-    if (schemaType == 'array' || ui['ui:widget'] == "reader") {  /// <--- WERE ADDED
+    if (schemaType == 'array' || ui['ui:widget'] == "reader" || ui['ui:widget'] == "learner") {  ///
       return JSONSchemaFinalLeaf(
         schema: newSchema,
         ui: newUiSchema,
