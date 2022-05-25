@@ -59,12 +59,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
-
+    int defaultPage = 4;
     _tabController.addListener(_handleTabSelection);
     _schemas = Schemas.schemas;
-    _schema = Schemas.schemas[0]['schema'];
-    _ui = Schemas.schemas[0]['ui'];
-    _data = Schemas.schemas[0]['formData'] ?? {};
+    _schema = Schemas.schemas[defaultPage]['schema'];
+    _ui = Schemas.schemas[defaultPage]['ui'];
+    _data = Schemas.schemas[defaultPage]['formData'];
     formControl.text = JsonEncoder.withIndent(' ' * 4).convert(_schema);
     uiControl.text = JsonEncoder.withIndent(' ' * 4).convert(_ui);
     textControl.text = JsonEncoder.withIndent(' ' * 4).convert(_data);
@@ -90,16 +90,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     setState(() {
       _schema = _schemas[index]['schema'];
       _ui = _schemas[index]['ui'];
-      _data = _schemas[index]['formData'];
+      _data = {..._schemas[index]['formData']};
       formControl.text = JsonEncoder.withIndent(' ' * 4).convert(_schema);
       uiControl.text = JsonEncoder.withIndent(' ' * 4).convert(_ui);
       textControl.text = JsonEncoder.withIndent(' ' * 4).convert(_data);
-    });
-  }
-
-  void _updateData({dynamic data}) {
-    setState(() {
-      _data = data;
     });
   }
 

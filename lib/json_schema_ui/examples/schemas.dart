@@ -157,7 +157,7 @@ class Schemas {
     }
   };
 
-  static const Map<String, dynamic> simple = {
+  static Map<String, dynamic> simple = {
     "label": "Simple",
     "schema": {
       "title": "A registration form",
@@ -165,21 +165,13 @@ class Schemas {
       "type": "object",
       "required": ["firstName", "lastName"],
       "properties": {
-        "firstName": {
-          "type": "string",
-          "title": "First name",
-          "default": "Chuck"
-        },
+        "firstName": {"type": "string", "title": "First name", "default": "Chuck"},
         "lastName": {"type": "string", "title": "Last name"},
         "telephone": {"type": "string", "title": "Telephone", "minLength": 10}
       }
     },
     "ui": {
-      "firstName": {
-        "ui:autofocus": true,
-        "ui:emptyValue": "",
-        "ui:autocomplete": "family-name"
-      },
+      "firstName": {"ui:autofocus": true, "ui:emptyValue": "", "ui:autocomplete": "family-name"},
       "lastName": {"ui:emptyValue": "", "ui:autocomplete": "given-name"},
       "age": {
         "ui:widget": "updown",
@@ -201,7 +193,7 @@ class Schemas {
       "password": "noneed"
     }
   };
-  static const Map<String, dynamic> nested = {
+  static Map<String, dynamic> nested = {
     "label": "Nested",
     "schema": {
       "title": "A list of tasks",
@@ -216,11 +208,7 @@ class Schemas {
             "type": "object",
             "required": ["title"],
             "properties": {
-              "title": {
-                "type": "string",
-                "title": "Title",
-                "description": "A sample title"
-              },
+              "title": {"type": "string", "title": "Title", "description": "A sample title"},
               "details": {
                 "type": "string",
                 "title": "Task details",
@@ -258,7 +246,7 @@ class Schemas {
     }
   };
 
-  static const Map<String, dynamic> arrays = {
+  static Map<String, dynamic> arrays = {
     "label": "Arrays",
     "schema": {
       "definitions": {
@@ -289,11 +277,7 @@ class Schemas {
           "type": "array",
           "title": "A list of fixed items",
           "items": [
-            {
-              "title": "A string value",
-              "type": "string",
-              "default": "lorem ipsum"
-            },
+            {"title": "A string value", "type": "string", "default": "lorem ipsum"},
             {"title": "a boolean value", "type": "boolean"}
           ],
           "additionalItems": {"title": "Additional item", "type": "number"}
@@ -342,11 +326,7 @@ class Schemas {
             {"title": "A number", "type": "number", "default": 42},
             {"title": "A boolean", "type": "boolean", "default": false}
           ],
-          "additionalItems": {
-            "title": "A string",
-            "type": "string",
-            "default": "lorem ipsum"
-          }
+          "additionalItems": {"title": "A string", "type": "string", "default": "lorem ipsum"}
         }
       }
     },
@@ -384,13 +364,7 @@ class Schemas {
         {"name": "Default name"},
         {"name": "Default name"}
       ],
-      "defaultsAndMinItems": [
-        "carp",
-        "trout",
-        "bream",
-        "unidentified",
-        "unidentified"
-      ],
+      "defaultsAndMinItems": ["carp", "trout", "bream", "unidentified", "unidentified"],
       "nestedList": [
         ["lorem", "ipsum"],
         ["dolor"]
@@ -401,7 +375,7 @@ class Schemas {
       "fixedNoToolbar": [42, true, "additional item one", "additional item two"]
     }
   };
-  static const Map<String, dynamic> numbers = {
+  static Map<String, dynamic> numbers = {
     "label": "Numbers",
     "schema": {
       "type": "object",
@@ -451,7 +425,7 @@ class Schemas {
       "integerRangeSteps": 80
     }
   };
-  static const Map<String, dynamic> widgets = {
+  static Map<String, dynamic> widgets = {
     "label": "Widgets",
     "schema": {
       "title": "Widgets",
@@ -461,8 +435,8 @@ class Schemas {
           "type": "object",
           "title": "String formats",
           "properties": {
-            "email": {"type": "string", "format": "email"},
-            "uri": {"type": "string", "format": "uri"}
+            "email": {"type": "string", "title":"email", "format": "email"},
+            "uri": {"type": "string", "title":"uri", "format": "uri"}
           }
         },
         "boolean": {
@@ -493,24 +467,12 @@ class Schemas {
             "default": {"type": "string", "title": "text input (default)"},
             "textarea": {"type": "string", "title": "textarea"},
             "placeholder": {"type": "string"},
-            "color": {
-              "type": "string",
-              "title": "color picker",
-              "default": "#151ce6"
-            }
+            "color": {"type": "string", "title": "color picker", "default": "#151ce6"}
           }
         },
         "secret": {"type": "string", "default": "I'm a hidden string."},
-        "disabled": {
-          "type": "string",
-          "title": "A disabled field",
-          "default": "I am disabled."
-        },
-        "readonly": {
-          "type": "string",
-          "title": "A readonly field",
-          "default": "I am read-only."
-        },
+        "disabled": {"type": "string", "title": "A disabled field", "default": "I am disabled."},
+        "readonly": {"type": "string", "title": "A readonly field", "default": "I am read-only."},
         "readonly2": {
           "type": "string",
           "title": "Another readonly field",
@@ -554,16 +516,9 @@ class Schemas {
       }
     },
     "formData": {
-      "stringFormats": {
-        "email": "chuck@norris.net",
-        "uri": "http://chucknorris.com/"
-      },
+      "stringFormats": {"email": "chuck@norris.net", "uri": "http://chucknorris.com/"},
       "boolean": {"default": true, "radio": true, "select": true},
-      "string": {
-        "color": "#151ce6",
-        "default": "Hello...",
-        "textarea": "... World"
-      },
+      "string": {"color": "#151ce6", "default": "Hello...", "textarea": "... World"},
       "secret": "I'm a hidden string.",
       "disabled": "I am disabled.",
       "readonly": "I am read-only.",
@@ -571,7 +526,7 @@ class Schemas {
       "widgetOptions": "I am yellow"
     }
   };
-  static const Map<String, dynamic> ordering = {
+  static Map<String, dynamic> ordering = {
     "label": "Ordering",
     "schema": {
       "title": "A registration form",
@@ -599,7 +554,7 @@ class Schemas {
       "password": "noneed"
     }
   };
-  static const Map<String, dynamic> references = {
+  static Map<String, dynamic> references = {
     "label": "References",
     "schema": {
       "definitions": {
@@ -625,14 +580,8 @@ class Schemas {
       },
       "type": "object",
       "properties": {
-        "billing_address": {
-          "title": "Billing address",
-          "\$ref": "#/definitions/address"
-        },
-        "shipping_address": {
-          "title": "Shipping address",
-          "\$ref": "#/definitions/address"
-        },
+        "billing_address": {"title": "Billing address", "\$ref": "#/definitions/address"},
+        "shipping_address": {"title": "Shipping address", "\$ref": "#/definitions/address"},
         "tree": {"title": "Recursive references", "\$ref": "#/definitions/node"}
       }
     },
@@ -659,7 +608,7 @@ class Schemas {
     }
   };
 
-  static const Map<String, dynamic> custom = {
+  static Map<String, dynamic> custom = {
     "label": "Custom",
     "schema": {
       "title": "A localisation form",
@@ -673,18 +622,13 @@ class Schemas {
     "ui": {"ui:field": "geo"},
     "formData": {"lat": 0, "lon": 0}
   };
-  static const Map<String, dynamic> errors = {
+  static Map<String, dynamic> errors = {
     "label": "Errors",
     "schema": {
       "title": "Contextualized errors",
       "type": "object",
       "properties": {
-        "firstName": {
-          "type": "string",
-          "title": "First name",
-          "minLength": 8,
-          "pattern": "\\d+"
-        },
+        "firstName": {"type": "string", "title": "First name", "minLength": 8, "pattern": "\\d+"},
         "active": {"type": "boolean", "title": "Active"},
         "skills": {
           "type": "array",
@@ -702,7 +646,7 @@ class Schemas {
         }
       }
     },
-    "ui": {"":""},
+    "ui": {"": ""},
     "formData": {
       "firstName": "Chuck",
       "active": "wrong",
@@ -710,7 +654,7 @@ class Schemas {
       "multipleChoicesList": ["foo", "bar", "fuzz"]
     }
   };
-  static const Map<String, dynamic> examples = {
+  static Map<String, dynamic> examples = {
     "label": "Examples",
     "schema": {
       "title": "Examples",
@@ -724,7 +668,7 @@ class Schemas {
         }
       }
     },
-    "ui": {"":""},
+    "ui": {"": ""},
     "formData": {
       "firstName": "Chuck",
       "active": "wrong",
@@ -732,7 +676,7 @@ class Schemas {
       "multipleChoicesList": ["foo", "bar", "fuzz"]
     }
   };
-  static const Map<String, dynamic> large = {
+  static Map<String, dynamic> large = {
     "label": "Large",
     "schema": {
       "definitions": {
@@ -861,9 +805,9 @@ class Schemas {
     "ui": {
       "choice1": {"ui:placeholder": "Choose one"}
     },
-    "formData": {"":""}
+    "formData": {"": ""}
   };
-  static const Map<String, dynamic> dateTime = {
+  static Map<String, dynamic> dateTime = {
     "label": "Date-Time",
     "schema": {
       "title": "Date and time widgets",
@@ -871,8 +815,7 @@ class Schemas {
       "properties": {
         "native": {
           "title": "Native",
-          "description":
-              "May not work on some browsers, notably Firefox Desktop and IE.",
+          "description": "May not work on some browsers, notably Firefox Desktop and IE.",
           "type": "object",
           "properties": {
             "datetime": {"type": "string", "format": "date-time"},
@@ -906,9 +849,12 @@ class Schemas {
         }
       }
     },
-    "formData": {"native": {"":""}, "alternative": {"":""}}
+    "formData": {
+      "native": {"": ""},
+      "alternative": {"": ""}
+    }
   };
-  static const Map<String, dynamic> validation = {
+  static Map<String, dynamic> validation = {
     "label": "Validation",
     "schema": {
       "title": "Custom validation",
@@ -925,19 +871,15 @@ class Schemas {
       "pass1": {"ui:widget": "password"},
       "pass2": {"ui:widget": "password"}
     },
-    "formData": {"":""}
+    "formData": {"": ""}
   };
-  static const Map<String, dynamic> files = {
+  static Map<String, dynamic> files = {
     "label": "Files",
     "schema": {
       "title": "Files",
       "type": "object",
       "properties": {
-        "file": {
-          "type": "string",
-          "format": "data-url",
-          "title": "Single file"
-        },
+        "file": {"type": "string", "format": "data-url", "title": "Single file"},
         "files": {
           "type": "array",
           "title": "Multiple files",
@@ -955,25 +897,25 @@ class Schemas {
         "ui:options": {"accept": ".pdf"}
       }
     },
-    "formData": {"":""}
+    "formData": {"": ""}
   };
-  static const Map<String, dynamic> single = {
+  static Map<String, dynamic> single = {
     "label": "Single",
     "schema": {"title": "A single-field form", "type": "string"},
-    "ui": {"":""},
+    "ui": {"": ""},
     "formData": "initial value"
   };
-  static const Map<String, dynamic> customArray = {
+  static Map<String, dynamic> customArray = {
     "label": "Custom Array",
     "schema": {
       "title": "Custom array of strings",
       "type": "array",
       "items": {"type": "string"}
     },
-    "ui": {"":""},
+    "ui": {"": ""},
     "formData": ["react", "jsonschema", "form"]
   };
-  static const Map<String, dynamic> customObject = {
+  static Map<String, dynamic> customObject = {
     "label": "Custom Object",
     "schema": {
       "title": "A registration form",
@@ -990,7 +932,7 @@ class Schemas {
         "telephone": {"type": "string", "title": "Telephone", "minLength": 10}
       }
     },
-    "ui": {"":""},
+    "ui": {"": ""},
     "formData": {
       "firstName": "Chuck",
       "lastName": "Norris",
@@ -999,7 +941,7 @@ class Schemas {
       "password": "noneed"
     }
   };
-  static const Map<String, dynamic> alternatives = {
+  static Map<String, dynamic> alternatives = {
     "label": "Alternatives",
     "schema": {
       "definitions": {
@@ -1028,8 +970,8 @@ class Schemas {
           "title": "Toggle",
           "type": "boolean",
           "oneOf": [
-            {"title": "Enable", "const": true},
-            {"title": "Disable", "const": false}
+            {"title": "Enable", "": true},
+            {"title": "Disable", "": false}
           ]
         }
       },
@@ -1037,20 +979,14 @@ class Schemas {
       "type": "object",
       "required": ["currentColor", "colorMask", "blendMode"],
       "properties": {
-        "currentColor": {
-          "\$ref": "#/definitions/Color",
-          "title": "Brush color"
-        },
+        "currentColor": {"\$ref": "#/definitions/Color", "title": "Brush color"},
         "colorMask": {
           "type": "array",
           "uniqueItems": true,
           "items": {"\$ref": "#/definitions/Color"},
           "title": "Color mask"
         },
-        "toggleMask": {
-          "title": "Apply color mask",
-          "\$ref": "#/definitions/Toggle"
-        },
+        "toggleMask": {"title": "Apply color mask", "\$ref": "#/definitions/Toggle"},
         "colorPalette": {
           "type": "array",
           "title": "Color palette",
@@ -1077,7 +1013,7 @@ class Schemas {
       "blendMode": "screen"
     }
   };
-  static const Map<String, dynamic> propertyDependencies = {
+  static Map<String, dynamic> propertyDependencies = {
     "label": "Property Dependencies",
     "schema": {
       "title": "Property dependencies",
@@ -1122,22 +1058,18 @@ class Schemas {
     "ui": {
       "unidirectional": {
         "credit_card": {
-          "ui:help":
-              "If you enter anything here then billing_address will become required."
+          "ui:help": "If you enter anything here then billing_address will become required."
         },
         "billing_address": {
-          "ui:help":
-              "It’s okay to have a billing address without a credit card number."
+          "ui:help": "It’s okay to have a billing address without a credit card number."
         }
       },
       "bidirectional": {
         "credit_card": {
-          "ui:help":
-              "If you enter anything here then billing_address will become required."
+          "ui:help": "If you enter anything here then billing_address will become required."
         },
         "billing_address": {
-          "ui:help":
-              "If you enter anything here then credit_card will become required."
+          "ui:help": "If you enter anything here then credit_card will become required."
         }
       }
     },
@@ -1146,7 +1078,7 @@ class Schemas {
       "bidirectional": {"name": "Jill"}
     }
   };
-  static const Map<String, dynamic> schemaDependencies = {
+  static Map<String, dynamic> schemaDependencies = {
     "label": "Schema Dependencies",
     "schema": {
       "title": "Schema dependencies",
@@ -1172,10 +1104,7 @@ class Schemas {
             }
           }
         },
-        "conditional": {
-          "title": "Conditional",
-          "\$ref": "#/definitions/person"
-        },
+        "conditional": {"title": "Conditional", "\$ref": "#/definitions/person"},
         "arrayOfConditionals": {
           "title": "Array of conditionals",
           "type": "array",
@@ -1187,10 +1116,7 @@ class Schemas {
           "items": [
             {"title": "Primary person", "\$ref": "#/definitions/person"}
           ],
-          "additionalItems": {
-            "title": "Additional person",
-            "\$ref": "#/definitions/person"
-          }
+          "additionalItems": {"title": "Additional person", "\$ref": "#/definitions/person"}
         }
       },
       "definitions": {
@@ -1268,22 +1194,16 @@ class Schemas {
       "conditional": {"Do you have any pets?": "No"},
       "arrayOfConditionals": [
         {"Do you have any pets?": "Yes: One", "How old is your pet?": 6},
-        {
-          "Do you have any pets?": "Yes: More than one",
-          "Do you want to get rid of any?": false
-        }
+        {"Do you have any pets?": "Yes: More than one", "Do you want to get rid of any?": false}
       ],
       "fixedArrayOfConditionals": [
         {"Do you have any pets?": "No"},
         {"Do you have any pets?": "Yes: One", "How old is your pet?": 6},
-        {
-          "Do you have any pets?": "Yes: More than one",
-          "Do you want to get rid of any?": true
-        }
+        {"Do you have any pets?": "Yes: More than one", "Do you want to get rid of any?": true}
       ]
     }
   };
-  static const Map<String, dynamic> additionalProperties = {
+  static Map<String, dynamic> additionalProperties = {
     "label": "Additional Properties",
     "schema": {
       "title": "A customizable registration form",
@@ -1299,13 +1219,9 @@ class Schemas {
     "ui": {
       "firstName": {"ui:autofocus": true, "ui:emptyValue": ""}
     },
-    "formData": {
-      "firstName": "Chuck",
-      "lastName": "Norris",
-      "assKickCount": "infinity"
-    }
+    "formData": {"firstName": "Chuck", "lastName": "Norris", "assKickCount": "infinity"}
   };
-  static const Map<String, dynamic> anyOf = {
+  static Map<String, dynamic> anyOf = {
     "label": "Any Of",
     "schema": {
       "type": "object",
@@ -1334,11 +1250,7 @@ class Schemas {
         {
           "title": "First method of identification",
           "properties": {
-            "firstName": {
-              "type": "string",
-              "title": "First name",
-              "default": "Chuck"
-            },
+            "firstName": {"type": "string", "title": "First name", "default": "Chuck"},
             "lastName": {"type": "string", "title": "Last name"}
           }
         },
@@ -1350,10 +1262,10 @@ class Schemas {
         }
       ]
     },
-    "ui": {"":""},
+    "ui": {"": ""},
     "formData": {"firstName": "Chuck"}
   };
-  static const Map<String, dynamic> oneOf = {
+  static Map<String, dynamic> oneOf = {
     "label": "One Of",
     "schema": {
       "type": "object",
@@ -1372,10 +1284,10 @@ class Schemas {
         }
       ]
     },
-    "ui": {"":""},
-    "formData": {"":""}
+    "ui": {"": ""},
+    "formData": {"": ""}
   };
-  static const Map<String, dynamic> allOf = {
+  static Map<String, dynamic> allOf = {
     "label": "All Of",
     "schema": {
       "type": "object",
@@ -1396,10 +1308,10 @@ class Schemas {
         }
       ]
     },
-    "ui": {"":""},
+    "ui": {"": ""},
     "formData": {"lorem": true}
   };
-  static const Map<String, dynamic> ifThenElse = {
+  static Map<String, dynamic> ifThenElse = {
     "label": "If Then Else",
     "schema": {
       "type": "object",
@@ -1412,7 +1324,7 @@ class Schemas {
         {
           "if": {
             "properties": {
-              "animal": {"const": "Cat"}
+              "animal": {"": "Cat"}
             }
           },
           "then": {
@@ -1428,7 +1340,7 @@ class Schemas {
         {
           "if": {
             "properties": {
-              "animal": {"const": "Fish"}
+              "animal": {"": "Fish"}
             }
           },
           "then": {
@@ -1450,11 +1362,11 @@ class Schemas {
         }
       ]
     },
-    "ui": {"":""},
-    "formData": {"":""}
+    "ui": {"": ""},
+    "formData": {"": ""}
   };
 
-  static const Map<String, dynamic> nullFields = {
+  static Map<String, dynamic> nullFields = {
     "label": "Null Fields",
     "schema": {
       "title": "Null field example",
@@ -1464,15 +1376,10 @@ class Schemas {
       "properties": {
         "helpText": {
           "title": "A null field",
-          "description":
-              "Null fields like this are great for adding extra information",
+          "description": "Null fields like this are great for adding extra information",
           "type": "null"
         },
-        "firstName": {
-          "type": "string",
-          "title": "A regular string field",
-          "default": "Chuck"
-        }
+        "firstName": {"type": "string", "title": "A regular string field", "default": "Chuck"}
       }
     },
     "ui": {
@@ -1480,7 +1387,7 @@ class Schemas {
     },
     "formData": {"firstName": "Chuck"}
   };
-  static const Map<String, dynamic> nullable = {
+  static Map<String, dynamic> nullable = {
     "label": "Nuallable",
     "schema": {
       "title": "A registration form (nullable)",
@@ -1488,11 +1395,7 @@ class Schemas {
       "type": "object",
       "required": ["firstName", "lastName"],
       "properties": {
-        "firstName": {
-          "type": "string",
-          "title": "First name",
-          "default": "Chuck"
-        },
+        "firstName": {"type": "string", "title": "First name", "default": "Chuck"},
         "lastName": {"type": "string", "title": "Last name"},
         "age": {
           "type": ["integer", "null"],
@@ -1516,8 +1419,7 @@ class Schemas {
       },
       "bio": {
         "ui:widget": "textarea",
-        "ui:placeholder":
-            "Leaving this field empty will cause formData property to be `null`",
+        "ui:placeholder": "Leaving this field empty will cause formData property to be `null`",
         "ui:emptyValue": null
       },
       "password": {"ui:widget": "password", "ui:help": "Hint: Make it strong!"},
@@ -1534,7 +1436,7 @@ class Schemas {
       "password": "noneed"
     }
   };
-  static const Map<String, dynamic> errorSchema = {
+  static Map<String, dynamic> errorSchema = {
     "label": "Error Schema",
     "schema": {
       "title": "A registration form",
@@ -1542,11 +1444,7 @@ class Schemas {
       "type": "object",
       "required": ["firstName", "lastName"],
       "properties": {
-        "firstName": {
-          "type": "string",
-          "title": "First name",
-          "default": "Chuck"
-        },
+        "firstName": {"type": "string", "title": "First name", "default": "Chuck"},
         "lastName": {"type": "string", "title": "Last name"},
         "age": {"type": "integer", "title": "Age"},
         "bio": {"type": "string", "title": "Bio"},
@@ -1576,7 +1474,7 @@ class Schemas {
       "password": "noneed"
     }
   };
-  static const Map<String, dynamic> defaults = {
+  static Map<String, dynamic> defaults = {
     "label": "Defaults",
     "schema": {
       "title": "Schema default properties",
@@ -1595,11 +1493,7 @@ class Schemas {
         "defaultsExample": {
           "type": "object",
           "properties": {
-            "scalar": {
-              "title": "Scalar",
-              "type": "string",
-              "default": "scalar default"
-            },
+            "scalar": {"title": "Scalar", "type": "string", "default": "scalar default"},
             "array": {
               "title": "Array",
               "type": "array",
@@ -1629,7 +1523,7 @@ class Schemas {
         }
       }
     },
-    "ui": {"":""},
+    "ui": {"": ""},
     "formData": {
       "valuesInFormData": {
         "scalar": "value",
