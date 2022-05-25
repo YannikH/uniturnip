@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
+import 'package:uniturnip/json_schema_ui/widgets.dart';
 
 import '../widgets/array_buttons.dart';
 import '../utils.dart';
@@ -11,18 +12,16 @@ class JSONSchemaUIField extends StatelessWidget {
     this.ui = const {},
     MapPath? path,
     dynamic pointer,
-    this.learnerUiOrder
   })  : path = Utils.getPath(path, pointer, schema),
         super(key: key);
 
   final Map<String, dynamic> schema;
   final Map<String, dynamic> ui;
   final MapPath path;
-  final List<dynamic>? learnerUiOrder;  ///
 
   @override
   Widget build(BuildContext context) {
-    List fields = Utils.retrieveSchemaFields(context: context, schema: schema, ui: ui, path: path, learnerUiOrder: learnerUiOrder);  ///
+    List fields = Utils.retrieveSchemaFields(context: context, schema: schema, ui: ui, path: path);
     int length = fields.length;
 
     if (fields.isEmpty) {
@@ -62,7 +61,12 @@ class JSONSchemaUIField extends StatelessWidget {
             itemCount: length,
             itemBuilder: (BuildContext context, int index) {
               dynamic field = fields[index];
-              return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
+              if (ui["ui:widget"] == "card") {   ///---
+                Widget widgets = Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
+                return CardWidget(widgets: widgets, schema: schema);   ///^^^
+              } else {
+                return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
+              }
             }),
         path.isLastArray() ? ArrayPanel(path) : const SizedBox.shrink(),
       ],

@@ -2,6 +2,8 @@ import 'dart:collection';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:uniturnip/json_schema_ui/fields/json_schema_field.dart';
+import '../fields/json_schema_leaf.dart';
 import 'mapPath.dart';
 import '../utils.dart';
 import 'widget_data.dart';
@@ -167,31 +169,23 @@ class UIModel extends ChangeNotifier {
 
   /// -------------- for LearnerWidget --------------
 
-  List<dynamic> _uiOrderList = [];
-  List<dynamic> get uiOrderList => _uiOrderList;
-
-  int _uiOrderListLength = 0;
-  int get orderListLength => _uiOrderListLength;
 
   int _counter = 0;
   int get counter => _counter;
 
-  void initValues(WidgetData wData) {
-    _uiOrderList = wData.uiSchema['ui:order'] ?? [];
-    _uiOrderListLength = uiOrderList.length;
+  int _length = 0;
+  int get length => _length;
+
+  void initValues(Map schema) {
+    List fields = schema['properties'].keys.toList();
+    _length = fields.length;
   }
 
-  void getNextField() {
+  getField() {
     _counter ++;
-    if (counter == orderListLength) _counter = 0;
+    if (counter == length) _counter = 0;
     notifyListeners();
   }
 
-  List getFirstField() {
-    List list = [];
-    list.addAll(uiOrderList[counter]);
-    print('=> list => $list');
-    return list;
-  }
 
 }

@@ -1,21 +1,7 @@
 class Schemas {
   static const Map<String, dynamic> test = {
     "label": "Simple",
-    "schema": /*{
-      "title": "A registration form",
-      "description": "A simple form example.",
-      "type": "object",
-      "required": ["firstName", "lastName"],
-      "properties": {
-        "firstName": {
-          "title": "A child and father were visiting an elderly neighbor. They were raking the neighbors leaves, organizing the neighbors garage, putting the trash out, and performing other small jobs around the neighbors house. The child had not really seen the elderly neighbor up close, but on this day the child was going to meet the neighbor up close for the first time. When the child met the neighbor up close he asked the neighbor how old he was, and the father was flabbergasted by his childs question and attempted to apologize to the neighbor, but the neighbor laughed and said that was ok, the child is curious. The elderly neighbor told the child he was 92 years old. The child had a look of unbelief and asked the neighbor, 'Did you start at the number one?'",
-          "type": "string",
-        },
-        "lastName": {"type": "string", "title": "Last name"},
-        "telephone": {"type": "string", "title": "Telephone", "minLength": 10}
-      }
-    }*/
-    {
+    "schema": {
       "title": "A registration form",
       "description": "A simple form example.",
       "type": "object",
@@ -49,43 +35,64 @@ class Schemas {
             }
           }
         },
-        "itemsList": {
-          "type": "array",
-          "title": "A list of items",
-          "items": {
-            "type": "object",
-            "properties": {
-              "question1": {
-                "enum": [
-                  "answer 1",
-                  "answer 2",
-                  "answer 3"
-                ],
-                "title": "Question 1",
-                "type": "string"
-              },
-              "question2": {
-                "enum": [
-                  "answer 1",
-                  "answer 2",
-                  "answer 3"
-                ],
-                "title": "Question 2",
-                "type": "string"
-              },
-              "question3": {
-                "enum": [
-                  "answer 1",
-                  "answer 2",
-                  "answer 3"
-                ],
-                "title": "Question 3",
-                "type": "string"
-              },
-              "question4": {
-                "title": "Type correct answer:",
-                "type": "string"
+        "card":{
+          "type": "object",
+          "properties": {
+            "newInput1": {
+              "title":"New Input 1",
+              "type": "string"
+            },
+            "newInput2": {
+              "title":"New Input 2",
+              "type": "object",
+              "properties": {
+                "newInput1": {
+                  "title":"New Input 2.1",
+                  "type": "string"
+                },
+                "newInput2":{
+                  "enum":[
+                    "1",
+                    "2",
+                    "3"
+                  ],
+                  "enumNames": [
+                    'a',
+                    'b',
+                    'c'
+                  ],
+                  "title":"New Input 2.2",
+                  "type":"string"
+                }
               }
+            },
+            "newInput3": {
+              "type": "object",
+              "title": "New Input 3",
+              "properties": {
+                "newInput1": {
+                  "type": "boolean",
+                  "title": "New Input 3.1"
+                },
+                "newInput2": {
+                  "type": "boolean",
+                  "title": "New Input 3.2"
+                }
+              }
+            },
+            "newInput4":{
+              "enum":[
+                "1",
+                "2",
+                "3"
+              ],
+              "enumNames": [
+                'a',
+                'b',
+                'c'
+              ],
+              "title":"New Input 4",
+              "type":"string"
             }
           }
         }
@@ -93,32 +100,32 @@ class Schemas {
     },
     "ui": {
       "fixedItemsList": {
-        "ui:widget":"reader"
+        "ui:widget": "reader"
       },
-      "itemsList": {
-        "ui:widget":"learner",
-        "ui:order": [["question1", "question3", "question2"], ["question4"]],
-        "items": {
-          "question1": {
-            "ui:widget":"radio"
+      "card": {
+        "ui:widget": "card",
+        "ui:order": ["newInput2", "newInput3", "newInput1", "newInput4"],
+        "newInput1": {
+          "ui:emptyValue": ""
+        },
+        "newInput2": {
+          "ui:order": ["newInput2", "newInput1"],
+          "newInput1": {
+            "ui:emptyValue": ""
           },
-          "question2": {
-            "ui:widget":"radio"
-          },
-          "question3": {
-            "ui:widget":"radio"
-          },
-          "question4": {
-            "ui:widget":"text"
+          "newInput2": {
+            "ui:widget": "radio"
           }
+        },
+        "newInput3": {
+          "newInput2": {
+            "ui:widget": "select"
+          }
+        },
+        "newInput4": {
+          "ui:widget":"radio"
         }
-      },
-      "lastName": {"ui:emptyValue": "", "ui:autocomplete": "given-name"},
-      "age": {
-        "ui:widget": "updown",
-        "ui:title": "Age of person",
-        "ui:description": "(earthian year)"
-      },
+      }
     },
     "formData": {
       "fixedItemsList":  [
@@ -146,12 +153,7 @@ class Schemas {
           "count": 0,
           "active": true
         }
-      ],
-      "itemsList":[],
-      "lastName": "Norris",
-      "age": 75,
-      "bio": "Roundhouse kicking asses since 1940",
-      "password": "noneed"
+      ]
     }
   };
 
