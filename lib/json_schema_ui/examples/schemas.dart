@@ -1,4 +1,4 @@
-class Schemas {
+class Schemas { 
   static Map<String, dynamic> simple = {
     "label": "Simple",
     "schema": {

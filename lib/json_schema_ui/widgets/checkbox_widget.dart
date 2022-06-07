@@ -11,15 +11,36 @@ class CheckboxWidget extends StatelessWidget {
     String title = widgetData.schema['title'] ?? '';
     // String description = widgetData.schema['description'] ?? '';
 
-    return CheckboxListTile(
-      contentPadding: EdgeInsets.zero,
-      controlAffinity: ListTileControlAffinity.leading,
-      autofocus: widgetData.autofocus,  //true
-      title: Text(title),
-      value: true == widgetData.value,
-      onChanged: (dynamic newValue) {
-        widgetData.onChange(context, widgetData.path, newValue);
-      },
-    );
-  }
+    final _val = GlobalKey<FormState>();
+
+    return FormField<bool>(
+      key: _val,
+      builder: (state) {
+        return Column(
+          children: [
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              controlAffinity: ListTileControlAffinity.leading,
+              autofocus: widgetData.autofocus,  //true
+              title: Text(title),
+              value: true == widgetData.value,
+                onChanged: (dynamic newValue) {
+                  widgetData.onChange(context, widgetData.path, newValue);
+                },
+              ),
+            ElevatedButton(onPressed: () {
+              _val.currentState!.validate();
+            }, child: Text('drag')),
+          ],
+        );
+        },
+        validator: (value) {
+                if (!widgetData.value) {
+                  return 'You need to accept terms';
+                } else {
+                  return null;
+                }
+              },
+  );
+}
 }

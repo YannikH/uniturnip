@@ -37,9 +37,11 @@ class JSONSchemaUI extends StatelessWidget {
       // create: (context) => UIModel(data: data, onUpdate: onUpdate),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: JSONSchemaUIField(
-          schema: schema,
-          ui: ui,
+        child: Form(
+          child: JSONSchemaUIField(
+            schema: schema,
+            ui: ui,
+          ),
         ),
       ),
     );

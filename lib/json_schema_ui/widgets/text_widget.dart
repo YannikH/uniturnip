@@ -8,6 +8,8 @@ class TextWidget extends StatelessWidget {
   final WidgetData widgetData;
   final TextEditingController textControl = TextEditingController();
 
+  final _val = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
@@ -27,15 +29,29 @@ class TextWidget extends StatelessWidget {
           fieldViewBuilder: (BuildContext context,
               TextEditingController textEditingController,
               FocusNode focusNode, VoidCallback onFieldSubmitted) {
-            return TextFormField(
-              controller: textEditingController,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
-              focusNode: focusNode,
-              onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
-              onFieldSubmitted: (String value) {
-                onFieldSubmitted();
-                print('You just typed a new entry  $value');
-              },
+            return Form(
+              key: _val,
+              child: Column(
+                children: <Widget>[TextFormField(
+                  validator: (val){
+                    if(val==null || val.isEmpty)
+                      return 'Please enter the text';
+                    return null;
+                  },
+                  controller: textEditingController,
+                  decoration: const InputDecoration(border: OutlineInputBorder()),
+                  focusNode: focusNode,
+                  onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
+                  onFieldSubmitted: (String value) {
+                    onFieldSubmitted();
+                    print('You just typed a new entry  $value');
+                  },
+                ),
+                  ElevatedButton(onPressed: () {
+                    _val.currentState!.validate();
+                  }, child: Text('Enter')),
+              ]
+              ),
             );
           },
           optionsBuilder: (TextEditingValue textEditingValue) {
