@@ -22,6 +22,7 @@ class JSONSchemaUIField extends StatelessWidget {
   Widget build(BuildContext context) {
     List fields = Utils.retrieveSchemaFields(context: context, schema: schema, ui: ui, path: path);
     int length = fields.length;
+    List<String> requiredList = schema['required'] ?? [];
 
     if (fields.isEmpty) {
       return const SizedBox.shrink();
@@ -60,6 +61,12 @@ class JSONSchemaUIField extends StatelessWidget {
             itemCount: length,
             itemBuilder: (BuildContext context, int index) {
               dynamic field = fields[index];
+              if (requiredList.contains(field)){
+                String title = schema['properties'][field]['title'];
+                if(!title.contains('*')){
+                  schema['properties'][field]['title'] = title + '*';
+                }
+              }
               return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
             }),
         path.isLastArray() ? ArrayPanel(path) : const SizedBox.shrink(),
