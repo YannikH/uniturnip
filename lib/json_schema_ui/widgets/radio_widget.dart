@@ -15,6 +15,8 @@ class RadioWidget extends StatelessWidget {
 
     String type = widgetData.schema['type'];
 
+    bool isInline = widgetData.uiSchema['ui:options']?['inline'] ?? false;
+
     List items = [];
     List names = [];
 
@@ -30,20 +32,35 @@ class RadioWidget extends StatelessWidget {
       }
     }
 
+    Widget _radioButtons(int index) {
+      return RadioListTile(
+          title: Text(names.length > index ? names[index] ?? items[index].toString() : items[index].toString()),
+          value: items[index],
+          groupValue: widgetData.value,
+          contentPadding: EdgeInsets.zero,
+          onChanged: (dynamic newValue) => widgetData.onChange(context, widgetData.path, newValue)
+      );
+    }
+
     return WidgetUI(
       title: title,
       description: description,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) => RadioListTile(
-            title: Text(names.length > index ? names[index] ?? items[index].toString() : items[index].toString()),
-            value: items[index],
-            groupValue: widgetData.value,
-            contentPadding: EdgeInsets.zero,
-            onChanged: (dynamic newValue) =>
-                widgetData.onChange(context, widgetData.path, newValue)),
-      ),
+      child: isInline == true
+          ? SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) => Row(children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    child: _radioButtons(index))]
+              )))
+          : ListView.builder(
+            shrinkWrap: true,
+            itemCount: items.length,
+            itemBuilder: (BuildContext context, int index) => _radioButtons(index)),
     );
   }
 }
