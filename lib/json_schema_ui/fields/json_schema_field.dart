@@ -51,6 +51,17 @@ class JSONSchemaUIField extends StatelessWidget {
       header = const SizedBox.shrink();
     }
 
+    void setTitleDescription(field){
+      String title = ui[field]['ui:title'] ?? schema['properties'][field]['title'] ?? '';
+      String description = ui[field]['ui:description'] ?? schema['properties'][field]['description'] ?? '';
+      schema['properties'][field]['description'] = description;
+      if (requiredList.contains(field) && !title.contains('*')) {
+        schema['properties'][field]['title'] = title + '*';
+      } else {
+        schema['properties'][field]['title'] = title;
+      }
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,12 +72,7 @@ class JSONSchemaUIField extends StatelessWidget {
             itemCount: length,
             itemBuilder: (BuildContext context, int index) {
               dynamic field = fields[index];
-              if (requiredList.contains(field)){
-                String title = schema['properties'][field]['title'];
-                if(!title.contains('*')){
-                  schema['properties'][field]['title'] = title + '*';
-                }
-              }
+              setTitleDescription(field);
               return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
             }),
         path.isLastArray() ? ArrayPanel(path) : const SizedBox.shrink(),
