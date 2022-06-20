@@ -73,7 +73,14 @@ class JSONSchemaUIField extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               dynamic field = fields[index];
               setTitleDescription(field);
-              return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
+              String uiHelp = ui[field]['ui:help'] ?? '';
+              return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field),
+                    if (uiHelp.isNotEmpty) Text(uiHelp, style: const TextStyle(color: Colors.black54, fontSize: 16.0))
+                  ]
+              );
             }),
         path.isLastArray() ? ArrayPanel(path) : const SizedBox.shrink(),
       ],
