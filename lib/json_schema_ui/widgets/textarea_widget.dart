@@ -13,6 +13,7 @@ class TextareaWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
+    int rows = widgetData.uiSchema['ui:options']?['rows'] ?? 4;
 
     textControl.text = widgetData.value ?? '';
     textControl.selection = TextSelection.fromPosition(
@@ -30,7 +31,7 @@ class TextareaWidget extends StatelessWidget {
         readOnly: widgetData.readonly,
         decoration: const InputDecoration(border: OutlineInputBorder()),
         maxLines: null,
-        minLines: 4,
+        minLines: rows,
       ),
     );
   }
