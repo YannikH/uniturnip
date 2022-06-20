@@ -52,13 +52,13 @@ class JSONSchemaUIField extends StatelessWidget {
     }
 
     void setTitleDescription(field){
-      String title = ui[field]['ui:title'] ?? schema['properties'][field]['title'] ?? '';
-      String description = ui[field]['ui:description'] ?? schema['properties'][field]['description'] ?? '';
-      schema['properties'][field]['description'] = description;
+      String title = ui[field]?['ui:title'] ?? schema['properties']?[field]['title'] ?? '';
+      String description = ui[field]?['ui:description'] ?? schema['properties']?[field]['description'] ?? '';
+      schema['properties']?[field]['description'] = description;
       if (requiredList.contains(field) && !title.contains('*')) {
-        schema['properties'][field]['title'] = title + '*';
+        schema['properties']?[field]['title'] = title + '*';
       } else {
-        schema['properties'][field]['title'] = title;
+        schema['properties']?[field]['title'] = title;
       }
     }
 
@@ -73,7 +73,7 @@ class JSONSchemaUIField extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               dynamic field = fields[index];
               setTitleDescription(field);
-              String uiHelp = ui[field]['ui:help'] ?? '';
+              String uiHelp = ui[field]?['ui:help'] ?? '';
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
