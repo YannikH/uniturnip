@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Flutter Demo oihdsvoihdsfovhj'),
+      home: const MyHomePage(title: 'Uniturnip'),
     );
   }
 }
@@ -109,6 +109,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,71 +139,73 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            JSONSchemaUI(
-              schema: _schema,
-              // ui: _ui,
-              onUpdate: _updateDataAndPath,
-              // data: _data,
-              // controller: formController,
+            Form(
+              child:JSONSchemaUI(
+                    schema: _schema,
+                    ui: _ui,
+                    onUpdate: _updateDataAndPath,
+                    data: _data,
+                    controller: formController,
+                  ),
             ),
             // Text('Data: $_data \n Path: $_path'),
-            // Padding(
-            //   padding: const EdgeInsets.all(10),
-            //   child: Column(
-            //     children: [
-            //       Container(
-            //         padding: const EdgeInsets.all(10.0),
-            //         decoration: BoxDecoration(border: Border.all()),
-            //         height: 500,
-            //         child: TextFormField(
-            //             // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
-            //             controller: formControl,
-            //             onChanged: (val) => _updateSchema(schema: json.decode(val)),
-            //             decoration: const InputDecoration(labelText: 'SCHEMA'),
-            //             keyboardType: TextInputType.multiline,
-            //             maxLines: null),
-            //       ),
-            //       Row(
-            //         children: [
-            //           Expanded(
-            //               child: Container(
-            //             padding: const EdgeInsets.all(10.0),
-            //             decoration: BoxDecoration(border: Border.all()),
-            //             height: 500,
-            //             child: TextFormField(
-            //                 // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_ui),
-            //                 controller: uiControl,
-            //                 onChanged: (val) => _updateUi(ui: json.decode(val)),
-            //                 decoration: const InputDecoration(labelText: 'UI'),
-            //                 keyboardType: TextInputType.multiline,
-            //                 maxLines: null),
-            //           )),
-            //           Expanded(
-            //               child: Container(
-            //             padding: const EdgeInsets.all(10.0),
-            //             decoration: BoxDecoration(border: Border.all()),
-            //             height: 500,
-            //             child: TextFormField(
-            //                 // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_data),
-            //                 controller: textControl,
-            //                 onChanged: (val) => formController.data = json.decode(val),
-            //                 decoration: const InputDecoration(labelText: 'DATA'),
-            //                 keyboardType: TextInputType.multiline,
-            //                 maxLines: null),
-            //           )),
-            //         ],
-            //       )
-            //     ],
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(border: Border.all()),
+                    height: 500,
+                    child: TextFormField(
+                        // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_schema),
+                        controller: formControl,
+                        onChanged: (val) => _updateSchema(schema: json.decode(val)),
+                        decoration: const InputDecoration(labelText: 'SCHEMA'),
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(border: Border.all()),
+                        height: 500,
+                        child: TextFormField(
+                            // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_ui),
+                            controller: uiControl,
+                            onChanged: (val) => _updateUi(ui: json.decode(val)),
+                            decoration: const InputDecoration(labelText: 'UI'),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null),
+                      )),
+                      Expanded(
+                          child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(border: Border.all()),
+                        height: 500,
+                        child: TextFormField(
+                            // initialValue: JsonEncoder.withIndent(' ' * 4).convert(_data),
+                            controller: textControl,
+                            onChanged: (val) => formController.data = json.decode(val),
+                            decoration: const InputDecoration(labelText: 'DATA'),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null),
+                      )),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ],
         )),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 

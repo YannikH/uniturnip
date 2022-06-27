@@ -23,16 +23,12 @@ class _EmailWidgetState extends State<EmailWidget> {
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
-    final _val = GlobalKey<FormState>();
+    // final _val = GlobalKey<FormState>();
 
     return WidgetUI(
       title: title,
       description: description,
-      child: Form(
-        key: _val,
-        child: Column(
-          children: [
-            TextFormField(
+        child: TextFormField(
               validator: MultiValidator([
                 RequiredValidator(errorText: "Required"),
                 EmailValidator(errorText: "Please enter a valid email address"),
@@ -49,13 +45,6 @@ class _EmailWidgetState extends State<EmailWidget> {
               readOnly: widget.widgetData.readonly,
               autofillHints: const [AutofillHints.email],
             ),
-            ElevatedButton(onPressed: () {
-              _val.currentState!.validate();
-            }, child: Text('put')),
-          ],
-        ),
-      ),
-
     );
   }
 }

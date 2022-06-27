@@ -29,6 +29,8 @@ class JSONSchemaUI extends StatelessWidget {
   final UIModel controller;
   final void Function(
       {required MapPath path, required Map<String, dynamic> data})? onUpdate;
+  final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +40,28 @@ class JSONSchemaUI extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
-          child: JSONSchemaUIField(
-            schema: schema,
-            ui: ui,
+          key: _formKey,
+          child: Column(
+            children: [
+              JSONSchemaUIField(
+                schema: schema,
+                ui: ui,
+              ),
+
+              // Button that submit the whole form using global key
+              ElevatedButton(
+                  onPressed: (){
+                      if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processing Data')),
+                      );
+                    }
+                  },
+                  child: const Text("Submit"),
+              ),
+            ],
           ),
+
         ),
       ),
     );

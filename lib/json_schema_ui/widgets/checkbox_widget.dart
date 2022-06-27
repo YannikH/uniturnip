@@ -14,33 +14,30 @@ class CheckboxWidget extends StatelessWidget {
     final _val = GlobalKey<FormState>();
 
     return FormField<bool>(
-      key: _val,
-      builder: (state) {
+      validator: (_val) {
+        if (!widgetData.value == false) {
+          return 'You need to accept terms';
+        }
+      },
+      builder: (FormFieldState<dynamic> field) {
         return Column(
           children: [
             CheckboxListTile(
               contentPadding: EdgeInsets.zero,
               controlAffinity: ListTileControlAffinity.leading,
-              autofocus: widgetData.autofocus,  //true
-              title: Text(title),
+              autofocus: widgetData.autofocus,    //true
               value: true == widgetData.value,
                 onChanged: (dynamic newValue) {
                   widgetData.onChange(context, widgetData.path, newValue);
                 },
+              title: Text(title),
               ),
             ElevatedButton(onPressed: () {
-              _val.currentState!.validate();
+              _val.currentState!.validate(  );
             }, child: Text('drag')),
           ],
         );
         },
-        validator: (value) {
-                if (!widgetData.value) {
-                  return 'You need to accept terms';
-                } else {
-                  return null;
-                }
-              },
   );
 }
 }
