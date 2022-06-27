@@ -23,7 +23,6 @@ class _EmailWidgetState extends State<EmailWidget> {
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
-    // final _val = GlobalKey<FormState>();
 
     return WidgetUI(
       title: title,

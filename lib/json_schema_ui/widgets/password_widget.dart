@@ -33,7 +33,7 @@ class PasswordWidget extends StatelessWidget {
               "Password cannot be more 15 characters"),
           PatternValidator(r'(?=.*?[#?!@$%^&*-])',
               errorText:
-              "Password must have atleast one special character"),
+              "Password must have at least one special character"),
         ]),
         obscureText: true,
         controller: textControl,

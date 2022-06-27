@@ -42,7 +42,8 @@ class RadioWidget extends StatelessWidget {
             groupValue: widgetData.value,
             contentPadding: EdgeInsets.zero,
             onChanged: (dynamic newValue) =>
-                widgetData.onChange(context, widgetData.path, newValue)),
+                widgetData.onChange(context, widgetData.path, newValue),
+        ),
       ),
     );
   }

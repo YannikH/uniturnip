@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 import '../../../../json_schema_ui/models/widget_data.dart';
 import 'widget_ui.dart';
@@ -9,8 +10,6 @@ class NumberWidget extends StatelessWidget {
 
   final WidgetData widgetData;
   final TextEditingController textControl = TextEditingController();
-
-  final _val = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +23,9 @@ class NumberWidget extends StatelessWidget {
     return WidgetUI(
       title: title,
       description: description,
-      child: Form(
-        key: _val,
-        child: Column(
-          children: <Widget>[TextFormField(
+      child: Column(
+          children: <Widget>[
+            TextFormField(
             controller: textControl,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -37,19 +35,10 @@ class NumberWidget extends StatelessWidget {
             enabled: !widgetData.disabled,
             autofocus: widgetData.autofocus,
             readOnly: widgetData.readonly,
-            // decoration: const InputDecoration(border: OutlineInputBorder()),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a digit';
-                }
-                return null;
-                },
+            decoration: const InputDecoration(border: OutlineInputBorder()),
+            validator: RequiredValidator(errorText: 'Required'),
           ),
-            ElevatedButton(onPressed: () {
-              _val.currentState!.validate();
-            }, child: Text('num')),
           ]
-        ),
       ),
     );
   }
