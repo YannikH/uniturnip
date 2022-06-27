@@ -1,4 +1,161 @@
-class Schemas { 
+class Schemas {
+  static const Map<String, dynamic> test = {
+    "label": "Simple",
+    "schema": {
+      "title": "A registration form",
+      "description": "A simple form example.",
+      "type": "object",
+      "properties": {
+        "fixedItemsList": {
+          "type": "array",
+          "title": "A list of fixed items",
+          "items": {
+            "type": "object",
+            "properties": {
+              "word": {
+                "default": "Some word",
+                "type": "string",
+                "readOnly": true
+              },
+              "translation": {
+                "default": "Какое-то слово",
+                "type": "string",
+                "readOnly": true
+              },
+              "count": {
+                "title": "Кол-во нажатий",
+                "default": 0,
+                "type": "integer",
+                "readOnly": true
+              },
+              "active": {
+                "title": "Активен",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "card":{
+          "type": "object",
+          "properties": {
+            "newInput1": {
+              "title":"New Input 1",
+              "type": "string"
+            },
+            "newInput2": {
+              "title":"New Input 2",
+              "type": "object",
+              "properties": {
+                "newInput1": {
+                  "title":"New Input 2.1",
+                  "type": "string"
+                },
+                "newInput2":{
+                  "enum":[
+                    "1",
+                    "2",
+                    "3"
+                  ],
+                  "enumNames": [
+                    'a',
+                    'b',
+                    'c'
+                  ],
+                  "title":"New Input 2.2",
+                  "type":"string"
+                }
+              }
+            },
+            "newInput3": {
+              "type": "object",
+              "title": "New Input 3",
+              "properties": {
+                "newInput1": {
+                  "type": "boolean",
+                  "title": "New Input 3.1"
+                },
+                "newInput2": {
+                  "type": "boolean",
+                  "title": "New Input 3.2"
+                }
+              }
+            },
+            "newInput4":{
+              "enum":[
+                "1",
+                "2",
+                "3"
+              ],
+              "enumNames": [
+                'a',
+                'b',
+                'c'
+              ],
+              "title":"New Input 4",
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "ui": {
+      "fixedItemsList": {
+        "ui:widget": "reader"
+      },
+      "card": {
+        "ui:widget": "card",
+        "ui:order": ["newInput2", "newInput3", "newInput1", "newInput4"],
+        "newInput1": {
+          "ui:emptyValue": ""
+        },
+        "newInput2": {
+          "ui:order": ["newInput2", "newInput1"],
+          "newInput1": {
+            "ui:emptyValue": ""
+          },
+          "newInput2": {
+            "ui:widget": "radio"
+          }
+        },
+        "newInput3": {
+          "newInput2": {
+            "ui:widget": "select"
+          }
+        },
+        "newInput4": {
+          "ui:widget":"radio"
+        }
+      }
+    },
+    "formData": {
+      "fixedItemsList":  [
+        {
+          "word": "The",
+          "translation": "артикль",
+          "count": 0,
+          "active": true
+        },
+        {
+          "word": "first",
+          "translation": "первый",
+          "count": 0,
+          "active": true
+        },
+        {
+          "word": "simple",
+          "translation": "простой",
+          "count": 0,
+          "active": true
+        },
+        {
+          "word": "text",
+          "translation": "текст",
+          "count": 0,
+          "active": true
+        }
+      ]
+    }
+  };
   static Map<String, dynamic> simple = {
     "label": "Simple",
     "schema": {
@@ -1386,6 +1543,7 @@ class Schemas {
   };
 
   static List<Map<String, dynamic>> schemas = [
+    test,
     simple,
     nested,
     arrays,
