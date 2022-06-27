@@ -53,6 +53,10 @@ class Utils {
         return FileWidget(widgetData: widgetData);
       case 'null':
         return NullWidget(widgetData: widgetData);
+      case 'reader':
+        return ReaderWidget(widgetData: widgetData);
+      // case 'card':
+        // return CardWidget(widgetData: widgetData);
       default:
         return TextWidget(widgetData: widgetData);
     }
@@ -93,6 +97,7 @@ class Utils {
     } else {
       widget = _defaultWidgetType(type: type);
     }
+    print("$schema Widget: $widget");
     return _formWidget(widget: widget, widgetData: widgetData);
   }
 
@@ -170,6 +175,9 @@ class Utils {
     List rest = fields.where((prop) => !orderMap.containsKey(prop)).toList();
     List complete = [...orderFiltered];
     int restIndex = complete.indexOf('*');
+    if(restIndex < 0){
+      return complete;
+    }
     complete.insertAll(restIndex, rest);
     complete.remove('*');
     // TODO: Add wildcard verification
@@ -201,13 +209,26 @@ class Utils {
   }) {
     List fields = [];
     int length;
+
     if (schema['properties'] != null) {
       fields = schema['properties'].keys.toList();
-      if (ui.containsKey('ui:order')) {
+
+      if (ui['ui:widget'] == "card" && ui.containsKey('ui:order')) { ///---
+        List list = [];
+        List order = ui['ui:order'] ?? [];
+        fields = _sortFields(fields, order);
+        int counter = context.watch<UIModel>().counter;
+        list.add(fields[counter]);
+        for (var element in list) {
+          fields.clear();
+          fields.add(element);  ///^^^
+        }
+      } else if (ui.containsKey('ui:order')) {
         List order = ui['ui:order'] ?? [];
         fields = _sortFields(fields, order);
       }
-    } else if (schema['items'] != null) {
+
+  } else if (schema['items'] != null) {
       // if (schema['items']['enum'] != null) {
       //   fields = [];
       // } else {
@@ -229,7 +250,14 @@ class Utils {
     Map<String, dynamic> newSchema = schema['properties']?[field] ?? schema['items'] ?? {};
     Map<String, dynamic> newUiSchema = ui[field] ?? ui['items'] ?? {};
     String schemaType = newSchema['type'] ?? 'not_defined';
-    if (schemaType == 'object' || schemaType == 'array') {
+    if (schemaType == 'array' || ui['ui:widget'] == "reader") {  ///
+      return JSONSchemaFinalLeaf(
+        schema: newSchema,
+        ui: newUiSchema,
+        pointer: field,
+        path: path,
+      );
+    } else if (schemaType == 'object' || schemaType == 'array') {
       if (newSchema['items'] != null && newSchema['items']['enum'] != null) {
         return JSONSchemaFinalLeaf(
           schema: newSchema['items'],

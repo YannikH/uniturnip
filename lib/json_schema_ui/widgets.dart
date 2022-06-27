@@ -16,3 +16,5 @@ export 'widgets/textarea_widget.dart';
 export 'widgets/number_widget.dart';
 export 'widgets/url_widget.dart';
 export 'widgets/null_widget.dart';
+export 'widgets/reader_widget.dart';
+export 'widgets/card_widget.dart';

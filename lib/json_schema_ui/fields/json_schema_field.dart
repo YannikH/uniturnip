@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
+import 'package:uniturnip/json_schema_ui/widgets.dart';
 
 import '../widgets/array_buttons.dart';
 import '../utils.dart';
@@ -60,7 +61,12 @@ class JSONSchemaUIField extends StatelessWidget {
             itemCount: length,
             itemBuilder: (BuildContext context, int index) {
               dynamic field = fields[index];
-              return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
+              if (ui["ui:widget"] == "card") {   ///---
+                Widget widgets = Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
+                return CardWidget(widgets: widgets, schema: schema);   ///^^^
+              } else {
+                return Utils.getFieldLeaf(path: path, ui: ui, schema: schema, field: field);
+              }
             }),
         path.isLastArray() ? ArrayPanel(path) : const SizedBox.shrink(),
       ],
