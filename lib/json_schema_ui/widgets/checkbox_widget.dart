@@ -33,9 +33,9 @@ class CheckboxWidget extends StatelessWidget {
                 title: Text(title),
                 subtitle: widgetData.value == false
                     ? Builder(
-                  builder: (BuildContext context) =>  Text(
-                    'Required',
-                    style: TextStyle(color: Theme.of(context).errorColor),
+                       builder: (BuildContext context) =>  Text(
+                      'Required',
+                       style: TextStyle(color: Theme.of(context).errorColor),
                   ),
                 ) : null
             );
