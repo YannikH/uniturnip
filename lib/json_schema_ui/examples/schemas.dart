@@ -156,6 +156,7 @@ class Schemas {
       ]
     }
   };
+
   static Map<String, dynamic> simple = {
     "label": "Simple",
     "schema": {
@@ -1543,7 +1544,6 @@ class Schemas {
   };
 
   static List<Map<String, dynamic>> schemas = [
-    test,
     simple,
     nested,
     arrays,
