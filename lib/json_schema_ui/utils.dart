@@ -11,8 +11,8 @@ import 'widgets.dart';
 class Utils {
   static Widget _formWidget({required String widget, required WidgetData widgetData}) {
     switch (widget) {
-      case 'audio':
-        return AudioWidget(widgetData: widgetData);
+      // case 'audio':
+      //   return AudioWidget(widgetData: widgetData);
       case 'checkbox':
         return CheckboxWidget(widgetData: widgetData);
       case 'checkboxes':
