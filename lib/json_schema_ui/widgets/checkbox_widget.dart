@@ -9,46 +9,33 @@ class CheckboxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
-    // String description = widgetData.schema['description'] ?? '';
 
-    final _val = GlobalKey<FormState>();
-
-    return FormField<bool>(
-      validator: (_val){
-        if (widgetData.value == false) {
-          return 'You need to accept terms';
+    return FormField(
+      builder: (state) {
+        return CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            controlAffinity: ListTileControlAffinity.leading,
+            autofocus: widgetData.autofocus,
+            value: true == widgetData.value,
+            onChanged: (dynamic newValue) {
+              widgetData.onChange(context, widgetData.path, newValue);
+            },
+            title: Text(title),
+            subtitle: Visibility(
+              visible: widgetData.value == null,
+              child: Text(
+                'Required',
+                style: TextStyle(color: Theme.of(context).errorColor),
+              ),
+            ));
+      },
+      validator: (value) {
+        if (widgetData.value == null) {
+          return 'Required';
+        } else {
+          return null;
         }
       },
-      builder: (FormFieldState<dynamic> field) {
-        return FormField(
-          builder: (state) {
-            return CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                controlAffinity: ListTileControlAffinity.leading,
-                autofocus: widgetData.autofocus,    //true
-                value: true == widgetData.value,
-                onChanged: (dynamic newValue) {
-                  widgetData.onChange(context, widgetData.path, newValue);
-                },
-                title: Text(title),
-                subtitle: widgetData.value == false
-                    ? Builder(
-                       builder: (BuildContext context) =>  Text(
-                      'Required',
-                       style: TextStyle(color: Theme.of(context).errorColor),
-                  ),
-                ) : null
-            );
-          },
-        //   validator: (value){
-        //     if(widgetData.value == false){
-        //       return 'Required';
-        //     }else{
-        //       return null;
-        //     }
-        // },
-        );
-        },
-  );
-}
+    );
+  }
 }
