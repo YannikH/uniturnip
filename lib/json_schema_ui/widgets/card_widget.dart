@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/ui_model.dart';
+import '../models/widget_data.dart';
 
 class CardWidget extends StatelessWidget {
-  const CardWidget({Key? key, required this.widgets, required this.schema}) : super(key: key);
+  const CardWidget({Key? key, required this.widgets, required this.schema, this.widgetData}) : super(key: key);
 
   final Widget widgets;
   final Map schema;
+  final WidgetData? widgetData;
 
   @override
   Widget build(BuildContext context) {

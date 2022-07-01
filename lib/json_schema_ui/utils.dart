@@ -21,16 +21,12 @@ class Utils {
         return RadioWidget(widgetData: widgetData);
       case 'select':
         return SelectWidget(widgetData: widgetData);
-// case 'hidden':
-//   return HiddenWidget(widgetData: widgetData);
       case 'text':
         return TextWidget(widgetData: widgetData);
       case 'password':
         return PasswordWidget(widgetData: widgetData);
       case 'email':
         return EmailWidget(widgetData: widgetData);
-// case 'uri':
-//   return URLWidget(widgetData: widgetData);
       case 'data-url':
         return FileWidget(widgetData: widgetData);
       case 'textarea':
@@ -41,22 +37,16 @@ class Utils {
         return DateTimeWidget(widgetData: widgetData);
       case 'date-time':
         return DateTimeWidget(widgetData: widgetData);
-// case 'color':
-//   return ColorWidget(widgetData: widgetData);
       case 'file':
         return FileWidget(widgetData: widgetData);
       case 'number':
-        return NumberWidget(widgetData: widgetData);
-// case 'range':
-//   return RangeWidget(widgetData: widgetData);
+          return NumberWidget(widgetData: widgetData);
       case 'files':
         return FileWidget(widgetData: widgetData);
       case 'null':
         return NullWidget(widgetData: widgetData);
       case 'reader':
         return ReaderWidget(widgetData: widgetData);
-      // case 'card':
-        // return CardWidget(widgetData: widgetData);
       default:
         return TextWidget(widgetData: widgetData);
     }
@@ -97,7 +87,7 @@ class Utils {
     } else {
       widget = _defaultWidgetType(type: type);
     }
-    print("$schema Widget: $widget");
+    // print("$schema Widget: $widget");
     return _formWidget(widget: widget, widgetData: widgetData);
   }
 
@@ -221,7 +211,7 @@ class Utils {
         list.add(fields[counter]);
         for (var element in list) {
           fields.clear();
-          fields.add(element);  ///^^^
+          fields.add(element);
         }
       } else if (ui.containsKey('ui:order')) {
         List order = ui['ui:order'] ?? [];
@@ -229,18 +219,12 @@ class Utils {
       }
 
   } else if (schema['items'] != null) {
-      // if (schema['items']['enum'] != null) {
-      //   fields = [];
-      // } else {
-      //   length = context.select((UIModel uiModel) => uiModel.getDataByPath(path)?.length ?? 1);
-      //   fields = Iterable<int>.generate(length).toList();
-      // }
       length = context.select((UIModel uiModel) => uiModel.getDataByPath(path)?.length ?? 1);
       fields = Iterable<int>.generate(length).toList();
     }
     return fields;
   }
-
+  /// Return Final Map<Map<String, dynamic>, <String, dynamic>>
   static Widget getFieldLeaf({
     required Map<String, dynamic> schema,
     required Map<String, dynamic> ui,
@@ -265,32 +249,6 @@ class Utils {
           pointer: field,
           path: path,
         );
-        // List _items = newSchema['items']['enum'];
-        // for (int i = 0; i < _items.length; i++) {
-        //   path.add('array', i);
-        // }
-        // String _type = newSchema['items']['type'];
-        //   Map<String, dynamic> _schema = {
-        //     'title': newSchema['title'],
-        //     'type': 'object',
-        //     'properties': {
-        //
-        //     }
-        //   };
-        //   Map<String, dynamic> _ui = {};
-        //   for (String _item in _items) {
-        //     _schema['properties'][_item] = {
-        //       'title': _item,
-        //       'type': _type,
-        //     };
-        //     _ui[_item] = newUiSchema['items'];
-        //   }
-        //   return JSONSchemaUIField(
-        //     schema: _schema,
-        //     ui: _ui,
-        //     pointer: field,
-        //     path: path,
-        //   );
       }
       return JSONSchemaUIField(
         schema: newSchema,
@@ -307,7 +265,8 @@ class Utils {
           path: path,
         ),
         _dependency(path: path, ui: ui, schema: schema, field: field)
-      ]);
+        ]
+      );
     }
   }
 }
