@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_ui/examples/schemas.dart';
 import 'package:uniturnip/json_schema_ui/json_schema_ui.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Flutter Demo oihdsvoihdsfovhj'),
+      home: const MyHomePage(title: 'Uniturnip'),
     );
   }
 }
@@ -109,6 +109,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: Text(_schemas[index]['label']),
-              onTap: () => _setSchema(index),
+              onTap: () =>  _setSchema(index),
             );
           },
         ),
@@ -137,14 +139,16 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            JSONSchemaUI(
-              schema: _schema,
-              ui: _ui,
-              onUpdate: _updateDataAndPath,
-              data: _data,
-              controller: formController,
+            Form(
+              child:JSONSchemaUI(
+                    schema: _schema,
+                    ui: _ui,
+                    onUpdate: _updateDataAndPath,
+                    data: _data,
+                    controller: formController,
+                  ),
             ),
-            Text('Data: $_data \n Path: $_path'),
+            // Text('Data: $_data \n Path: $_path'),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
@@ -197,11 +201,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           ],
         )),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 

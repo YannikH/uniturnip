@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../json_schema_ui/models/widget_data.dart';
 import 'widget_ui.dart';
 
@@ -33,17 +32,41 @@ class RadioWidget extends StatelessWidget {
     return WidgetUI(
       title: title,
       description: description,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) => RadioListTile(
-            title: Text(names.length > index ? names[index] ?? items[index].toString() : items[index].toString()),
-            value: items[index],
-            groupValue: widgetData.value,
-            contentPadding: EdgeInsets.zero,
-            onChanged: (dynamic newValue) =>
-                widgetData.onChange(context, widgetData.path, newValue)),
-      ),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) =>
+              //     FormBuilderRadio(
+              //   attribute: "best_language",
+              //   leadingInput: true,
+              //   onChanged: (dynamic newValue) =>
+              //       widgetData.onChange(context, widgetData.path, newValue),
+              //   validators: [FormBuilderValidators.required()],
+              //   options: items.map((lang) => FormBuilderFieldOption(
+              //     value: lang,
+              //     child: Text('$lang'),
+              //   )).toList(growable: false),
+              // ),
+              RadioListTile(
+                  title: Text(names.length > index ? names[index] ?? items[index].toString() : items[index].toString()),
+                  value: items[index],
+                  groupValue: widgetData.value,
+                  contentPadding: EdgeInsets.zero,
+                  onChanged: (dynamic newValue) =>
+                      widgetData.onChange(context, widgetData.path, newValue),
+              ),
+            ),
+            items.contains(true) ? const SizedBox.shrink() : Text(
+                'Required',
+                style: TextStyle(
+                    color: Theme.of(context).errorColor
+                ),
+              ),
+          ],
+        ),
     );
   }
 }
