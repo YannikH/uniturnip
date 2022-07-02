@@ -11,13 +11,12 @@ class ReaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<UIModel>().setData(widgetData.value);
-    context.read<UIModel>().getSentenceAsList();
     context.read<UIModel>().getTextSpan(widgetData, context);
     var sentenceAsTextSpan = context.watch<UIModel>().sentenceAsTextSpan;
     var clickedWord = context.watch<UIModel>().clickedWord;
     var translation = context.watch<UIModel>().translation;
-    var clickedWordList = context.watch<UIModel>().clickedWordList;
-    var translationList = context.watch<UIModel>().translationList;
+    var clickedWordList = context.watch<UIModel>().clickedWords;
+    var translationList = context.watch<UIModel>().translations;
 
     return Column(
       children: [
