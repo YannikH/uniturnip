@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:form_field_validator/form_field_validator.dart';
 import '../models/widget_data.dart';
 import 'widget_ui.dart';
 
@@ -23,6 +23,18 @@ class PasswordWidget extends StatelessWidget {
       title: title,
       description: description,
       child: TextFormField(
+        validator: MultiValidator([
+          RequiredValidator(errorText: "Required"),
+          MinLengthValidator(6,
+              errorText:
+              "Password must contain atleast 6 characters"),
+          MaxLengthValidator(15,
+              errorText:
+              "Password cannot be more 15 characters"),
+          PatternValidator(r'(?=.*?[#?!@$%^&*-])',
+              errorText:
+              "Password must have at least one special character"),
+        ]),
         obscureText: true,
         controller: textControl,
         onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
