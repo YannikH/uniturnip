@@ -25,12 +25,15 @@ class UIModel extends ChangeNotifier {
   UnmodifiableMapView<String, dynamic> get data =>
       UnmodifiableMapView<String, dynamic>(_data);
 
+  /// этот метод вызывается, когда пользователь вводит данные в текстовое поле.
+  /// и новые данные этого текстового поля передаются в formData
   void modifyData(MapPath path, dynamic value) {
     _data = Utils.modifyMapByPath(path, _data, value);
     notifyListeners();
     onUpdate!(path: path, data: data);
   }
 
+  /// добавляет поле в форме, если тип array c items
   void addArrayElement(MapPath path) {
     List<dynamic>? array = Utils.getDataBypath(path, _data);
     if (array == null) {
@@ -44,6 +47,7 @@ class UIModel extends ChangeNotifier {
     onUpdate!(path: path, data: data);
   }
 
+  /// удаляет поле в форме, если тип array c items
   void removeArrayElement(MapPath path) {
     List<dynamic>? array = Utils.getDataBypath(path, _data);
     if (array != null && array.length > 1) {
@@ -54,6 +58,7 @@ class UIModel extends ChangeNotifier {
     }
   }
 
+  /// возвращает значение поля из formData
   getDataByPath(MapPath path) {
     return Utils.getDataBypath(path, _data);
   }
