@@ -23,6 +23,11 @@ class TextareaWidget extends StatelessWidget {
       title: title,
       description: description,
       child: TextFormField(
+        validator: (val){
+          if(val==null || val.isEmpty)
+            return 'Please enter appropriate Date';
+          return null;
+        },
         controller: textControl,
         onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
         enabled: !widgetData.disabled,

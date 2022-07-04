@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import '../models/widget_data.dart';
 import 'widget_ui.dart';
 

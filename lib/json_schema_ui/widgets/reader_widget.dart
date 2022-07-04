@@ -30,7 +30,6 @@ class ReaderWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //(textList.indexOf(sentenceAsString) == 0) ? Container() :
                   Container(
                     color: Colors.grey,
                     child: IconButton(
@@ -42,7 +41,6 @@ class ReaderWidget extends StatelessWidget {
                         //context.read<UIModel>().updateText(false);
                         //context.read<UIModel>().getTextSpan(widgetData, context);
                       })),
-              //(textList.indexOf(sentenceAsString) == textList.length - 1) ? Container() :
                   Container(
                     color: Colors.grey,
                     child: IconButton(

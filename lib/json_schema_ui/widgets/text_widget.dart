@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:uniturnip/json_schema_ui/widgets/widget_ui.dart';
 import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
 
@@ -7,6 +8,7 @@ class TextWidget extends StatelessWidget {
 
   final WidgetData widgetData;
   final TextEditingController textControl = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,9 @@ class TextWidget extends StatelessWidget {
               TextEditingController textEditingController,
               FocusNode focusNode, VoidCallback onFieldSubmitted) {
             return TextFormField(
+              validator: RequiredValidator(
+                errorText: 'Please enter a text',
+              ),
               controller: textEditingController,
               decoration: const InputDecoration(border: OutlineInputBorder()),
               focusNode: focusNode,
@@ -58,6 +63,9 @@ class TextWidget extends StatelessWidget {
       title: title,
       description: description,
       child: TextFormField(
+        validator: RequiredValidator(
+          errorText: 'Please enter a text',
+        ),
         controller: textControl,
         onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
         enabled: !widgetData.disabled,

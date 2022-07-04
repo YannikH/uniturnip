@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../../json_schema_ui/models/widget_data.dart';
 import 'widget_ui.dart';
 
@@ -18,6 +18,8 @@ class RadioWidget extends StatelessWidget {
     List items = [];
     List names = [];
 
+    final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
     if (type == 'boolean') {
       items.addAll([true, false]);
       if (widgetData.schema['enumNames'] == null) {
@@ -33,17 +35,30 @@ class RadioWidget extends StatelessWidget {
     return WidgetUI(
       title: title,
       description: description,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) => RadioListTile(
-            title: Text(names.length > index ? names[index] ?? items[index].toString() : items[index].toString()),
-            value: items[index],
-            groupValue: widgetData.value,
-            contentPadding: EdgeInsets.zero,
-            onChanged: (dynamic newValue) =>
-                widgetData.onChange(context, widgetData.path, newValue)),
-      ),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) =>
+              RadioListTile(
+                  title: Text(names.length > index ? names[index] ?? items[index].toString() : items[index].toString()),
+                  value: items[index],
+                  groupValue: widgetData.value,
+                  contentPadding: EdgeInsets.zero,
+                  onChanged: (dynamic newValue) =>
+                      widgetData.onChange(context, widgetData.path, newValue),
+              ),
+            ),
+            items.contains(true) ? SizedBox.shrink() : Text(
+                'Required',
+                style: TextStyle(
+                    color: Theme.of(context).errorColor
+                ),
+              ),
+          ],
+        ),
     );
   }
 }
