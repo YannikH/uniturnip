@@ -16,7 +16,7 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField {
     required dynamic pointer,
   }) : super(key: key, schema: schema, ui: ui, pointer: pointer, path: path);
 
-  // вызывает метод modifyData() из UIModel когда обновляютя данные
+  // вызывает метод modifyData() из UIModel когда обновляютя данные.
   void onUpdate(BuildContext context, MapPath path, dynamic value) {
     Provider.of<UIModel>(context, listen: false).modifyData(path, value);
   }
