@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/mapPath.dart';
 import '../models/ui_model.dart';
-import 'json_schema_field.dart';
+import 'object_field.dart';
 
 class JSONSchemaDependency extends StatelessWidget {
   JSONSchemaDependency({
