@@ -11,9 +11,7 @@ class CheckboxWidget extends StatelessWidget {
     String title = widgetData.schema['title'] ?? '';
     // String description = widgetData.schema['description'] ?? '';
 
-    return FormField(
-      builder: (state) {
-        return CheckboxListTile(
+    return CheckboxListTile(
             contentPadding: EdgeInsets.zero,
             controlAffinity: ListTileControlAffinity.leading,
             autofocus: widgetData.autofocus,
@@ -27,7 +25,7 @@ class CheckboxWidget extends StatelessWidget {
               );
             },
             title: Text(title),
-            subtitle: widgetData.value == false
+            subtitle: widgetData.value == null
                 ? Text(
                     'Required',
                     style: TextStyle(
@@ -35,7 +33,5 @@ class CheckboxWidget extends StatelessWidget {
                     ),
                   )
                 : null);
-      },
-    );
   }
 }
