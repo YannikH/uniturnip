@@ -15,10 +15,9 @@ class MapPath {
   UnmodifiableListView<PathStep> get steps =>
       UnmodifiableListView<PathStep>(_steps);
 
-  /// добавляет поле(properties)
   MapPath add(String type, dynamic pointer) {
     List<PathStep> steps = [..._steps];
-    StepType stepType = StepType.object;
+    StepType stepType = StepType.leaf;
     if (type == 'object') {
       stepType = StepType.object;
     } else if (type == 'array') {
@@ -28,27 +27,30 @@ class MapPath {
     return MapPath(steps: steps);
   }
 
-  /// удаляет по индексу поле(properties), добавленное в steps
   MapPath removeAt(int index) {
     List<PathStep> steps = [..._steps];
     steps.removeAt(index);
     return MapPath(steps: steps);
   }
 
-  /// удаляет последнее поле(properties), добавленное в steps
   MapPath removeLast() {
     List<PathStep> steps = [..._steps];
     steps.removeAt(steps.length - 1);
     return MapPath(steps: steps);
   }
 
-  /// если тип поля array
   bool isLastArray() {
     return _steps.isNotEmpty ? _steps.last.type == StepType.array : false;
   }
-  /// если тип поля object
   bool isLastObject() {
     return _steps.isNotEmpty ? _steps.last.type == StepType.object : false;
+  }
+  bool isLastLeaf() {
+    return _steps.isNotEmpty ? _steps.last.type == StepType.leaf : false;
+  }
+
+  int length() {
+    return _steps.length;
   }
 
 }
@@ -65,4 +67,4 @@ class PathStep {
   final dynamic pointer;
 }
 
-enum StepType {object, array}
+enum StepType {object, array, leaf}

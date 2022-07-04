@@ -12,11 +12,15 @@ class UIModel extends ChangeNotifier {
   UIModel({Map<String, dynamic> data = const {}, this.onUpdate}) : _data = data;
 
   Map<String, dynamic> _data;
+  bool _isExternal = false;
 
-  ///  получаем данные из formData
+  bool get isExternal => _isExternal;
+
   set data(Map<String, dynamic> value) {
     _data = value;
+    _isExternal = true;
     notifyListeners();
+    // onUpdate!(path: MapPath(), data: _data);
   }
 
   void Function({required MapPath path, required Map<String, dynamic> data})?
@@ -25,15 +29,13 @@ class UIModel extends ChangeNotifier {
   UnmodifiableMapView<String, dynamic> get data =>
       UnmodifiableMapView<String, dynamic>(_data);
 
-  /// этот метод вызывается, когда пользователь вводит данные в текстовое поле.
-  /// и новые данные этого текстового поля передаются в formData
   void modifyData(MapPath path, dynamic value) {
     _data = Utils.modifyMapByPath(path, _data, value);
+    _isExternal = false;
     notifyListeners();
     onUpdate!(path: path, data: data);
   }
 
-  /// добавляет поле в форме, если тип array c items
   void addArrayElement(MapPath path) {
     List<dynamic>? array = Utils.getDataBypath(path, _data);
     if (array == null) {
@@ -43,22 +45,22 @@ class UIModel extends ChangeNotifier {
       MapPath newPath = path.add('leaf', arrayLength);
       _data = Utils.modifyMapByPath(newPath, _data, null);
     }
+    _isExternal = false;
     notifyListeners();
     onUpdate!(path: path, data: data);
   }
 
-  /// удаляет поле в форме, если тип array c items
   void removeArrayElement(MapPath path) {
     List<dynamic>? array = Utils.getDataBypath(path, _data);
     if (array != null && array.length > 1) {
       array.removeLast();
       _data = Utils.modifyMapByPath(path, _data, array);
+      _isExternal = false;
       notifyListeners();
       onUpdate!(path: path, data: data);
     }
   }
 
-  /// возвращает значение поля из formData
   getDataByPath(MapPath path) {
     return Utils.getDataBypath(path, _data);
   }
@@ -74,53 +76,52 @@ class UIModel extends ChangeNotifier {
   String _translation = '';
   String get translation => _translation;
 
-  final List<String> _words = [];
-  List<String> get words => _words;
+  final List<String> _sentenceAsList = [];
+  List<String> get sentenceAsList => _sentenceAsList;
 
-  List<Map<String, dynamic>> _formData = [];
-  List<Map<String, dynamic>> get formData => _formData;
+  List<Map<String, dynamic>> _dataValue = [];
+  List<Map<String, dynamic>> get dataValue => _dataValue;
 
   int _index = 0;
   int get index => _index;
 
-  final List<String> _clickedWords = [];
-  List<String> get clickedWords => _clickedWords;
+  final List<String> _clickedWordList = [];
+  List<String> get clickedWordList => _clickedWordList;
 
-  final List<String> _translations = [];
-  List<String> get translations => _translations;
+  final List<String> _translationList = [];
+  List<String> get translationList => _translationList;
 
   void setData(List<Map<String, dynamic>> value) {
-    /// получаем данные текста из formData
-    _formData = value;
-    /// получаем список всех слов текста (words)
-    words.clear();
-    for (var map in formData) {
-      _words.add(map['word']);
+    _dataValue = value;
+  }
+
+  void getSentenceAsList() {
+    sentenceAsList.clear();
+    for (var map in dataValue) {
+      _sentenceAsList.add(map['word']);
     }
   }
 
   void getTextSpan(WidgetData widgetData, BuildContext context) {
-    /// все слова из списка words оборачиваем виджетом TextSpan
     final List<TextSpan> wordsAsTextSpan = [];
-    for (int index = 0; index < words.length; index++) {
-      wordsAsTextSpan.add(TextSpan(text: words[index] + ' '));
+    for (int index = 0; index < sentenceAsList.length; index++) {
+      wordsAsTextSpan.add(TextSpan(text: sentenceAsList[index] + ' '));
     }
 
-    /// получаем текст типа TextSpan
     _sentenceAsTextSpan = TextSpan(
-        children: wordsAsTextSpan.map((word) => TextSpan(
-            text: word.text,
+        children: wordsAsTextSpan.map((e) => TextSpan(
+            text: e.text,
             style: TextStyle(
               fontSize: 20.0,
-              color: (_clickedWord == word.text) ? Colors.greenAccent : Colors.black,
+              color: (_clickedWord == e.text) ? Colors.greenAccent : Colors.black,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                _clickedWord = word.text!;
-                getTextSpan(widgetData, context); /// снова вызываем этот метод(рекурсия), чтобы нажатое слово поменяло цвет
-                getTranslate(); /// получаем перевод нажатого слова
-                increaseCount(widgetData, context); /// увеличиваем свойство count(количество нажатий) на один
-                getClickedWords(); /// получаем список всех нажатых слов
+                _clickedWord = e.text!;
+                getTextSpan(widgetData, context);
+                getTranslate();
+                changeCount(widgetData, context);
+                addToWordsList();
                 notifyListeners();
               }))
             .toList());
@@ -132,30 +133,37 @@ class UIModel extends ChangeNotifier {
   }
 
   void getTranslate() {
-    var wordWithoutSpace = clickedWord.substring(0, clickedWord.length - 1); /// убираем лишний пробел в конце слова
-    _index = words.indexOf(wordWithoutSpace); /// находим под каким индексом находится нажатое слово в списке всех слов
-    _translation = formData[index]['translation']; /// получаем перевод нажатого слова
+    var wordWithoutSpace = clickedWord.substring(0, clickedWord.length - 1);
+    _index = sentenceAsList.indexOf(wordWithoutSpace);
+    _translation = dataValue[index]['translation'];
   }
 
-  void increaseCount(WidgetData widgetData, BuildContext context) {
-    List<Map<String, dynamic>> formDataAsList = List.from(formData);   /// получаем данные текста из formData в виде списка
-    Map<String, dynamic> clickedWordProperties = {...formData[index]};
-    clickedWordProperties['count'] = clickedWordProperties['count'] + 1; /// при каждом нажатии на слово, свойство count этого слова увеличивается на один
+  void changeCount(WidgetData widgetData, BuildContext context) {
+    List<Map<String, dynamic>> copyDataList = List.from(dataValue);
+    Map<String, dynamic> copyDataMap = {...dataValue[index]};
+    copyDataMap['count'] = copyDataMap['count'] + 1;
 
-    if (clickedWordProperties['count'] == 1) clickedWordProperties['active'] = true; /// если слово нажато один раз, то свойство active становится true
+    if (copyDataMap['count'] == 1) {
+      if (copyDataMap['active'] == true)  copyDataMap['active'] = false;
+    }
 
-    /// заменяем в схеме изменившиеся свойства
-    formDataAsList.removeAt(index);
-    formDataAsList.insert(index, clickedWordProperties);
+    copyDataList.removeAt(index);
+    copyDataList.insert(index, copyDataMap);
 
-    widgetData.onChange(context, widgetData.path, formDataAsList);    /// и передаем в метод onChange
+    widgetData.onChange(context, widgetData.path, copyDataList);
   }
 
-  /// добавляем все нажатые слова по очереди в список для отображения в UI
-  void getClickedWords() {
-    if (!clickedWords.contains(clickedWord) && !translations.contains(translation)) {
-      _clickedWords.add(clickedWord);
-      _translations.add(translation);
+  void addToWordsList() {
+
+    if (clickedWordList.contains(clickedWord) && translationList.contains(translation)) {
+      var i = _clickedWordList.indexOf(clickedWord);
+      _clickedWordList.insert(i, clickedWord);
+      _clickedWordList.remove(clickedWord);
+      _translationList.insert(i, translation);
+      _translationList.remove(translation);
+    } else {
+      _clickedWordList.add(clickedWord);
+      _translationList.add(translation);
     }
     notifyListeners();
   }
@@ -166,18 +174,17 @@ class UIModel extends ChangeNotifier {
   int _counter = 0;
   int get counter => _counter;
 
-  int _numberOfCards = 0;
-  int get numberOfCards => _numberOfCards;
+  int _length = 0;
+  int get length => _length;
 
-  /// в методе getNumOfCards получаем количество карточек, которое используем в методе getCard
-  void getNumOfCards(Map schema) {
-    List cards = schema['properties'].keys.toList(); /// получаем список всех карточек
-    _numberOfCards = cards.length;
+  void initValues(Map schema) {
+    List fields = schema['properties'].keys.toList();
+    _length = fields.length;
   }
 
-  getCard() {
-    _counter ++; /// значение counter нужен для метода retrieveSchemaFields, откуда определяется какую карточку передать для отображения в UI
-    if (counter == numberOfCards) _counter = 0; /// показ карточек начинается с начала (с первой карточки)
+  getField() {
+    _counter ++;
+    if (counter == length) _counter = 0;
     notifyListeners();
   }
 }
