@@ -25,7 +25,9 @@ class WidgetUI extends StatelessWidget {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 )
               : null,
-          subtitle: description.isNotEmpty ? Text(description) : null,
+          subtitle: description.isNotEmpty
+              ? Text(description)
+              : null,
         ),
         description.isNotEmpty
             ? const SizedBox(height: 8)

@@ -3,8 +3,11 @@ import 'package:provider/provider.dart';
 import '../models/ui_model.dart';
 
 class CardWidget extends StatelessWidget {
-  const CardWidget({Key? key, required this.widgets, required this.schema})
-      : super(key: key);
+  const CardWidget({
+    Key? key,
+    required this.widgets,
+    required this.schema,
+  }) : super(key: key);
 
   final Widget widgets;
   final Map schema;
@@ -39,6 +42,8 @@ class CardWidget extends StatelessWidget {
                   onPressed: () {
                     context.read<UIModel>().getField();
                   })),
-        ]));
+        ]
+      )
+    );
   }
 }

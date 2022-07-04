@@ -9,28 +9,33 @@ class CheckboxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
-    String description = widgetData.schema['description'] ?? '';
-
-    final _val = GlobalKey<FormState>();
+    // String description = widgetData.schema['description'] ?? '';
 
     return FormField(
-          builder: (state) {
-            return CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                controlAffinity: ListTileControlAffinity.leading,
-                autofocus: widgetData.autofocus,    //true
-                value: true == widgetData.value,
-                onChanged: (dynamic newValue) {
-                  widgetData.onChange(context, widgetData.path, newValue);
-                },
-                title: Text(title),
-                subtitle: widgetData.value == false
-                    ? Text(
-                      'Required',
-                       style: TextStyle(color: Theme.of(context).errorColor),
-                  ) : null
-        );
-        },
-  );
-}
+      builder: (state) {
+        return CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            controlAffinity: ListTileControlAffinity.leading,
+            autofocus: widgetData.autofocus,
+            //true
+            value: true == widgetData.value,
+            onChanged: (dynamic newValue) {
+              widgetData.onChange(
+                context,
+                widgetData.path,
+                newValue,
+              );
+            },
+            title: Text(title),
+            subtitle: widgetData.value == false
+                ? Text(
+                    'Required',
+                    style: TextStyle(
+                      color: Theme.of(context).errorColor,
+                    ),
+                  )
+                : null);
+      },
+    );
+  }
 }

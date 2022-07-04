@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../../../json_schema_ui/models/widget_data.dart';
 import 'widget_ui.dart';
 

@@ -9,7 +9,6 @@ class TextWidget extends StatelessWidget {
   final WidgetData widgetData;
   final TextEditingController textControl = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
@@ -28,7 +27,8 @@ class TextWidget extends StatelessWidget {
         child: Autocomplete<String>(
           fieldViewBuilder: (BuildContext context,
               TextEditingController textEditingController,
-              FocusNode focusNode, VoidCallback onFieldSubmitted) {
+              FocusNode focusNode,
+              VoidCallback onFieldSubmitted) {
             return TextFormField(
               validator: RequiredValidator(
                 errorText: 'Please enter a text',
@@ -36,7 +36,8 @@ class TextWidget extends StatelessWidget {
               controller: textEditingController,
               decoration: const InputDecoration(border: OutlineInputBorder()),
               focusNode: focusNode,
-              onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
+              onChanged: (val) =>
+                  widgetData.onChange(context, widgetData.path, val),
               onFieldSubmitted: (String value) {
                 onFieldSubmitted();
                 print('You just typed a new entry  $value');
@@ -67,11 +68,17 @@ class TextWidget extends StatelessWidget {
           errorText: 'Please enter a text',
         ),
         controller: textControl,
-        onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
+        onChanged: (val) => widgetData.onChange(
+          context,
+          widgetData.path,
+          val,
+        ),
         enabled: !widgetData.disabled,
         autofocus: widgetData.autofocus,
         readOnly: widgetData.readonly,
-        decoration: const InputDecoration(border: OutlineInputBorder()),
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+        ),
       ),
     );
   }

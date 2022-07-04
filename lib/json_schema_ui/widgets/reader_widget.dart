@@ -23,16 +23,15 @@ class ReaderWidget extends StatelessWidget {
       children: [
         Container(
             padding: const EdgeInsets.all(16.0),
-            child: RichText(
-                text: sentenceAsTextSpan)),
+            child: RichText(text: sentenceAsTextSpan)),
         Container(
           padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                  Container(
-                    color: Colors.grey,
-                    child: IconButton(
+              Container(
+                  color: Colors.grey,
+                  child: IconButton(
                       icon: const Icon(
                         Icons.arrow_back,
                         color: Colors.white,
@@ -41,9 +40,9 @@ class ReaderWidget extends StatelessWidget {
                         //context.read<UIModel>().updateText(false);
                         //context.read<UIModel>().getTextSpan(widgetData, context);
                       })),
-                  Container(
-                    color: Colors.grey,
-                    child: IconButton(
+              Container(
+                  color: Colors.grey,
+                  child: IconButton(
                       icon: const Icon(
                         Icons.arrow_forward,
                         color: Colors.white,
@@ -58,32 +57,33 @@ class ReaderWidget extends StatelessWidget {
         clickedWord.isEmpty
             ? Container()
             : Container(
-              padding: const EdgeInsets.all(16.0),
-              child: ListTile(
-                title: Text(
-                  "$clickedWord: $translation",
-                  style: const TextStyle(fontSize: 20.0),
+                padding: const EdgeInsets.all(16.0),
+                child: ListTile(
+                  title: Text(
+                    "$clickedWord: $translation",
+                    style: const TextStyle(fontSize: 20.0),
+                  ),
+                  trailing: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        context.read<UIModel>().hideClickedWord();
+                      }),
                 ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    context.read<UIModel>().hideClickedWord();
-                  }),
               ),
-            ),
         clickedWordList.isEmpty
             ? Container()
             : Container(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(8),
-                itemCount: clickedWordList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Text("${clickedWordList[index]}: ${translationList[index]}", style: const TextStyle(fontSize: 20));
-                }
-              ),
-            )
+                padding: const EdgeInsets.all(16.0),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(8),
+                    itemCount: clickedWordList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Text(
+                          "${clickedWordList[index]}: ${translationList[index]}",
+                          style: const TextStyle(fontSize: 20));
+                    }),
+              )
       ],
     );
   }

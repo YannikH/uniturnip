@@ -4,7 +4,8 @@ import '../models/widget_data.dart';
 
 // TODO: Implement CheckboxesWidget
 class CheckboxesWidget extends StatefulWidget {
-  const CheckboxesWidget({Key? key, required this.widgetData}) : super(key: key);
+  const CheckboxesWidget({Key? key, required this.widgetData})
+      : super(key: key);
 
   final WidgetData widgetData;
 
@@ -13,8 +14,8 @@ class CheckboxesWidget extends StatefulWidget {
 }
 
 class _CheckboxesWidgetState extends State<CheckboxesWidget> {
-  List values =  [];
-  
+  List values = [];
+
   @override
   Widget build(BuildContext context) {
     List items = widget.widgetData.schema['enum'] ?? [];
@@ -30,9 +31,15 @@ class _CheckboxesWidgetState extends State<CheckboxesWidget> {
         value: value.contains(items[index]),
         onChanged: (dynamic newValue) {
           setState(() {
-            newValue ? values.add(items[index]) : values.removeWhere((element) => element == items[index]);
+            newValue
+                ? values.add(items[index])
+                : values.removeWhere((element) => element == items[index]);
           });
-          widget.widgetData.onChange(context, widget.widgetData.path, values);
+          widget.widgetData.onChange(
+            context,
+            widget.widgetData.path,
+            values,
+          );
         },
       ),
     );
