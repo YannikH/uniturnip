@@ -133,25 +133,25 @@ class Schemas {
           "word": "The",
           "translation": "артикль",
           "count": 0,
-          "active": false
+          "active": true
         },
         {
           "word": "first",
           "translation": "первый",
           "count": 0,
-          "active": false
+          "active": true
         },
         {
           "word": "simple",
           "translation": "простой",
           "count": 0,
-          "active": false
+          "active": true
         },
         {
           "word": "text",
           "translation": "текст",
           "count": 0,
-          "active": false
+          "active": true
         }
       ]
     }

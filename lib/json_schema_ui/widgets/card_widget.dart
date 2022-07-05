@@ -10,7 +10,7 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<UIModel>().getNumOfCards(schema);
+    context.read<UIModel>().initValues(schema);
 
     return Center(
         child: Row(
@@ -36,7 +36,7 @@ class CardWidget extends StatelessWidget {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        context.read<UIModel>().getCard();
+                        context.read<UIModel>().getField();
                       })),
             ]
         )
