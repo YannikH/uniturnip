@@ -16,23 +16,28 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField {
     required dynamic pointer,
   }) : super(key: key, schema: schema, ui: ui, pointer: pointer, path: path);
 
+  // вызывает метод modifyData() из UIModel когда обновляютя данные.
   void onUpdate(BuildContext context, MapPath path, dynamic value) {
     Provider.of<UIModel>(context, listen: false).modifyData(path, value);
   }
 
   @override
   Widget build(BuildContext context) {
-    dynamic data = context.select((UIModel uiModel) => uiModel.getDataByPath(path));
-    final WidgetData widgetData = WidgetData(
-      schema: schema,
-      value: data,
-      path: path,
-      uiSchema: ui,
-      onChange: onUpdate,
-    );
-    
-    Widget formWidget = Utils.formWidget(widgetData);
+    return Consumer<UIModel>(builder: (context, uiModel, _) {
+      dynamic data = uiModel.getDataByPath(path);
+      final WidgetData widgetData = WidgetData(
+        schema: schema,
+        value: data,
+        path: path,
+        uiSchema: ui,
+        onChange: onUpdate,
+      );
 
-    return Padding(padding: EdgeInsets.symmetric(vertical: path.length() > 1 ? 2 : 4), child: formWidget);
+      Widget formWidget = Utils.formWidget(widgetData);
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: path.length() > 1 ? 2 : 4),
+        child: formWidget,
+      );
+    });
   }
 }
