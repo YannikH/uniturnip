@@ -22,23 +22,24 @@ class JSONSchemaDependency extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    dynamic data = context.select((UIModel uiModel) => uiModel.getDataByPath(path));
-    List<dynamic> oneOf = schema['oneOf'] ?? [];
-    for (Map<String, dynamic> dependency in oneOf) {
-      List<dynamic> options = dependency['properties']?[pointer]?['enum'] ?? [];
-      if (options.contains(data)) {
-        Map<String, dynamic> newSchema = {...dependency};
-        Map<String, dynamic> newSchemaProperties = {...dependency['properties']};
-        newSchemaProperties.remove(pointer);
-        newSchema['properties'] = newSchemaProperties;
-        newSchema['type'] = 'object';
-        MapPath newPath = path.removeLast();
-        String field = newSchemaProperties.keys.first;
-        Map<String, dynamic> newUiSchema = ui.containsKey(field) ? {field: ui[field]} : {};
-        return JSONSchemaUIField(schema: newSchema, ui: newUiSchema, path: newPath);
+    return Consumer<UIModel>(builder: (context, uiModel, _) {
+      final data = uiModel.getDataByPath(path);
+      List oneOf = schema['oneOf'] ?? [];
+      for (Map<String, dynamic> dependency in oneOf) {
+        List options = dependency['properties']?[pointer]?['enum'] ?? [];
+        if (options.contains(data)) {
+          Map<String, dynamic> newSchema = {...dependency};
+          Map<String, dynamic> newSchemaProperties = {...dependency['properties']};
+          newSchemaProperties.remove(pointer);
+          newSchema['properties'] = newSchemaProperties;
+          newSchema['type'] = 'object';
+          MapPath newPath = path.removeLast();
+          String field = newSchemaProperties.keys.first;
+          Map<String, dynamic> newUiSchema = ui.containsKey(field) ? {field: ui[field]} : {};
+          return JSONSchemaUIField(schema: newSchema, ui: newUiSchema, path: newPath);
+        }
       }
-    }
-    return Text('DEPENDENCY POINTER: $pointer, SCHEMA: $schema, PATH: $path');
+      return const SizedBox.shrink();
+    });
   }
 }
