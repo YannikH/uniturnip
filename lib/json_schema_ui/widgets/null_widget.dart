@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../models/widget_data.dart';
 import 'widget_ui.dart';
 

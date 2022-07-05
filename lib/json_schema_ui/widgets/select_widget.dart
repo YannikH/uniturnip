@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-
 import '../../../../json_schema_ui/models/widget_data.dart';
 import 'widget_ui.dart';
 
@@ -13,12 +12,12 @@ class SelectWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
-    
+
     String type = widgetData.schema['type'];
 
     List items = [null];
     List names = [""];
-    
+
     if (type == 'boolean') {
       items.addAll([true, false]);
       if (widgetData.schema['enumNames'] == null) {
@@ -42,16 +41,16 @@ class SelectWidget extends StatelessWidget {
         onChanged: (dynamic newValue) {
           widgetData.onChange(context, widgetData.path, newValue);
         },
-        items: items
-            .mapIndexed<DropdownMenuItem>((index, item) {
-              return DropdownMenuItem(
-                  alignment: AlignmentDirectional.centerStart,
-                  enabled: !widgetData.disabled,
-                  value: item,
-                  child: Text( names.asMap().containsKey(index) ? names[index] : item.toString()),
-                );
-            })
-            .toList(),
+        items: items.mapIndexed<DropdownMenuItem>((index, item) {
+          return DropdownMenuItem(
+            alignment: AlignmentDirectional.centerStart,
+            enabled: !widgetData.disabled,
+            value: item,
+            child: Text(names.asMap().containsKey(index)
+                ? names[index]
+                : item.toString()),
+          );
+        }).toList(),
       ),
     );
   }
