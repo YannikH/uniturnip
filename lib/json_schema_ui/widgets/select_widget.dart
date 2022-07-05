@@ -37,6 +37,7 @@ class SelectWidget extends StatelessWidget {
         autofocus: widgetData.autofocus,
         hint: const Text('Select item'),
         value: widgetData.value,
+        isExpanded: true,
         decoration: const InputDecoration(border: OutlineInputBorder()),
         onChanged: (dynamic newValue) {
           widgetData.onChange(context, widgetData.path, newValue);
