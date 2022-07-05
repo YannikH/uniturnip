@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import '../models/widget_data.dart';
 import 'widget_ui.dart';
-
 
 class DateWidget extends StatelessWidget {
   DateWidget({Key? key, required this.widgetData}) : super(key: key);
@@ -33,7 +31,11 @@ class DateWidget extends StatelessWidget {
         String _year = picked.year.toString();
         String _month = picked.month.toString().padLeft(2, '0');
         String _day = picked.day.toString().padLeft(2, '0');
-        widgetData.onChange(context, widgetData.path, '$_day/$_month/$_year');
+        widgetData.onChange(
+          context,
+          widgetData.path,
+          '$_day/$_month/$_year',
+        );
       }
     }
 
@@ -53,10 +55,12 @@ class DateWidget extends StatelessWidget {
         autofocus: widgetData.autofocus,
         readOnly: true,
         onTap: () => _selectDate(context),
-        decoration: InputDecoration(border: const OutlineInputBorder(), suffixIcon: IconButton(
-          onPressed: () => _selectDate(context),
-          icon: const Icon(Icons.calendar_today),
-        )),
+        decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            suffixIcon: IconButton(
+              onPressed: () => _selectDate(context),
+              icon: const Icon(Icons.calendar_today),
+            )),
       ),
     );
   }

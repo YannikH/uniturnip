@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
-import 'fields/json_schema_field.dart';
+import 'fields/object_field.dart';
 
 class JSONSchemaUI extends StatelessWidget {
   JSONSchemaUI(

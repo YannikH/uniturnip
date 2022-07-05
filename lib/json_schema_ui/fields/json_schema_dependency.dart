@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/mapPath.dart';
 import '../models/ui_model.dart';
-import 'json_schema_field.dart';
+import 'object_field.dart';
 
 class JSONSchemaDependency extends StatelessWidget {
   JSONSchemaDependency({
@@ -22,6 +22,7 @@ class JSONSchemaDependency extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     dynamic data = context.select((UIModel uiModel) => uiModel.getDataByPath(path));
     List<dynamic> oneOf = schema['oneOf'] ?? [];
     for (Map<String, dynamic> dependency in oneOf) {
