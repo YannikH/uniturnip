@@ -41,23 +41,5 @@ class CardWidget extends StatelessWidget {
             ]
         )
     );
-
-
-
-    // return Center(
-    //   child:  GestureDetector(
-    //     onTap: () {
-    //       context.read<UIModel>().getNextField();
-    //     },
-    //     child: Container(
-    //       padding: EdgeInsets.all(16.0),
-    //       alignment: Alignment.center,
-    //       width: 500.0,
-    //       color: Colors.blueGrey,
-    //       child: widgets,
-    //     )
-    //   ),
-    // );
-
   }
 }

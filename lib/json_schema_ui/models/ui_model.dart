@@ -85,10 +85,10 @@ class UIModel extends ChangeNotifier {
   int _index = 0;
   int get index => _index;
 
-  List<String> _clickedWordList = [];
+  final List<String> _clickedWordList = [];
   List<String> get clickedWordList => _clickedWordList;
 
-  List<String> _translationList = [];
+  final List<String> _translationList = [];
   List<String> get translationList => _translationList;
 
   void setData(List<Map<String, dynamic>> value) {
@@ -103,15 +103,13 @@ class UIModel extends ChangeNotifier {
   }
 
   void getTextSpan(WidgetData widgetData, BuildContext context) {
-    final List<TextSpan> arrayOfTextSpan = [];
-
+    final List<TextSpan> wordsAsTextSpan = [];
     for (int index = 0; index < sentenceAsList.length; index++) {
-      arrayOfTextSpan.add(TextSpan(text: sentenceAsList[index] + ' '));
+      wordsAsTextSpan.add(TextSpan(text: sentenceAsList[index] + ' '));
     }
 
     _sentenceAsTextSpan = TextSpan(
-        children: arrayOfTextSpan
-            .map((e) => TextSpan(
+        children: wordsAsTextSpan.map((e) => TextSpan(
             text: e.text,
             style: TextStyle(
               fontSize: 20.0,
@@ -144,15 +142,19 @@ class UIModel extends ChangeNotifier {
     List<Map<String, dynamic>> copyDataList = List.from(dataValue);
     Map<String, dynamic> copyDataMap = {...dataValue[index]};
     copyDataMap['count'] = copyDataMap['count'] + 1;
+
     if (copyDataMap['count'] == 1) {
       if (copyDataMap['active'] == true)  copyDataMap['active'] = false;
     }
+
     copyDataList.removeAt(index);
     copyDataList.insert(index, copyDataMap);
+
     widgetData.onChange(context, widgetData.path, copyDataList);
   }
 
   void addToWordsList() {
+
     if (clickedWordList.contains(clickedWord) && translationList.contains(translation)) {
       var i = _clickedWordList.indexOf(clickedWord);
       _clickedWordList.insert(i, clickedWord);
@@ -167,8 +169,7 @@ class UIModel extends ChangeNotifier {
   }
 
 
-  /// -------------- for LearnerWidget --------------
-
+  /// -------------- for CardWidget --------------
 
   int _counter = 0;
   int get counter => _counter;
@@ -186,6 +187,4 @@ class UIModel extends ChangeNotifier {
     if (counter == length) _counter = 0;
     notifyListeners();
   }
-
-
 }

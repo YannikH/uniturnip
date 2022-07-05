@@ -42,11 +42,9 @@ class MapPath {
   bool isLastArray() {
     return _steps.isNotEmpty ? _steps.last.type == StepType.array : false;
   }
-
   bool isLastObject() {
     return _steps.isNotEmpty ? _steps.last.type == StepType.object : false;
   }
-
   bool isLastLeaf() {
     return _steps.isNotEmpty ? _steps.last.type == StepType.leaf : false;
   }
@@ -54,6 +52,7 @@ class MapPath {
   int length() {
     return _steps.length;
   }
+
 }
 
 class PathStep {
