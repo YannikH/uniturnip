@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_ui/fields/json_schema_dependency.dart';
+import 'package:uniturnip/json_schema_ui/fields/json_schema_leaf.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
-
-import '../utils.dart';
-import '../widgets/array_buttons.dart';
-import 'json_schema_leaf.dart';
+import 'package:uniturnip/json_schema_ui/utils.dart';
+import 'package:uniturnip/json_schema_ui/widgets/array_buttons.dart';
 
 class JSONSchemaUIField extends StatelessWidget {
   JSONSchemaUIField({
@@ -119,7 +118,7 @@ class ObjectBody extends StatelessWidget {
           if (schema['dependencies']?[field] != null)
             JSONSchemaDependency(
               schema: schema['dependencies'][field],
-              ui: uiSchema,
+              uiSchema: uiSchema,
               path: path,
               pointer: field,
             ),
