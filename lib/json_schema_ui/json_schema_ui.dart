@@ -8,11 +8,11 @@ import 'fields/json_schema_field.dart';
 class JSONSchemaUI extends StatelessWidget {
   JSONSchemaUI(
       {Key? key,
-        this.schema = const {},
-        this.ui = const {},
-        this.data = const {},
-        UIModel? controller,
-        required this.onUpdate})
+      this.schema = const {},
+      this.ui = const {},
+      this.data = const {},
+      UIModel? controller,
+      required this.onUpdate})
       : fields = schema['properties']?.keys?.toList() ?? [],
         controller = (controller == null)
             ? UIModel()
@@ -50,14 +50,14 @@ class JSONSchemaUI extends StatelessWidget {
 
               // Button that submit the whole form using global key
               ElevatedButton(
-                onPressed: (){
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
+                  onPressed: (){
+                      if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Processing Data')),
-                    );
-                  }
-                },
-                child: const Text("Submit"),
+                      );
+                    }
+                  },
+                  child: const Text("Submit"),
               ),
             ],
           ),

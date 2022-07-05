@@ -14,6 +14,8 @@ class DateWidget extends StatelessWidget {
     String title = widgetData.schema['title'] ?? '';
     String description = widgetData.schema['description'] ?? '';
 
+
+
     textControl.text = widgetData.value ?? '';
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
@@ -41,6 +43,11 @@ class DateWidget extends StatelessWidget {
       title: title,
       description: description,
       child: TextFormField(
+        validator: (val){
+          if(val==null || val.isEmpty)
+            return 'Please enter appropriate Date';
+          return null;
+        },
         controller: textControl,
         onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
         enabled: !widgetData.disabled,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+
 import '../../../../json_schema_ui/models/widget_data.dart';
 import 'widget_ui.dart';
 
@@ -21,17 +23,22 @@ class NumberWidget extends StatelessWidget {
     return WidgetUI(
       title: title,
       description: description,
-      child: TextFormField(
-        controller: textControl,
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(RegExp(r'[.0-9]')),
-        ],
-        onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
-        enabled: !widgetData.disabled,
-        autofocus: widgetData.autofocus,
-        readOnly: widgetData.readonly,
-        decoration: const InputDecoration(border: OutlineInputBorder()),
+      child: Column(
+          children: <Widget>[
+            TextFormField(
+            controller: textControl,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'[.0-9]')),
+            ],
+            onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
+            enabled: !widgetData.disabled,
+            autofocus: widgetData.autofocus,
+            readOnly: widgetData.readonly,
+            decoration: const InputDecoration(border: OutlineInputBorder()),
+            validator: RequiredValidator(errorText: 'Required'),
+          ),
+          ]
       ),
     );
   }

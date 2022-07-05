@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
+  import 'package:flutter/material.dart';
 
 import '../models/widget_data.dart';
 
 // TODO: Implement CheckboxesWidget
 class CheckboxesWidget extends StatefulWidget {
-  const CheckboxesWidget({Key? key, required this.widgetData})
-      : super(key: key);
+  const CheckboxesWidget({Key? key, required this.widgetData}) : super(key: key);
 
   final WidgetData widgetData;
 
@@ -14,34 +13,38 @@ class CheckboxesWidget extends StatefulWidget {
 }
 
 class _CheckboxesWidgetState extends State<CheckboxesWidget> {
-  List values = [];
-
+  List values =  [];
+  
   @override
   Widget build(BuildContext context) {
     List items = widget.widgetData.schema['enum'] ?? [];
     List value = widget.widgetData.value ?? [];
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: items.length,
-      itemBuilder: (BuildContext context, int index) => CheckboxListTile(
-        controlAffinity: ListTileControlAffinity.leading,
-        autofocus: widget.widgetData.autofocus,
-        title: Text(items[index]),
-        value: value.contains(items[index]),
-        onChanged: (dynamic newValue) {
-          setState(() {
-            newValue
-                ? values.add(items[index])
-                : values.removeWhere((element) => element == items[index]);
-          });
-          widget.widgetData.onChange(
-            context,
-            widget.widgetData.path,
-            values,
-          );
-        },
-      ),
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int index) => CheckboxListTile(
+            controlAffinity: ListTileControlAffinity.leading,
+            autofocus: widget.widgetData.autofocus,
+            title: Text(items[index]),
+            value: value.contains(items[index]),
+            onChanged: (dynamic newValue) {
+              setState(() {
+                newValue ? values.add(items[index]) : values.removeWhere((element) => element == items[index]);
+              });
+              widget.widgetData.onChange(context, widget.widgetData.path, values);
+            },
+          ),
+        ),
+        value.contains(items) ==  null ? Text(
+          'Required',
+          style: TextStyle(
+              color: Theme.of(context).errorColor
+          ),
+        ) : SizedBox.shrink(),
+      ],
     );
   }
 }
