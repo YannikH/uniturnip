@@ -27,23 +27,28 @@ class _EmailWidgetState extends State<EmailWidget> {
     return WidgetUI(
       title: title,
       description: description,
-        child: TextFormField(
-              validator: MultiValidator([
-                RequiredValidator(errorText: "Required"),
-                EmailValidator(errorText: "Please enter a valid email address"),
-              ]),
-              controller: textControl,
-              decoration: const InputDecoration(
-                hintText: 'Email',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.emailAddress,
-              onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
-              enabled: !widget.widgetData.disabled,
-              autofocus: widget.widgetData.autofocus,
-              readOnly: widget.widgetData.readonly,
-              autofillHints: const [AutofillHints.email],
-            ),
+      child: TextFormField(
+        validator: MultiValidator([
+          RequiredValidator(
+            errorText: "Required",
+          ),
+          EmailValidator(
+            errorText: "Please enter a valid email address",
+          ),
+        ]),
+        controller: textControl,
+        decoration: const InputDecoration(
+          hintText: 'Email',
+          border: OutlineInputBorder(),
+        ),
+        keyboardType: TextInputType.emailAddress,
+        onChanged: (val) =>
+            widget.widgetData.onChange(context, widget.widgetData.path, val),
+        enabled: !widget.widgetData.disabled,
+        autofocus: widget.widgetData.autofocus,
+        readOnly: widget.widgetData.readonly,
+        autofillHints: const [AutofillHints.email],
+      ),
     );
   }
 }

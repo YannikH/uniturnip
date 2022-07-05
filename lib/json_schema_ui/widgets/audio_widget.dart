@@ -5,7 +5,6 @@
 // import 'package:flutter_sound/flutter_sound.dart';
 // import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 // import 'package:permission_handler/permission_handler.dart';
-//
 // import '../../../../json_schema_ui/models/widget_data.dart';
 // import 'widget_ui.dart';
 //
@@ -81,10 +80,12 @@
 //     final session = await AudioSession.instance;
 //     await session.configure(AudioSessionConfiguration(
 //       avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
-//       avAudioSessionCategoryOptions: AVAudioSessionCategoryOptions.allowBluetooth |
-//           AVAudioSessionCategoryOptions.defaultToSpeaker,
+//       avAudioSessionCategoryOptions:
+//           AVAudioSessionCategoryOptions.allowBluetooth |
+//               AVAudioSessionCategoryOptions.defaultToSpeaker,
 //       avAudioSessionMode: AVAudioSessionMode.spokenAudio,
-//       avAudioSessionRouteSharingPolicy: AVAudioSessionRouteSharingPolicy.defaultPolicy,
+//       avAudioSessionRouteSharingPolicy:
+//           AVAudioSessionRouteSharingPolicy.defaultPolicy,
 //       avAudioSessionSetActiveOptions: AVAudioSessionSetActiveOptions.none,
 //       androidAudioAttributes: const AndroidAudioAttributes(
 //         contentType: AndroidAudioContentType.speech,
@@ -122,7 +123,10 @@
 //   }
 //
 //   void play() {
-//     assert(_mPlayerIsInited && _mplaybackReady && _mRecorder!.isStopped && _mPlayer!.isStopped);
+//     assert(_mPlayerIsInited &&
+//         _mplaybackReady &&
+//         _mRecorder!.isStopped &&
+//         _mPlayer!.isStopped);
 //     _mPlayer!
 //         .startPlayer(
 //             fromURI: _mPath,
@@ -170,11 +174,15 @@
 //               IconButton(
 //                 onPressed: getRecorderFn(),
 //                 icon: Icon(
-//                   _mRecorder!.isRecording ? Icons.stop_circle_outlined : Icons.mic,
+//                   _mRecorder!.isRecording
+//                       ? Icons.stop_circle_outlined
+//                       : Icons.mic,
 //                   color: Colors.black,
 //                 ),
 //               ),
-//               Text(_mRecorder!.isRecording ? 'Recording in progress' : 'Recorder is stopped')
+//               Text(_mRecorder!.isRecording
+//                   ? 'Recording in progress'
+//                   : 'Recorder is stopped')
 //             ],
 //           ),
 //           const SizedBox(width: 8),
@@ -184,11 +192,17 @@
 //               IconButton(
 //                 onPressed: getPlaybackFn(),
 //                 icon: Icon(
-//                   _mPlayer!.isPlaying ? Icons.stop_circle_outlined : Icons.play_arrow,
+//                   _mPlayer!.isPlaying
+//                       ? Icons.stop_circle_outlined
+//                       : Icons.play_arrow,
 //                   color: Colors.black,
 //                 ),
 //               ),
-//               Text(_mPlayer!.isPlaying ? 'Playback in progress' : 'Player is stopped'),
+//               Text(
+//                 _mPlayer!.isPlaying
+//                     ? 'Playback in progress'
+//                     : 'Player is stopped'
+//               ),
 //             ],
 //           ),
 //         ],

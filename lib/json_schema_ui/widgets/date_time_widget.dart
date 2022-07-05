@@ -22,12 +22,15 @@ class DateTimeWidget extends StatelessWidget {
 
     Future<void> _selectDate(BuildContext context) async {
       final DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2015, 8),
-          lastDate: DateTime(2101));
-      final TimeOfDay? pickedTime =
-          await showTimePicker(context: context, initialTime: TimeOfDay.now());
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101),
+      );
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
       if (pickedDate != null && pickedTime != null) {
         String _year = pickedDate.year.toString();
         String _month = pickedDate.month.toString().padLeft(2, '0');
@@ -51,10 +54,13 @@ class DateTimeWidget extends StatelessWidget {
         autofocus: widgetData.autofocus,
         readOnly: true,
         onTap: () => _selectDate(context),
-        decoration: InputDecoration(border: const OutlineInputBorder(), suffixIcon: IconButton(
-          onPressed: () => _selectDate(context),
-          icon: const Icon(Icons.calendar_today),
-        )),
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          suffixIcon: IconButton(
+            onPressed: () => _selectDate(context),
+            icon: const Icon(Icons.calendar_today),
+          ),
+        ),
       ),
     );
   }
