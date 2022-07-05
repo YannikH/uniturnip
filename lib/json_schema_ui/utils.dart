@@ -102,7 +102,6 @@ class Utils {
     if (pointer == null) {
       return path;
     }
-    print(schema);
     return path.add(schema['type'], pointer);
   }
 
