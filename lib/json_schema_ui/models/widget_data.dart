@@ -32,4 +32,8 @@ class WidgetData {
     this.onBlur,
     this.onFocus,
   });
+
+  String get title => schema['title'] ?? '';
+  String get description => schema['description'] ?? '';
+  String get type => schema['type'];
 }
