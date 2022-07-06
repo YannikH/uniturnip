@@ -37,10 +37,9 @@ class JSONSchemaUI extends StatelessWidget {
     return ChangeNotifierProvider<UIModel>.value(
       value: controller,
       // create: (context) => UIModel(data: data, onUpdate: onUpdate),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Form(
-          key: _formKey,
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
           child: Column(
             children: [
               JSONSchemaUIField(
@@ -61,7 +60,6 @@ class JSONSchemaUI extends StatelessWidget {
               ),
             ],
           ),
-
         ),
       ),
     );
