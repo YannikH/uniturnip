@@ -58,6 +58,8 @@ class JSONSchemaDependency extends StatelessWidget {
           final newUiSchema = _createUiSchema(uiSchema, properties);
           var newPath = path.removeLast();
           return JSONSchemaUIField(schema: newSchema, ui: newUiSchema, path: newPath);
+        } else {
+          return const SizedBox.shrink();
         }
       }
       // If desired dependency is not found return empty widget.

@@ -23,12 +23,12 @@ class _NumberWidgetState extends State<NumberWidget> {
   void initState() {
     title = widget.widgetData.title;
     description = widget.widgetData.description;
-
-    textControl = TextEditingController(text: widget.widgetData.value ?? '');
+    final dynamic value = widget.widgetData.value;
+    final String text = value != null ? value.toString() : '';
+    textControl = TextEditingController(text: text);
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
-
     super.initState();
   }
 
