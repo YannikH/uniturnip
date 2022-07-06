@@ -47,7 +47,7 @@ class JSONSchemaDependency extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UIModel>(builder: (context, uiModel, _) {
       final data = uiModel.getDataByPath(path);
-      List<Map<String, dynamic>> oneOf = schema['oneOf'] ?? [];
+      List oneOf = schema['oneOf'] ?? [];
       // Iterate over dependencies until find desired option's dependency.
       for (var dependency in oneOf) {
         // Check if dependency has available options in enum.
