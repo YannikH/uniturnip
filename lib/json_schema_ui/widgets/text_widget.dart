@@ -25,7 +25,7 @@ class _TextWidgetState extends State<TextWidget> {
   Widget build(BuildContext context) {
     String title = widget.widgetData.schema['title'] ?? '';
     String description = widget.widgetData.schema['description'] ?? '';
-    textControl.text = widget.widgetData.value.toString();
+    textControl.text = widget.widgetData.value ?? '';
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
@@ -52,7 +52,6 @@ class _TextWidgetState extends State<TextWidget> {
                   widget.widgetData.onChange(context, widget.widgetData.path, val),
               onFieldSubmitted: (String value) {
                 onFieldSubmitted();
-                print('You just typed a new entry  $value');
               },
             );
           },
