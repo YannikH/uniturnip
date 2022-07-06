@@ -1,46 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import '../models/widget_data.dart';
-import 'widget_ui.dart';
+import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
+import 'package:uniturnip/json_schema_ui/widgets/widget_ui.dart';
 
-class PasswordWidget extends StatelessWidget {
-  PasswordWidget({Key? key, required this.widgetData}) : super(key: key);
-
+class PasswordWidget extends StatefulWidget {
   final WidgetData widgetData;
-  final TextEditingController textControl = TextEditingController();
+
+  const PasswordWidget({Key? key, required this.widgetData}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    String title = widgetData.schema['title'] ?? '';
-    String description = widgetData.schema['description'] ?? '';
+  State<PasswordWidget> createState() => _PasswordWidgetState();
+}
 
-    textControl.text = widgetData.value ?? '';
+class _PasswordWidgetState extends State<PasswordWidget> {
+  late final TextEditingController textControl;
+  late final String title;
+  late final String description;
+
+  @override
+  void initState() {
+    title = widget.widgetData.title;
+    description = widget.widgetData.description;
+
+    textControl = TextEditingController(text: widget.widgetData.value ?? '');
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
 
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    textControl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return WidgetUI(
       title: title,
       description: description,
       child: TextFormField(
         validator: MultiValidator([
           RequiredValidator(errorText: "Required"),
-          MinLengthValidator(6,
-              errorText:
-              "Password must contain atleast 6 characters"),
-          MaxLengthValidator(15,
-              errorText:
-              "Password cannot be more 15 characters"),
-          PatternValidator(r'(?=.*?[#?!@$%^&*-])',
-              errorText:
-              "Password must have at least one special character"),
+          MinLengthValidator(6, errorText: "Password must contain at least 6 characters"),
+          MaxLengthValidator(15, errorText: "Password cannot be more 15 characters"),
+          PatternValidator(
+            r'(?=.*?[#?!@$%^&*-])',
+            errorText: "Password must have at least one special character",
+          ),
         ]),
         obscureText: true,
         controller: textControl,
-        onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
-        enabled: !widgetData.disabled,
-        autofocus: widgetData.autofocus,
-        readOnly: widgetData.readonly,
+        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        enabled: !widget.widgetData.disabled,
+        autofocus: widget.widgetData.autofocus,
+        readOnly: widget.widgetData.readonly,
         decoration: const InputDecoration(border: OutlineInputBorder()),
       ),
     );

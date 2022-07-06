@@ -4,16 +4,31 @@ import 'package:uniturnip/json_schema_ui/widgets/widget_ui.dart';
 import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
 
 class TextWidget extends StatefulWidget {
-  TextWidget({Key? key, required this.widgetData}) : super(key: key);
-
   final WidgetData widgetData;
+
+  const TextWidget({Key? key, required this.widgetData}) : super(key: key);
 
   @override
   State<TextWidget> createState() => _TextWidgetState();
 }
 
 class _TextWidgetState extends State<TextWidget> {
-  final TextEditingController textControl = TextEditingController();
+  late final TextEditingController textControl;
+  late final String title;
+  late final String description;
+
+  @override
+  void initState() {
+    title = widget.widgetData.title;
+    description = widget.widgetData.description;
+
+    textControl = TextEditingController(text: widget.widgetData.value ?? '');
+    textControl.selection = TextSelection.fromPosition(
+      TextPosition(offset: textControl.text.length),
+    );
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -23,13 +38,6 @@ class _TextWidgetState extends State<TextWidget> {
 
   @override
   Widget build(BuildContext context) {
-    String title = widget.widgetData.schema['title'] ?? '';
-    String description = widget.widgetData.schema['description'] ?? '';
-    textControl.text = widget.widgetData.value ?? '';
-    textControl.selection = TextSelection.fromPosition(
-      TextPosition(offset: textControl.text.length),
-    );
-
     if (widget.widgetData.schema.containsKey('examples')) {
       List<String> _options = widget.widgetData.schema['examples'];
 
@@ -37,10 +45,12 @@ class _TextWidgetState extends State<TextWidget> {
         title: title,
         description: description,
         child: Autocomplete<String>(
-          fieldViewBuilder: (BuildContext context,
-              TextEditingController textEditingController,
-              FocusNode focusNode,
-              VoidCallback onFieldSubmitted) {
+          fieldViewBuilder: (
+            BuildContext context,
+            TextEditingController textEditingController,
+            FocusNode focusNode,
+            VoidCallback onFieldSubmitted,
+          ) {
             return TextFormField(
               validator: RequiredValidator(
                 errorText: 'Please enter a text',
@@ -48,8 +58,7 @@ class _TextWidgetState extends State<TextWidget> {
               controller: textEditingController,
               decoration: const InputDecoration(border: OutlineInputBorder()),
               focusNode: focusNode,
-              onChanged: (val) =>
-                  widget.widgetData.onChange(context, widget.widgetData.path, val),
+              onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
               onFieldSubmitted: (String value) {
                 onFieldSubmitted();
               },
@@ -79,11 +88,7 @@ class _TextWidgetState extends State<TextWidget> {
           errorText: 'Please enter a text',
         ),
         controller: textControl,
-        onChanged: (val) => widget.widgetData.onChange(
-          context,
-          widget.widgetData.path,
-          val,
-        ),
+        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
         enabled: !widget.widgetData.disabled,
         autofocus: widget.widgetData.autofocus,
         readOnly: widget.widgetData.readonly,

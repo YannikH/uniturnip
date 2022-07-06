@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import '../models/widget_data.dart';
-import 'widget_ui.dart';
+import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
+import 'package:uniturnip/json_schema_ui/widgets/widget_ui.dart';
 
 class NullWidget extends StatelessWidget {
-  NullWidget({Key? key, required this.widgetData}) : super(key: key);
-
   final WidgetData widgetData;
-  final TextEditingController textControl = TextEditingController();
+
+  const NullWidget({Key? key, required this.widgetData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String title = widgetData.schema['title'] ?? '';
-    String description = widgetData.schema['description'] ?? '';
-    textControl.text = widgetData.value.toString();
-    textControl.selection = TextSelection.fromPosition(
-      TextPosition(offset: textControl.text.length),
-    );
+    String title = widgetData.title;
+    String description = widgetData.description;
 
     return WidgetUI(
       title: title,
