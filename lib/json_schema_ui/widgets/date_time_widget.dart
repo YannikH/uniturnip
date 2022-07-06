@@ -1,25 +1,44 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
+import 'package:uniturnip/json_schema_ui/utilities/date_time.dart';
+import 'package:uniturnip/json_schema_ui/widgets/widget_ui.dart';
 
-import '../../../../json_schema_ui/models/widget_data.dart';
-import 'widget_ui.dart';
-
-class DateTimeWidget extends StatelessWidget {
-  DateTimeWidget({Key? key, required this.widgetData}) : super(key: key);
-
+class DateTimeWidget extends StatefulWidget {
   final WidgetData widgetData;
-  final TextEditingController textControl = TextEditingController();
+
+  const DateTimeWidget({Key? key, required this.widgetData}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    String title = widgetData.schema['title'] ?? '';
-    String description = widgetData.schema['description'] ?? '';
+  State<DateTimeWidget> createState() => _DateTimeWidgetState();
+}
 
-    textControl.text = widgetData.value ?? '';
+class _DateTimeWidgetState extends State<DateTimeWidget> {
+  late final TextEditingController textControl;
+  late final String title;
+  late final String description;
+
+  @override
+  void initState() {
+    title = widget.widgetData.title;
+    description = widget.widgetData.description;
+
+    textControl = TextEditingController(text: widget.widgetData.value ?? '');
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
 
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    textControl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Future<void> _selectDate(BuildContext context) async {
       final DateTime? pickedDate = await showDatePicker(
         context: context,
@@ -32,14 +51,8 @@ class DateTimeWidget extends StatelessWidget {
         initialTime: TimeOfDay.now(),
       );
       if (pickedDate != null && pickedTime != null) {
-        String _year = pickedDate.year.toString();
-        String _month = pickedDate.month.toString().padLeft(2, '0');
-        String _day = pickedDate.day.toString().padLeft(2, '0');
-        String _hour = pickedTime.hour.toString().padLeft(2, '0');
-        String _minute = pickedTime.minute.toString().padLeft(2, '0');
-
-        String picked = '$_day-$_month-$_year $_hour:$_minute';
-        widgetData.onChange(context, widgetData.path, picked);
+        final pickedDateTime = parseDateTime(pickedDate, pickedTime);
+        widget.widgetData.onChange(context, widget.widgetData.path, pickedDateTime);
       }
     }
 
@@ -48,10 +61,10 @@ class DateTimeWidget extends StatelessWidget {
       description: description,
       child: TextFormField(
         controller: textControl,
-        onChanged: (val) => widgetData.onChange(context, widgetData.path, val),
-        enabled: !widgetData.disabled,
+        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        enabled: !widget.widgetData.disabled,
         keyboardType: TextInputType.datetime,
-        autofocus: widgetData.autofocus,
+        autofocus: widget.widgetData.autofocus,
         readOnly: true,
         onTap: () => _selectDate(context),
         decoration: InputDecoration(

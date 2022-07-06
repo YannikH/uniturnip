@@ -1,49 +1,40 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
 
-import '../models/widget_data.dart';
-
-// TODO: Implement CheckboxesWidget
 class CheckboxesWidget extends StatefulWidget {
-  const CheckboxesWidget({Key? key, required this.widgetData}) : super(key: key);
-
   final WidgetData widgetData;
+
+  const CheckboxesWidget({Key? key, required this.widgetData}) : super(key: key);
 
   @override
   State<CheckboxesWidget> createState() => _CheckboxesWidgetState();
 }
 
 class _CheckboxesWidgetState extends State<CheckboxesWidget> {
-  List values =  [];
-  
+  List values = [];
+
   @override
   Widget build(BuildContext context) {
     List items = widget.widgetData.schema['enum'] ?? [];
-    List value = widget.widgetData.value ?? [];
+    List? value = widget.widgetData.value;
 
     return Column(
       children: [
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) => CheckboxListTile(
+        for (var item in items)
+          CheckboxListTile(
             controlAffinity: ListTileControlAffinity.leading,
             autofocus: widget.widgetData.autofocus,
-            title: Text(items[index]),
-            value: value.contains(items[index]),
+            title: Text(item),
+            value: value?.contains(item),
             onChanged: (dynamic newValue) {
               setState(() {
-                newValue ? values.add(items[index]) : values.removeWhere((element) => element == items[index]);
+                newValue ? values.add(item) : values.removeWhere((element) => element == item);
               });
               widget.widgetData.onChange(context, widget.widgetData.path, values);
             },
           ),
-        ),
-        value.contains(items) ==  null ? Text(
-          'Required',
-          style: TextStyle(
-              color: Theme.of(context).errorColor
-          ),
-        ) : SizedBox.shrink(),
+        if (value == null || value.isEmpty)
+          Text('Required', style: TextStyle(color: Theme.of(context).errorColor)),
       ],
     );
   }

@@ -1,43 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
+import 'package:uniturnip/json_schema_ui/widgets/widget_ui.dart';
 
-import '../../../../json_schema_ui/models/widget_data.dart';
-import 'widget_ui.dart';
-
-class TextareaWidget extends StatelessWidget {
-  TextareaWidget({Key? key, required this.widgetData}) : super(key: key);
-
+class TextareaWidget extends StatefulWidget {
   final WidgetData widgetData;
-  final TextEditingController textControl = TextEditingController();
+
+  const TextareaWidget({Key? key, required this.widgetData}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    String title = widgetData.schema['title'] ?? '';
-    String description = widgetData.schema['description'] ?? '';
+  State<TextareaWidget> createState() => _TextareaWidgetState();
+}
 
-    textControl.text = widgetData.value ?? '';
+class _TextareaWidgetState extends State<TextareaWidget> {
+  late final TextEditingController textControl;
+  late final String title;
+  late final String description;
+
+  @override
+  void initState() {
+    title = widget.widgetData.title;
+    description = widget.widgetData.description;
+
+    textControl = TextEditingController(text: widget.widgetData.value ?? '');
     textControl.selection = TextSelection.fromPosition(
       TextPosition(offset: textControl.text.length),
     );
 
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    textControl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return WidgetUI(
       title: title,
       description: description,
       child: TextFormField(
         validator: (val) {
           if (val == null || val.isEmpty) {
-            return 'Please enter appropriate Date';
+            return 'Required';
           }
           return null;
         },
         controller: textControl,
-        onChanged: (val) => widgetData.onChange(
-          context,
-          widgetData.path,
-          val,
-        ),
-        enabled: !widgetData.disabled,
-        autofocus: widgetData.autofocus,
-        readOnly: widgetData.readonly,
+        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        enabled: !widget.widgetData.disabled,
+        autofocus: widget.widgetData.autofocus,
+        readOnly: widget.widgetData.readonly,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
         ),
