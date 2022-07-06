@@ -33,7 +33,7 @@ class _CheckboxesWidgetState extends State<CheckboxesWidget> {
               widget.widgetData.onChange(context, widget.widgetData.path, values);
             },
           ),
-        if (value == null || value.isEmpty)
+        if (widget.widgetData.required && (value == null || value.isEmpty))
           Text('Required', style: TextStyle(color: Theme.of(context).errorColor)),
       ],
     );

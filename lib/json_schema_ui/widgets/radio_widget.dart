@@ -52,7 +52,7 @@ class RadioWidget extends StatelessWidget {
                 widgetData.onChange(context, widgetData.path, newValue);
               },
             ),
-          if (widgetData.value == null)
+          if (widgetData.required && widgetData.value == null)
             Text('Required', style: TextStyle(color: Theme.of(context).errorColor)),
         ],
       ),

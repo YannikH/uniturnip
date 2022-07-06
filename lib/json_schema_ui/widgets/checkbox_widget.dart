@@ -17,7 +17,7 @@ class CheckboxWidget extends StatelessWidget {
           widgetData.onChange(context, widgetData.path, newValue);
         },
         title: Text(widgetData.title),
-        subtitle: widgetData.value == null
+        subtitle: widgetData.required && widgetData.value == null
             ? Text('Required', style: TextStyle(color: Theme.of(context).errorColor))
             : null);
   }
