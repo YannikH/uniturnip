@@ -38,7 +38,8 @@ dependencies:
   permission_handler: ^9.2.0
   form_field_validator: ^1.1.0
   audio_recorder:
-    path: packages/audio_recorder
+    git:
+      url: https://github.com/KloopMedia/audio_recorder.git
 
 dev_dependencies:
   flutter_test:
