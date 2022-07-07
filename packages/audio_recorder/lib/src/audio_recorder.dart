@@ -42,6 +42,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
   bool _isRecording = false;
   bool _isPlaying = false;
   String? _path;
+  bool _isExternal = false;
 
   StreamSubscription? _recorderSubscription;
   StreamSubscription? _playerSubscription;
@@ -113,7 +114,10 @@ class _AudioRecorderState extends State<AudioRecorder> {
   void initState() {
     super.initState();
     init();
-    _path = widget.url;
+    if (widget.url != null) {
+      _path = widget.url;
+      _isExternal = true;
+    }
   }
 
   void cancelRecorderSubscriptions() {
@@ -289,7 +293,9 @@ class _AudioRecorderState extends State<AudioRecorder> {
             codec: codec,
             sampleRate: tSTREAMSAMPLERATE,
             whenFinished: () {
-              setState(() {});
+              setState(() {
+                _isPlaying = false;
+              });
             });
       }
       _addListeners();
@@ -351,7 +357,13 @@ class _AudioRecorderState extends State<AudioRecorder> {
   }
 
   Future<void> seekToPlayer(int milliSecs) async {
-    await playerModule.seekToPlayer(Duration(milliseconds: milliSecs));
+    try {
+      if (playerModule.isPlaying) {
+        await playerModule.seekToPlayer(Duration(milliseconds: milliSecs));
+      }
+    } on Exception catch (err) {
+      playerModule.logger.e('error: $err');
+    }
     setState(() {});
   }
 
@@ -405,22 +417,27 @@ class _AudioRecorderState extends State<AudioRecorder> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              width: 56.0,
-              height: 50.0,
-              child: ClipOval(
-                child: IconButton(
-                  onPressed: onStartRecorderPressed(),
-                  icon: Icon(_isRecording ? Icons.stop : Icons.mic),
-                ),
+            if (!_isExternal)
+              Row(
+                children: [
+                  SizedBox(
+                    width: 56.0,
+                    height: 50.0,
+                    child: ClipOval(
+                      child: IconButton(
+                        onPressed: onStartRecorderPressed(),
+                        icon: Icon(_isRecording ? Icons.stop : Icons.mic),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                    child: VerticalDivider(
+                      thickness: 2,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(
-              height: 30,
-              child: VerticalDivider(
-                thickness: 2,
-              ),
-            ),
             SizedBox(
               width: 56.0,
               height: 50.0,
