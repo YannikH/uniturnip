@@ -9,10 +9,11 @@ class AudioWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String? url = widgetData.uiSchema['ui:options']['default'];
     return AudioRecorder(
-      // url: 'https://flutter-sound.canardoux.xyz/web_example/assets/extract/06.mp4',
+      url: url,
       onRecorderStop: (path) {
-        print(path);
+        // print(path);
       },
     );
   }

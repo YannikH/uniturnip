@@ -58,8 +58,6 @@ class _AudioRecorderState extends State<AudioRecorder> {
   double maxDuration = 1.0;
   Codec _codec = Codec.aacMP4;
 
-  String fileUrl = "";
-
   final bool _encoderSupported = true;
   final bool _decoderSupported = true;
 
@@ -112,12 +110,12 @@ class _AudioRecorderState extends State<AudioRecorder> {
 
   @override
   void initState() {
-    super.initState();
-    init();
-    if (widget.url != null) {
+    if (widget.url != null && widget.url != '') {
       _path = widget.url;
       _isExternal = true;
     }
+    init();
+    super.initState();
   }
 
   void cancelRecorderSubscriptions() {
