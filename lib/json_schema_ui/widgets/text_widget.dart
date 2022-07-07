@@ -37,10 +37,12 @@ class _TextWidgetState extends State<TextWidget> {
         title: title,
         description: description,
         child: Autocomplete<String>(
-          fieldViewBuilder: (BuildContext context,
-              TextEditingController textEditingController,
-              FocusNode focusNode,
-              VoidCallback onFieldSubmitted) {
+          fieldViewBuilder: (
+            BuildContext context,
+            TextEditingController textEditingController,
+            FocusNode focusNode,
+            VoidCallback onFieldSubmitted,
+          ) {
             return TextFormField(
               validator: RequiredValidator(
                 errorText: 'Please enter a text',
@@ -48,8 +50,8 @@ class _TextWidgetState extends State<TextWidget> {
               controller: textEditingController,
               decoration: const InputDecoration(border: OutlineInputBorder()),
               focusNode: focusNode,
-              onChanged: (val) =>
-                  widget.widgetData.onChange(context, widget.widgetData.path, val),
+              onChanged: (val) => widget.widgetData
+                  .onChange(context, widget.widgetData.path, val),
               onFieldSubmitted: (String value) {
                 onFieldSubmitted();
                 print('You just typed a new entry  $value');
@@ -66,7 +68,8 @@ class _TextWidgetState extends State<TextWidget> {
             });
           },
           onSelected: (String selection) {
-            widget.widgetData.onChange(context, widget.widgetData.path, selection);
+            widget.widgetData
+                .onChange(context, widget.widgetData.path, selection);
           },
         ),
       );

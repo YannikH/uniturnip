@@ -31,7 +31,6 @@ class JSONSchemaUI extends StatelessWidget {
       {required MapPath path, required Map<String, dynamic> data})? onUpdate;
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<UIModel>.value(
