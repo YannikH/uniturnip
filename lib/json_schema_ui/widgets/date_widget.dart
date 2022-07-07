@@ -5,7 +5,7 @@ import 'package:uniturnip/json_schema_ui/utilities/date_time.dart';
 import 'package:uniturnip/json_schema_ui/widgets/widget_ui.dart';
 
 class DateWidget extends StatefulWidget {
-  DateWidget({Key? key, required this.widgetData}) : super(key: key);
+  const DateWidget({Key? key, required this.widgetData}) : super(key: key);
 
   final WidgetData widgetData;
 

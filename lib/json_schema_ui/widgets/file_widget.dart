@@ -23,8 +23,8 @@ class _FileWidgetState extends State<FileWidget> {
   String? _extension;
   bool _isLoading = false;
   bool _userAborted = false;
-  bool _multiPick = true;
-  FileType _pickingType = FileType.any;
+  final bool _multiPick = true;
+  final FileType _pickingType = FileType.any;
   final TextEditingController _controller = TextEditingController();
   String title = '';
   String description = '';
@@ -106,7 +106,6 @@ class _FileWidgetState extends State<FileWidget> {
   }
 
   void _logException(String message) {
-    print(message);
     _scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     _scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(

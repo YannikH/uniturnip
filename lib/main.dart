@@ -121,17 +121,20 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             tabs: myTabs,
           )),
       drawer: Drawer(
-        child: ListView.builder(
-          // Important: Remove any padding from the ListView.
-          controller: ScrollController(),
-          padding: EdgeInsets.zero,
-          itemCount: _schemas.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(_schemas[index]['label']),
-              onTap: () =>  _setSchema(index),
-            );
-          },
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: ListView.builder(
+            // Important: Remove any padding from the ListView.
+            controller: ScrollController(),
+            padding: EdgeInsets.zero,
+            itemCount: _schemas.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(_schemas[index]['label']),
+                onTap: () =>  _setSchema(index),
+              );
+            },
+          ),
         ),
       ),
       body: Center(
