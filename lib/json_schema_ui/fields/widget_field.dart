@@ -15,8 +15,8 @@ class WidgetField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (widgetType) {
-      // case 'audio':
-      //   return AudioWidget(widgetData: widgetData);
+      case 'audio':
+        return AudioWidget(widgetData: widgetData);
       case 'checkbox':
         return CheckboxWidget(widgetData: widgetData);
       case 'checkboxes':
