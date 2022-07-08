@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 
+typedef FunctionCallback = void Function(
+    BuildContext context,
+    MapPath path,
+    dynamic value,
+    );
+
 class WidgetData {
   final Map<String, dynamic> schema;
   final MapPath path;
@@ -11,12 +17,9 @@ class WidgetData {
   final bool disabled;
   final bool required;
   final bool autofocus;
-  final void Function(BuildContext context, MapPath path, dynamic value)
-      onChange;
-  final Function(BuildContext context, MapPath path, dynamic value)?
-      onBlur;
-  final Function(BuildContext context, MapPath path, dynamic value)?
-      onFocus;
+  final FunctionCallback onChange;
+  final FunctionCallback? onBlur;
+  final FunctionCallback? onFocus;
 
   WidgetData({
     required this.schema,

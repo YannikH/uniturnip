@@ -22,6 +22,7 @@ class JSONSchemaDependency extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Fix oneOf dependency
     dynamic data = context.select((UIModel uiModel) => uiModel.getDataByPath(path));
     List<dynamic> oneOf = schema['oneOf'] ?? [];
     for (Map<String, dynamic> dependency in oneOf) {

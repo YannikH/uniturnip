@@ -1,26 +1,17 @@
 import 'dart:collection';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:uniturnip/json_schema_ui/fields/json_schema_field.dart';
-import '../fields/json_schema_leaf.dart';
 import 'mapPath.dart';
 import '../utils.dart';
-import 'widget_data.dart';
 
 class UIModel extends ChangeNotifier {
   UIModel({Map<String, dynamic> data = const {}, this.onUpdate}) : _data = data;
 
   Map<String, dynamic> _data;
-  bool _isExternal = false;
 
-  bool get isExternal => _isExternal;
-
+  ///  получаем данные из formData
   set data(Map<String, dynamic> value) {
     _data = value;
-    _isExternal = true;
     notifyListeners();
-    // onUpdate!(path: MapPath(), data: _data);
   }
 
   void Function({required MapPath path, required Map<String, dynamic> data})?
@@ -29,13 +20,15 @@ class UIModel extends ChangeNotifier {
   UnmodifiableMapView<String, dynamic> get data =>
       UnmodifiableMapView<String, dynamic>(_data);
 
+  /// этот метод вызывается, когда пользователь вводит данные в текстовое поле.
+  /// и эти данные передаются в formData
   void modifyData(MapPath path, dynamic value) {
     _data = Utils.modifyMapByPath(path, _data, value);
-    _isExternal = false;
     notifyListeners();
     onUpdate!(path: path, data: data);
   }
 
+  /// добавляет поле в форме, если поле типа array
   void addArrayElement(MapPath path) {
     List<dynamic>? array = Utils.getDataBypath(path, _data);
     if (array == null) {
@@ -45,146 +38,46 @@ class UIModel extends ChangeNotifier {
       MapPath newPath = path.add('leaf', arrayLength);
       _data = Utils.modifyMapByPath(newPath, _data, null);
     }
-    _isExternal = false;
     notifyListeners();
     onUpdate!(path: path, data: data);
   }
 
+  /// удаляет поле в форме, если поле типа array
   void removeArrayElement(MapPath path) {
     List<dynamic>? array = Utils.getDataBypath(path, _data);
     if (array != null && array.length > 1) {
       array.removeLast();
       _data = Utils.modifyMapByPath(path, _data, array);
-      _isExternal = false;
       notifyListeners();
       onUpdate!(path: path, data: data);
     }
   }
 
+  /// возвращает значение поля из formData
   getDataByPath(MapPath path) {
     return Utils.getDataBypath(path, _data);
   }
-
-  /// -------------- for ReaderWidget --------------
-
-  TextSpan _sentenceAsTextSpan = const TextSpan();
-  TextSpan get sentenceAsTextSpan => _sentenceAsTextSpan;
-
-  String _clickedWord = '';
-  String get clickedWord => _clickedWord;
-
-  String _translation = '';
-  String get translation => _translation;
-
-  final List<String> _sentenceAsList = [];
-  List<String> get sentenceAsList => _sentenceAsList;
-
-  List<Map<String, dynamic>> _dataValue = [];
-  List<Map<String, dynamic>> get dataValue => _dataValue;
-
-  int _index = 0;
-  int get index => _index;
-
-  final List<String> _clickedWordList = [];
-  List<String> get clickedWordList => _clickedWordList;
-
-  final List<String> _translationList = [];
-  List<String> get translationList => _translationList;
-
-  void setData(List<Map<String, dynamic>> value) {
-    _dataValue = value;
-  }
-
-  void getSentenceAsList() {
-    sentenceAsList.clear();
-    for (var map in dataValue) {
-      _sentenceAsList.add(map['word']);
-    }
-  }
-
-  void getTextSpan(WidgetData widgetData, BuildContext context) {
-    final List<TextSpan> wordsAsTextSpan = [];
-    for (int index = 0; index < sentenceAsList.length; index++) {
-      wordsAsTextSpan.add(TextSpan(text: sentenceAsList[index] + ' '));
-    }
-
-    _sentenceAsTextSpan = TextSpan(
-        children: wordsAsTextSpan.map((e) => TextSpan(
-            text: e.text,
-            style: TextStyle(
-              fontSize: 20.0,
-              color: (_clickedWord == e.text) ? Colors.greenAccent : Colors.black,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                _clickedWord = e.text!;
-                getTextSpan(widgetData, context);
-                getTranslate();
-                changeCount(widgetData, context);
-                addToWordsList();
-                notifyListeners();
-              }))
-            .toList());
-  }
-
-  void hideClickedWord() {
-    _clickedWord = '';
-    notifyListeners();
-  }
-
-  void getTranslate() {
-    var wordWithoutSpace = clickedWord.substring(0, clickedWord.length - 1);
-    _index = sentenceAsList.indexOf(wordWithoutSpace);
-    _translation = dataValue[index]['translation'];
-  }
-
-  void changeCount(WidgetData widgetData, BuildContext context) {
-    List<Map<String, dynamic>> copyDataList = List.from(dataValue);
-    Map<String, dynamic> copyDataMap = {...dataValue[index]};
-    copyDataMap['count'] = copyDataMap['count'] + 1;
-
-    if (copyDataMap['count'] == 1) {
-      if (copyDataMap['active'] == true)  copyDataMap['active'] = false;
-    }
-
-    copyDataList.removeAt(index);
-    copyDataList.insert(index, copyDataMap);
-
-    widgetData.onChange(context, widgetData.path, copyDataList);
-  }
-
-  void addToWordsList() {
-
-    if (clickedWordList.contains(clickedWord) && translationList.contains(translation)) {
-      var i = _clickedWordList.indexOf(clickedWord);
-      _clickedWordList.insert(i, clickedWord);
-      _clickedWordList.remove(clickedWord);
-      _translationList.insert(i, translation);
-      _translationList.remove(translation);
-    } else {
-      _clickedWordList.add(clickedWord);
-      _translationList.add(translation);
-    }
-    notifyListeners();
-  }
-
 
   /// -------------- for CardWidget --------------
 
   int _counter = 0;
   int get counter => _counter;
 
-  int _length = 0;
-  int get length => _length;
+  int _numberOfCards  = 0;
+  int get numberOfCards  => _numberOfCards ;
 
-  void initValues(Map schema) {
-    List fields = schema['properties'].keys.toList();
-    _length = fields.length;
+  /// в методе getNumOfCards получаем количество карточек, которое используем в методе getCard
+  void getNumOfCards(Map schema) {
+    List cards  = schema['properties'].keys.toList();
+    _numberOfCards  = cards .length;
   }
 
-  getField() {
+  getCard() {
+    /// значение counter нужен для метода retrieveSchemaFields, откуда определяется какую карточку передать для отображения в UI
     _counter ++;
-    if (counter == length) _counter = 0;
+
+    /// показ карточек начинается с начала (с первой карточки)
+    if (counter == numberOfCards ) _counter = 0;
     notifyListeners();
   }
 }

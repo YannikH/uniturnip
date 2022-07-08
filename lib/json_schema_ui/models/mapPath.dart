@@ -1,5 +1,19 @@
 import 'dart:collection';
 
+class PathStep {
+  PathStep(this.type, this.pointer);
+
+  @override
+  String toString() {
+    return '$pointer';
+  }
+
+  final StepType type;
+  final dynamic pointer;
+}
+
+enum StepType {object, array, leaf}
+
 class MapPath {
   MapPath({
     List<PathStep> steps = const [],
@@ -15,6 +29,7 @@ class MapPath {
   UnmodifiableListView<PathStep> get steps =>
       UnmodifiableListView<PathStep>(_steps);
 
+  /// добавляет поле(properties)
   MapPath add(String type, dynamic pointer) {
     List<PathStep> steps = [..._steps];
     StepType stepType = StepType.leaf;
@@ -27,26 +42,27 @@ class MapPath {
     return MapPath(steps: steps);
   }
 
+  /// удаляет по индексу поле(properties), добавленное в steps
   MapPath removeAt(int index) {
     List<PathStep> steps = [..._steps];
     steps.removeAt(index);
     return MapPath(steps: steps);
   }
 
+  /// удаляет последнее поле(properties), добавленное в steps
   MapPath removeLast() {
     List<PathStep> steps = [..._steps];
     steps.removeAt(steps.length - 1);
     return MapPath(steps: steps);
   }
 
-  bool isLastArray() {
+  /// если тип последнего поля в списке steps array
+  bool isLastArray() {  // TODO: Check why is not working
     return _steps.isNotEmpty ? _steps.last.type == StepType.array : false;
   }
-  bool isLastObject() {
+  /// если тип последнего поля в списке steps object
+  bool isLastObject() {  // TODO: Check why is not working
     return _steps.isNotEmpty ? _steps.last.type == StepType.object : false;
-  }
-  bool isLastLeaf() {
-    return _steps.isNotEmpty ? _steps.last.type == StepType.leaf : false;
   }
 
   int length() {
@@ -54,17 +70,3 @@ class MapPath {
   }
 
 }
-
-class PathStep {
-  PathStep(this.type, this.pointer);
-
-  @override
-  String toString() {
-    return '$pointer';
-  }
-
-  final StepType type;
-  final dynamic pointer;
-}
-
-enum StepType {object, array, leaf}
