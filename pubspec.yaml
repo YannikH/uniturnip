@@ -39,6 +39,7 @@ dependencies:
   form_field_validator: ^1.1.0
   flutter_markdown: ^0.6.10+2
   full_screen_image: ^1.0.2
+  video_player: ^2.4.5
 
 dev_dependencies:
   flutter_test:
