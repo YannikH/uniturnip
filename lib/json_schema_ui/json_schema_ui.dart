@@ -13,7 +13,7 @@ typedef SubmitCallback = void Function({
   required Map<String, dynamic> data,
 });
 
-typedef AudioRecordCallback = void Function(String filepath);
+typedef SaveAudioRecordCallback = Future<String> Function(String filepath);
 
 class JSONSchemaUI extends StatelessWidget {
   final Map<String, dynamic> schema;
@@ -21,7 +21,7 @@ class JSONSchemaUI extends StatelessWidget {
   final Map<String, dynamic> data;
   final ChangeCallback? onUpdate;
   final SubmitCallback? onSubmit;
-  final AudioRecordCallback? onRecord;
+  final SaveAudioRecordCallback? saveAudioRecord;
 
   JSONSchemaUI({
     Key? key,
@@ -30,7 +30,7 @@ class JSONSchemaUI extends StatelessWidget {
     this.data = const {},
     this.onUpdate,
     this.onSubmit,
-    this.onRecord,
+    this.saveAudioRecord,
   }) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
@@ -38,7 +38,7 @@ class JSONSchemaUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<UIModel>(
-      create: (context) => UIModel(data: data, onUpdate: onUpdate, onRecord: onRecord),
+      create: (context) => UIModel(data: data, onUpdate: onUpdate, saveAudioRecord: saveAudioRecord),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(

@@ -1,4 +1,3 @@
-import 'package:uniturnip/json_schema_ui/json_schema_ui.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 
 
@@ -17,7 +16,6 @@ class WidgetData {
   final WidgetCallback onChange;
   final WidgetCallback? onBlur;
   final WidgetCallback? onFocus;
-  final AudioRecordCallback? onRecord;
 
   WidgetData({
     required this.schema,
@@ -32,7 +30,6 @@ class WidgetData {
     this.autofocus = false,
     this.onBlur,
     this.onFocus,
-    this.onRecord,
   });
 
   String get title => schema['title'] ?? '';

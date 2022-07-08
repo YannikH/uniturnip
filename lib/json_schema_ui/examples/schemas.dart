@@ -102,7 +102,7 @@ class Schemas {
     "ui": {
       "firstName": {
         "ui:widget": "audio",
-        "ui:options": {"private": false, "default": "https://flutter-sound.canardoux.xyz/web_example/assets/extract/06.mp4"}
+        "ui:options": {"private": false, "default": ""}
       },
       "lastName": {"ui:emptyValue": "", "ui:autocomplete": "given-name"},
       "age": {

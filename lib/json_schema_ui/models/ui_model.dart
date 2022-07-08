@@ -10,9 +10,9 @@ import 'package:uniturnip/json_schema_ui/utils.dart';
 class UIModel extends ChangeNotifier {
   Map<String, dynamic> _data;
   ChangeCallback? onUpdate;
-  AudioRecordCallback? onRecord;
+  SaveAudioRecordCallback? saveAudioRecord;
 
-  UIModel({Map<String, dynamic> data = const {}, this.onUpdate, this.onRecord}) : _data = data;
+  UIModel({Map<String, dynamic> data = const {}, this.onUpdate, this.saveAudioRecord}) : _data = data;
 
   set data(Map<String, dynamic> value) {
     _data = value;

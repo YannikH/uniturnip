@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_ui/examples/schemas.dart';
 import 'package:uniturnip/json_schema_ui/json_schema_ui.dart';
@@ -148,6 +149,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 ui: _ui,
                 onUpdate: _updateDataAndPath,
                 data: _data,
+                saveAudioRecord: saveAudioRecord,
                 onSubmit: ({required Map<String, dynamic> data}) {
                   print(data);
                 },
@@ -212,6 +214,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       //   child: const Icon(Icons.add),
       // ),
     );
+  }
+
+  Future<String> saveAudioRecord(String filepath) async {
+    // var haystack = await File(filepath).readAsBytes();
+    print('FUTURE AUDIO RECORD');
+    return filepath;
   }
 
   void _updateDataAndPath({required Map<String, dynamic> data, required MapPath path}) {
