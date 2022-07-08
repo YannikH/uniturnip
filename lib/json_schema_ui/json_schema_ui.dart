@@ -4,36 +4,41 @@ import 'package:uniturnip/json_schema_ui/fields/object_field.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
-typedef OnChangeCallback = void Function({
+typedef ChangeCallback = void Function({
   required MapPath path,
   required Map<String, dynamic> data,
 });
 
-typedef OnSubmitCallback = void Function({
+typedef SubmitCallback = void Function({
   required Map<String, dynamic> data,
 });
 
+typedef AudioRecordCallback = void Function(String filepath);
+
 class JSONSchemaUI extends StatelessWidget {
+  final Map<String, dynamic> schema;
+  final Map<String, dynamic> ui;
+  final Map<String, dynamic> data;
+  final ChangeCallback? onUpdate;
+  final SubmitCallback? onSubmit;
+  final AudioRecordCallback? onRecord;
+
   JSONSchemaUI({
     Key? key,
     required this.schema,
     this.ui = const {},
     this.data = const {},
-    required this.onUpdate,
-    required this.onSubmit,
+    this.onUpdate,
+    this.onSubmit,
+    this.onRecord,
   }) : super(key: key);
 
-  final Map<String, dynamic> schema;
-  final Map<String, dynamic> ui;
-  final Map<String, dynamic> data;
-  final OnChangeCallback? onUpdate;
-  final OnSubmitCallback? onSubmit;
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<UIModel>(
-      create: (context) => UIModel(data: data, onUpdate: onUpdate),
+      create: (context) => UIModel(data: data, onUpdate: onUpdate, onRecord: onRecord),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
