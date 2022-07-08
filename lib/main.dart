@@ -5,7 +5,6 @@ import 'package:uniturnip/json_schema_ui/json_schema_ui.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -36,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   Map<String, dynamic> _data = const {};
+
   // String _path = '';
 
   final List<Tab> myTabs = <Tab>[
@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 title: Text(_schemas[index]['label']),
-                onTap: () =>  _setSchema(index),
+                onTap: () => _setSchema(index),
               );
             },
           ),
@@ -143,13 +143,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Form(
-              child:JSONSchemaUI(
-                    schema: _schema,
-                    ui: _ui,
-                    onUpdate: _updateDataAndPath,
-                    data: _data,
-                    controller: formController,
-                  ),
+              child: JSONSchemaUI(
+                schema: _schema,
+                ui: _ui,
+                onUpdate: _updateDataAndPath,
+                data: _data,
+                onSubmit: ({required Map<String, dynamic> data}) {
+                  print(data);
+                },
+              ),
             ),
             // Text('Data: $_data \n Path: $_path'),
             Padding(
@@ -213,7 +215,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   }
 
   void _updateDataAndPath({required Map<String, dynamic> data, required MapPath path}) {
-    textControl.text = JsonEncoder.withIndent(' ' * 4).convert(formController.data);
+    print(data);
+    print(path);
+    // textControl.text = JsonEncoder.withIndent(' ' * 4).convert(formController.data);
     // setState(() {
     //   _data = data;
     // });
