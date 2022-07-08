@@ -46,10 +46,10 @@ class _DateWidgetState extends State<DateWidget> {
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101),
       );
-
+      // TODO: Check if onChange below is necessary.
       if (pickedDate != null) {
         final date = parseDate(pickedDate);
-        widget.widgetData.onChange(context, widget.widgetData.path, date);
+        widget.widgetData.onChange(widget.widgetData.path, date);
       }
     }
 
@@ -62,7 +62,7 @@ class _DateWidgetState extends State<DateWidget> {
           return null;
         },
         controller: textControl,
-        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
         enabled: !widget.widgetData.disabled,
         keyboardType: TextInputType.datetime,
         autofocus: widget.widgetData.autofocus,

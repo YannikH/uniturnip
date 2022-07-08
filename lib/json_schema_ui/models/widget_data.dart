@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:uniturnip/json_schema_ui/json_schema_ui.dart';
 import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
+
+
+typedef WidgetCallback = void Function(MapPath path, dynamic value);
 
 class WidgetData {
   final Map<String, dynamic> schema;
@@ -11,12 +14,10 @@ class WidgetData {
   final bool disabled;
   final bool required;
   final bool autofocus;
-  final void Function(BuildContext context, MapPath path, dynamic value)
-      onChange;
-  final Function(BuildContext context, MapPath path, dynamic value)?
-      onBlur;
-  final Function(BuildContext context, MapPath path, dynamic value)?
-      onFocus;
+  final WidgetCallback onChange;
+  final WidgetCallback? onBlur;
+  final WidgetCallback? onFocus;
+  final AudioRecordCallback? onRecord;
 
   WidgetData({
     required this.schema,
@@ -31,9 +32,12 @@ class WidgetData {
     this.autofocus = false,
     this.onBlur,
     this.onFocus,
+    this.onRecord,
   });
 
   String get title => schema['title'] ?? '';
+
   String get description => schema['description'] ?? '';
+
   String get type => schema['type'];
 }

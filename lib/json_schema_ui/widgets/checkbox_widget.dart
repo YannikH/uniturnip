@@ -14,7 +14,7 @@ class CheckboxWidget extends StatelessWidget {
         autofocus: widgetData.autofocus,
         value: true == widgetData.value,
         onChanged: (dynamic newValue) {
-          widgetData.onChange(context, widgetData.path, newValue);
+          widgetData.onChange(widgetData.path, newValue);
         },
         title: Text(widgetData.title),
         subtitle: widgetData.required && widgetData.value == null

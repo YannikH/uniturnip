@@ -52,7 +52,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
       );
       if (pickedDate != null && pickedTime != null) {
         final pickedDateTime = parseDateTime(pickedDate, pickedTime);
-        widget.widgetData.onChange(context, widget.widgetData.path, pickedDateTime);
+        widget.widgetData.onChange(widget.widgetData.path, pickedDateTime);
       }
     }
 
@@ -61,7 +61,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
       description: description,
       child: TextFormField(
         controller: textControl,
-        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
         enabled: !widget.widgetData.disabled,
         keyboardType: TextInputType.datetime,
         autofocus: widget.widgetData.autofocus,

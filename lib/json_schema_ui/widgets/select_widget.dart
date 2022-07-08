@@ -40,7 +40,7 @@ class SelectWidget extends StatelessWidget {
         isExpanded: true,
         decoration: const InputDecoration(border: OutlineInputBorder()),
         onChanged: (dynamic newValue) {
-          widgetData.onChange(context, widgetData.path, newValue);
+          widgetData.onChange(widgetData.path, newValue);
         },
         items: items.mapIndexed<DropdownMenuItem>(
           (index, item) {

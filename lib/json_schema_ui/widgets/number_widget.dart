@@ -50,7 +50,7 @@ class _NumberWidgetState extends State<NumberWidget> {
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.allow(RegExp(r'[.0-9]')),
           ],
-          onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+          onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
           enabled: !widget.widgetData.disabled,
           autofocus: widget.widgetData.autofocus,
           readOnly: widget.widgetData.readonly,

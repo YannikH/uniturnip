@@ -31,7 +31,7 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField {
           value: data,
           path: path,
           uiSchema: ui,
-          onChange: (context, path, value) {
+          onChange: (path, value) {
             uiModel.modifyData(path, value);
           });
 

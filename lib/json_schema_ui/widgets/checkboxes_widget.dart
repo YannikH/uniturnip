@@ -30,7 +30,7 @@ class _CheckboxesWidgetState extends State<CheckboxesWidget> {
               setState(() {
                 newValue ? values.add(item) : values.removeWhere((element) => element == item);
               });
-              widget.widgetData.onChange(context, widget.widgetData.path, values);
+              widget.widgetData.onChange(widget.widgetData.path, values);
             },
           ),
         if (widget.widgetData.required && (value == null || value.isEmpty))
