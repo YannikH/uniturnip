@@ -16,6 +16,7 @@ class AudioWidget extends StatelessWidget {
     return WidgetUI(
       title: widgetData.title,
       description: widgetData.description,
+      required: widgetData.required,
       child: AudioRecorder(
         url: url,
         onRecorderStop: (filepath) async {

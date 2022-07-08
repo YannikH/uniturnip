@@ -16,11 +16,13 @@ class _TextWidgetState extends State<TextWidget> {
   late final TextEditingController textControl;
   late final String title;
   late final String description;
+  late final bool required;
 
   @override
   void initState() {
     title = widget.widgetData.title;
     description = widget.widgetData.description;
+    required = widget.widgetData.required;
     final dynamic value = widget.widgetData.value;
     final String text = value != null ? value.toString() : '';
     textControl = TextEditingController(text: text);
@@ -44,6 +46,7 @@ class _TextWidgetState extends State<TextWidget> {
       return WidgetUI(
         title: title,
         description: description,
+        required: widget.widgetData.required,
         child: Autocomplete<String>(
           fieldViewBuilder: (
             BuildContext context,
@@ -83,6 +86,7 @@ class _TextWidgetState extends State<TextWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: required,
       child: TextFormField(
         validator: RequiredValidator(
           errorText: 'Please enter a text',

@@ -15,6 +15,10 @@ class RadioWidget extends StatelessWidget {
     }
   }
 
+  void _onChange(value) {
+    widgetData.onChange(widgetData.path, value);
+  }
+
   @override
   Widget build(BuildContext context) {
     final String title = widgetData.title;
@@ -39,6 +43,7 @@ class RadioWidget extends StatelessWidget {
     return WidgetUI(
       title: title,
       description: description,
+      required: widgetData.required,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -48,9 +53,7 @@ class RadioWidget extends StatelessWidget {
               value: items[index],
               groupValue: widgetData.value,
               contentPadding: EdgeInsets.zero,
-              onChanged: (dynamic newValue) {
-                widgetData.onChange(widgetData.path, newValue);
-              },
+              onChanged: widgetData.disabled ? null : _onChange,
             ),
           if (widgetData.required && widgetData.value == null)
             Text('Required', style: TextStyle(color: Theme.of(context).errorColor)),

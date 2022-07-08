@@ -59,6 +59,7 @@ class _DateTimeWidgetState extends State<DateTimeWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: TextFormField(
         controller: textControl,
         onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),

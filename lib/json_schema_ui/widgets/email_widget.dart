@@ -41,9 +41,10 @@ class _EmailWidgetState extends State<EmailWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: TextFormField(
         validator: MultiValidator([
-          RequiredValidator(
+          if (widget.widgetData.required) RequiredValidator(
             errorText: "Required",
           ),
           EmailValidator(

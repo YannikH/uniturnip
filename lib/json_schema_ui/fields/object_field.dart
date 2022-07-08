@@ -88,6 +88,7 @@ class ObjectBody extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, dynamic> newSchema = schema['properties']?[field] ?? schema['items'] ?? {};
     Map<String, dynamic> newUiSchema = uiSchema[field] ?? uiSchema['items'] ?? {};
+    List<String> required = schema['required'] ?? [];
     String schemaType = newSchema['type'] ?? 'not_defined';
     if (schemaType == 'object' || schemaType == 'array') {
       // TODO: Add FixedItemsList handling
@@ -98,6 +99,7 @@ class ObjectBody extends StatelessWidget {
           ui: newUiSchema.containsKey('items') ? newUiSchema['items'] : newUiSchema,
           pointer: field,
           path: path,
+          required: required.contains(field),
         );
       } else {
         return JSONSchemaUIField(
@@ -116,6 +118,7 @@ class ObjectBody extends StatelessWidget {
             ui: newUiSchema,
             pointer: field,
             path: path,
+            required: required.contains(field),
           ),
           if (schema['dependencies']?[field] != null)
             JSONSchemaDependency(

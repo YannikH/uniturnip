@@ -33,6 +33,7 @@ class SelectWidget extends StatelessWidget {
     return WidgetUI(
       title: title,
       description: description,
+      required: widgetData.required,
       child: DropdownButtonFormField(
         autofocus: widgetData.autofocus,
         hint: const Text('Select item'),

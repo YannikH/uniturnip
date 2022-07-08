@@ -15,6 +15,7 @@ class NullWidget extends StatelessWidget {
     return WidgetUI(
       title: title,
       description: description,
+      required: widgetData.required,
       child: const SizedBox.shrink(),
     );
   }

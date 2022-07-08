@@ -56,6 +56,7 @@ class _DateWidgetState extends State<DateWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: TextFormField(
         validator: (val) {
           if (val == null || val.isEmpty) return 'Please enter appropriate Date';

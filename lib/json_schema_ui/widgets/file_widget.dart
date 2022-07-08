@@ -131,6 +131,7 @@ class _FileWidgetState extends State<FileWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[

@@ -41,6 +41,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: TextFormField(
         validator: MultiValidator([
           RequiredValidator(errorText: "Required"),

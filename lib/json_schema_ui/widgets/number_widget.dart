@@ -43,6 +43,7 @@ class _NumberWidgetState extends State<NumberWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: Column(children: <Widget>[
         TextFormField(
           controller: textControl,

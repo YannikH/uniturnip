@@ -22,12 +22,14 @@ class JSONSchemaUI extends StatelessWidget {
   final ChangeCallback? onUpdate;
   final SubmitCallback? onSubmit;
   final SaveAudioRecordCallback? saveAudioRecord;
+  final bool disabled;
 
   JSONSchemaUI({
     Key? key,
     required this.schema,
     this.ui = const {},
     this.data = const {},
+    this.disabled = false,
     this.onUpdate,
     this.onSubmit,
     this.saveAudioRecord,
@@ -38,7 +40,12 @@ class JSONSchemaUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<UIModel>(
-      create: (context) => UIModel(data: data, onUpdate: onUpdate, saveAudioRecord: saveAudioRecord),
+      create: (context) => UIModel(
+        data: data,
+        disabled: disabled,
+        onUpdate: onUpdate,
+        saveAudioRecord: saveAudioRecord,
+      ),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
