@@ -49,7 +49,7 @@ class _NumberWidgetState extends State<NumberWidget> {
           controller: textControl,
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp(r'[.0-9]')),
+            FilteringTextInputFormatter.digitsOnly,
           ],
           onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
           enabled: !widget.widgetData.disabled,

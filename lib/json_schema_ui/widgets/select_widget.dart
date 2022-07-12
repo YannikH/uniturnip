@@ -8,6 +8,10 @@ class SelectWidget extends StatelessWidget {
 
   final WidgetData widgetData;
 
+  void _onChange(dynamic value) {
+    widgetData.onChange(widgetData.path, value);
+  }
+
   @override
   Widget build(BuildContext context) {
     String title = widgetData.title;
@@ -40,9 +44,7 @@ class SelectWidget extends StatelessWidget {
         value: widgetData.value,
         isExpanded: true,
         decoration: const InputDecoration(border: OutlineInputBorder()),
-        onChanged: (dynamic newValue) {
-          widgetData.onChange(widgetData.path, newValue);
-        },
+        onChanged: widgetData.disabled ? null : _onChange,
         items: items.mapIndexed<DropdownMenuItem>(
           (index, item) {
             return DropdownMenuItem(

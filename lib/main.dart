@@ -36,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   Map<String, dynamic> _data = const {};
+  bool disabled = false;
 
   // String _path = '';
 
@@ -143,13 +144,20 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            TextButton(
+                onPressed: () {
+                  setState(() {
+                    disabled = !disabled;
+                  });
+                },
+                child: Text('Disabled: $disabled')),
             Form(
               child: JSONSchemaUI(
                 schema: _schema,
                 ui: _ui,
                 onUpdate: _updateDataAndPath,
                 data: _data,
-                disabled: true,
+                disabled: disabled,
                 saveAudioRecord: saveAudioRecord,
                 onSubmit: ({required Map<String, dynamic> data}) {
                   print(data);
