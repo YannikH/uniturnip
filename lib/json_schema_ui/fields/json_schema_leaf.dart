@@ -8,18 +8,24 @@ import 'package:uniturnip/json_schema_ui/utils.dart';
 import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
 class JSONSchemaFinalLeaf extends JSONSchemaUIField {
+  final bool required;
+  final bool disabled;
+
   JSONSchemaFinalLeaf({
     Key? key,
     required Map<String, dynamic> schema,
     Map<String, dynamic> ui = const {},
     required MapPath path,
     required dynamic pointer,
+    required this.required,
+    required this.disabled,
   }) : super(
           key: key,
           schema: schema,
           ui: ui,
           pointer: pointer,
           path: path,
+          disabled: disabled,
         );
 
   @override
@@ -31,7 +37,9 @@ class JSONSchemaFinalLeaf extends JSONSchemaUIField {
           value: data,
           path: path,
           uiSchema: ui,
-          onChange: (context, path, value) {
+          disabled: disabled,
+          required: required,
+          onChange: (path, value) {
             uiModel.modifyData(path, value);
           });
 

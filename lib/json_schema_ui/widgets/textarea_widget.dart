@@ -15,11 +15,13 @@ class _TextareaWidgetState extends State<TextareaWidget> {
   late final TextEditingController textControl;
   late final String title;
   late final String description;
+  late final bool required;
 
   @override
   void initState() {
     title = widget.widgetData.title;
     description = widget.widgetData.description;
+    required = widget.widgetData.required;
     final dynamic value = widget.widgetData.value;
     final String text = value != null ? value.toString() : '';
     textControl = TextEditingController(text: text);
@@ -40,15 +42,16 @@ class _TextareaWidgetState extends State<TextareaWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: required,
       child: TextFormField(
         validator: (val) {
-          if (val == null || val.isEmpty) {
+          if (required && (val == null || val.isEmpty)) {
             return 'Required';
           }
           return null;
         },
         controller: textControl,
-        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
         enabled: !widget.widgetData.disabled,
         autofocus: widget.widgetData.autofocus,
         readOnly: widget.widgetData.readonly,

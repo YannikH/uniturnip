@@ -41,9 +41,10 @@ class _EmailWidgetState extends State<EmailWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: TextFormField(
         validator: MultiValidator([
-          RequiredValidator(
+          if (widget.widgetData.required) RequiredValidator(
             errorText: "Required",
           ),
           EmailValidator(
@@ -56,7 +57,7 @@ class _EmailWidgetState extends State<EmailWidget> {
           border: OutlineInputBorder(),
         ),
         keyboardType: TextInputType.emailAddress,
-        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
         enabled: !widget.widgetData.disabled,
         autofocus: widget.widgetData.autofocus,
         readOnly: widget.widgetData.readonly,

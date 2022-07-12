@@ -6,22 +6,29 @@ import 'package:uniturnip/json_schema_ui/utils.dart';
 import 'package:uniturnip/json_schema_ui/widgets/array_buttons.dart';
 
 class JSONSchemaUIField extends StatelessWidget {
+  final Map<String, dynamic> schema;
+  final Map<String, dynamic> ui;
+  final MapPath path;
+  final bool disabled;
+
   JSONSchemaUIField({
     Key? key,
     required this.schema,
     this.ui = const {},
     MapPath? path,
+    this.disabled = false,
     dynamic pointer,
   })  : path = Utils.getPath(path, pointer, schema),
         super(key: key);
 
-  final Map<String, dynamic> schema;
-  final Map<String, dynamic> ui;
-  final MapPath path;
-
   @override
   Widget build(BuildContext context) {
-    List fields = Utils.retrieveSchemaFields(context: context, schema: schema, uiSchema: ui, path: path);
+    List fields = Utils.retrieveSchemaFields(
+      context: context,
+      schema: schema,
+      uiSchema: ui,
+      path: path,
+    );
     String? title = schema['title'];
     String? description = schema['description'];
 
@@ -37,7 +44,7 @@ class JSONSchemaUIField extends StatelessWidget {
           ObjectHeader(title: title, description: description),
         // TODO: Find out if there are any difference between for loop and listview in terms of optimization
         for (String field in fields)
-          ObjectBody(path: path, uiSchema: ui, schema: schema, field: field),
+          ObjectBody(path: path, uiSchema: ui, schema: schema, field: field, disabled: disabled),
         if (path.isLastArray()) ArrayPanel(path),
       ],
     );
@@ -75,6 +82,7 @@ class ObjectBody extends StatelessWidget {
   final Map<String, dynamic> uiSchema;
   final MapPath path;
   final String field;
+  final bool disabled;
 
   const ObjectBody({
     Key? key,
@@ -82,12 +90,14 @@ class ObjectBody extends StatelessWidget {
     required this.uiSchema,
     required this.path,
     required this.field,
+    required this.disabled,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> newSchema = schema['properties']?[field] ?? schema['items'] ?? {};
     Map<String, dynamic> newUiSchema = uiSchema[field] ?? uiSchema['items'] ?? {};
+    List<String> required = schema['required'] ?? [];
     String schemaType = newSchema['type'] ?? 'not_defined';
     if (schemaType == 'object' || schemaType == 'array') {
       // TODO: Add FixedItemsList handling
@@ -98,6 +108,8 @@ class ObjectBody extends StatelessWidget {
           ui: newUiSchema.containsKey('items') ? newUiSchema['items'] : newUiSchema,
           pointer: field,
           path: path,
+          required: required.contains(field),
+          disabled: disabled,
         );
       } else {
         return JSONSchemaUIField(
@@ -116,6 +128,8 @@ class ObjectBody extends StatelessWidget {
             ui: newUiSchema,
             pointer: field,
             path: path,
+            required: required.contains(field),
+            disabled: disabled,
           ),
           if (schema['dependencies']?[field] != null)
             JSONSchemaDependency(

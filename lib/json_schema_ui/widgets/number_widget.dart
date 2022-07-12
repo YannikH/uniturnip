@@ -43,14 +43,15 @@ class _NumberWidgetState extends State<NumberWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: Column(children: <Widget>[
         TextFormField(
           controller: textControl,
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp(r'[.0-9]')),
+            FilteringTextInputFormatter.digitsOnly,
           ],
-          onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+          onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
           enabled: !widget.widgetData.disabled,
           autofocus: widget.widgetData.autofocus,
           readOnly: widget.widgetData.readonly,

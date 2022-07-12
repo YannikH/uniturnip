@@ -1,41 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:uniturnip/json_schema_ui/models/widget_data.dart';
+import 'package:uniturnip/json_schema_ui/widgets/widget_ui.dart';
 
-class CheckboxesWidget extends StatefulWidget {
+class CheckboxesWidget extends StatelessWidget {
   final WidgetData widgetData;
 
   const CheckboxesWidget({Key? key, required this.widgetData}) : super(key: key);
 
-  @override
-  State<CheckboxesWidget> createState() => _CheckboxesWidgetState();
-}
-
-class _CheckboxesWidgetState extends State<CheckboxesWidget> {
-  List values = [];
+  void _onChange(bool? value) {
+    widgetData.onChange(widgetData.path, value);
+  }
 
   @override
   Widget build(BuildContext context) {
-    List items = widget.widgetData.schema['enum'] ?? [];
-    List? value = widget.widgetData.value;
+    List items = widgetData.schema['enum'] ?? [];
+    List? value = widgetData.value;
 
-    return Column(
-      children: [
-        for (var item in items)
-          CheckboxListTile(
-            controlAffinity: ListTileControlAffinity.leading,
-            autofocus: widget.widgetData.autofocus,
-            title: Text(item),
-            value: value?.contains(item),
-            onChanged: (dynamic newValue) {
-              setState(() {
-                newValue ? values.add(item) : values.removeWhere((element) => element == item);
-              });
-              widget.widgetData.onChange(context, widget.widgetData.path, values);
-            },
-          ),
-        if (widget.widgetData.required && (value == null || value.isEmpty))
-          Text('Required', style: TextStyle(color: Theme.of(context).errorColor)),
-      ],
+    return WidgetUI(
+      title: widgetData.title,
+      description: widgetData.description,
+      required: widgetData.required,
+      child: Column(
+        children: [
+          for (var item in items)
+            CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              autofocus: widgetData.autofocus,
+              title: Text(item),
+              value: value?.contains(item),
+              onChanged: widgetData.disabled ? null : _onChange,
+            ),
+          if (widgetData.required && value == null)
+            Text('Required', style: TextStyle(color: Theme.of(context).errorColor)),
+        ],
+      ),
     );
   }
 }

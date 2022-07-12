@@ -6,6 +6,10 @@ class CheckboxWidget extends StatelessWidget {
 
   const CheckboxWidget({Key? key, required this.widgetData}) : super(key: key);
 
+  void _onChange(bool? value) {
+    widgetData.onChange(widgetData.path, value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
@@ -13,9 +17,7 @@ class CheckboxWidget extends StatelessWidget {
         controlAffinity: ListTileControlAffinity.leading,
         autofocus: widgetData.autofocus,
         value: true == widgetData.value,
-        onChanged: (dynamic newValue) {
-          widgetData.onChange(context, widgetData.path, newValue);
-        },
+        onChanged: widgetData.disabled ? null : _onChange,
         title: Text(widgetData.title),
         subtitle: widgetData.required && widgetData.value == null
             ? Text('Required', style: TextStyle(color: Theme.of(context).errorColor))

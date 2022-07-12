@@ -41,6 +41,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: widget.widgetData.required,
       child: TextFormField(
         validator: MultiValidator([
           RequiredValidator(errorText: "Required"),
@@ -53,7 +54,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
         ]),
         obscureText: true,
         controller: textControl,
-        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
         enabled: !widget.widgetData.disabled,
         autofocus: widget.widgetData.autofocus,
         readOnly: widget.widgetData.readonly,

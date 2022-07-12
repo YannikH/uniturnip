@@ -16,11 +16,13 @@ class _TextWidgetState extends State<TextWidget> {
   late final TextEditingController textControl;
   late final String title;
   late final String description;
+  late final bool required;
 
   @override
   void initState() {
     title = widget.widgetData.title;
     description = widget.widgetData.description;
+    required = widget.widgetData.required;
     final dynamic value = widget.widgetData.value;
     final String text = value != null ? value.toString() : '';
     textControl = TextEditingController(text: text);
@@ -44,6 +46,7 @@ class _TextWidgetState extends State<TextWidget> {
       return WidgetUI(
         title: title,
         description: description,
+        required: widget.widgetData.required,
         child: Autocomplete<String>(
           fieldViewBuilder: (
             BuildContext context,
@@ -58,7 +61,7 @@ class _TextWidgetState extends State<TextWidget> {
               controller: textEditingController,
               decoration: const InputDecoration(border: OutlineInputBorder()),
               focusNode: focusNode,
-              onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+              onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
               onFieldSubmitted: (String value) {
                 onFieldSubmitted();
               },
@@ -74,7 +77,7 @@ class _TextWidgetState extends State<TextWidget> {
             });
           },
           onSelected: (String selection) {
-            widget.widgetData.onChange(context, widget.widgetData.path, selection);
+            widget.widgetData.onChange(widget.widgetData.path, selection);
           },
         ),
       );
@@ -83,12 +86,13 @@ class _TextWidgetState extends State<TextWidget> {
     return WidgetUI(
       title: title,
       description: description,
+      required: required,
       child: TextFormField(
         validator: RequiredValidator(
           errorText: 'Please enter a text',
         ),
         controller: textControl,
-        onChanged: (val) => widget.widgetData.onChange(context, widget.widgetData.path, val),
+        onChanged: (val) => widget.widgetData.onChange(widget.widgetData.path, val),
         enabled: !widget.widgetData.disabled,
         autofocus: widget.widgetData.autofocus,
         readOnly: widget.widgetData.readonly,
