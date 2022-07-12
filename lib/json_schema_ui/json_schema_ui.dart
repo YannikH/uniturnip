@@ -62,9 +62,6 @@ class JSONSchemaUI extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       onSubmit!(data: context.read<UIModel>().data);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
                     }
                   },
                   child: const Text("Submit"),
