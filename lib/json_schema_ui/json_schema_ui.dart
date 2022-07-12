@@ -22,29 +22,36 @@ class JSONSchemaUI extends StatelessWidget {
   final ChangeCallback? onUpdate;
   final SubmitCallback? onSubmit;
   final SaveAudioRecordCallback? saveAudioRecord;
-  final bool disabled;
+  final UIModel _formController;
 
   JSONSchemaUI({
     Key? key,
     required this.schema,
     this.ui = const {},
     this.data = const {},
-    this.disabled = false,
     this.onUpdate,
     this.onSubmit,
     this.saveAudioRecord,
-  }) : super(key: key);
+    UIModel? formController,
+  })  : _formController = formController ??
+            UIModel(
+              data: data,
+              onUpdate: onUpdate,
+              saveAudioRecord: saveAudioRecord,
+            ),
+        super(key: key);
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<UIModel>(
-      create: (context) => UIModel(
-        data: data,
-        onUpdate: onUpdate,
-        saveAudioRecord: saveAudioRecord,
-      ),
+    return ChangeNotifierProvider<UIModel>.value(
+      value: _formController,
+      // create: (context) => UIModel(
+      //   data: data,
+      //   onUpdate: onUpdate,
+      //   saveAudioRecord: saveAudioRecord,
+      // ),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -53,7 +60,7 @@ class JSONSchemaUI extends StatelessWidget {
               JSONSchemaUIField(
                 schema: schema,
                 ui: ui,
-                disabled: disabled,
+                disabled: false,
               ),
 
               // Button that submit the whole form using global key
