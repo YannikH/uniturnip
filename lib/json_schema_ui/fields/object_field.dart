@@ -97,7 +97,7 @@ class ObjectBody extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, dynamic> newSchema = schema['properties']?[field] ?? schema['items'] ?? {};
     Map<String, dynamic> newUiSchema = uiSchema[field] ?? uiSchema['items'] ?? {};
-    List<String> required = schema['required'] ?? [];
+    List<dynamic> required = schema['required'] ?? [];
     String schemaType = newSchema['type'] ?? 'not_defined';
     if (schemaType == 'object' || schemaType == 'array') {
       // TODO: Add FixedItemsList handling
