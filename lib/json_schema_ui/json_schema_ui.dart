@@ -42,7 +42,6 @@ class JSONSchemaUI extends StatelessWidget {
     return ChangeNotifierProvider<UIModel>(
       create: (context) => UIModel(
         data: data,
-        disabled: disabled,
         onUpdate: onUpdate,
         saveAudioRecord: saveAudioRecord,
       ),
@@ -54,6 +53,7 @@ class JSONSchemaUI extends StatelessWidget {
               JSONSchemaUIField(
                 schema: schema,
                 ui: ui,
+                disabled: disabled,
               ),
 
               // Button that submit the whole form using global key
