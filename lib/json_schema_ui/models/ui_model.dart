@@ -11,8 +11,14 @@ class UIModel extends ChangeNotifier {
   Map<String, dynamic> _data;
   ChangeCallback? onUpdate;
   SaveAudioRecordCallback? saveAudioRecord;
+  bool disabled;
 
-  UIModel({Map<String, dynamic> data = const {}, this.onUpdate, this.saveAudioRecord}) : _data = data;
+  UIModel({
+    Map<String, dynamic> data = const {},
+    this.disabled = false,
+    this.onUpdate,
+    this.saveAudioRecord,
+  }) : _data = data;
 
   set data(Map<String, dynamic> value) {
     _data = value;
