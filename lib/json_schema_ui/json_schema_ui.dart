@@ -42,6 +42,7 @@ class JSONSchemaUI extends StatelessWidget {
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               JSONSchemaUIField(
                 schema: schema,
