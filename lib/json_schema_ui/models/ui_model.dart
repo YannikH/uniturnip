@@ -11,6 +11,7 @@ class UIModel extends ChangeNotifier {
   Map<String, dynamic> _data;
   ChangeCallback? onUpdate;
   SaveAudioRecordCallback? saveAudioRecord;
+  FileCallback? saveFile;
   bool disabled;
 
   UIModel({
@@ -18,6 +19,8 @@ class UIModel extends ChangeNotifier {
     this.disabled = false,
     this.onUpdate,
     this.saveAudioRecord,
+    this.saveFile,
+
   }) : _data = data;
 
   set data(Map<String, dynamic> value) {
