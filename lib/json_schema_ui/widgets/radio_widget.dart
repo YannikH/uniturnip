@@ -49,14 +49,19 @@ class RadioWidget extends StatelessWidget {
         children: [
           for (int index = 0; index < items.length; index++)
             RadioListTile(
-              title: Text(_getName(items, names, index)),
+              title: Text(
+                _getName(items, names, index),
+                style: Theme.of(context).textTheme.titleSmall,
+                // style: Theme.of(context).textTheme.titleMedium,
+              ),
               value: items[index],
               groupValue: widgetData.value,
               contentPadding: EdgeInsets.zero,
               onChanged: widgetData.disabled ? null : _onChange,
             ),
           if (widgetData.required && widgetData.value == null)
-            Text('Required', style: TextStyle(color: Theme.of(context).errorColor)),
+            Text('Required',
+                style: TextStyle(color: Theme.of(context).errorColor)),
         ],
       ),
     );

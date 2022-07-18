@@ -5,12 +5,12 @@ import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
 typedef ChangeCallback = void Function({
-required MapPath path,
-required Map<String, dynamic> data,
+  required MapPath path,
+  required Map<String, dynamic> data,
 });
 
 typedef SubmitCallback = void Function({
-required Map<String, dynamic> data,
+  required Map<String, dynamic> data,
 });
 
 typedef SaveAudioRecordCallback = Future<String> Function(String filepath);
@@ -33,13 +33,12 @@ class JSONSchemaUI extends StatelessWidget {
     this.onSubmit,
     this.saveAudioRecord,
     UIModel? formController,
-  })
-      : _formController = formController ??
-      UIModel(
-        data: data,
-        onUpdate: onUpdate,
-        saveAudioRecord: saveAudioRecord,
-      ),
+  })  : _formController = formController ??
+            UIModel(
+              data: data,
+              onUpdate: onUpdate,
+              saveAudioRecord: saveAudioRecord,
+            ),
         super(key: key);
 
   final _formKey = GlobalKey<FormState>();
@@ -68,17 +67,31 @@ class JSONSchemaUI extends StatelessWidget {
 
               // Button that submit the whole form using global key
               Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                height: 50,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      onSubmit!(data: context
-                          .read<UIModel>()
-                          .data);
+                      onSubmit!(data: context.read<UIModel>().data);
                     }
                   },
-                  child: const Text("Submit"),
-                ),),
+                  child: Text(
+                    "Submit",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  // style: ButtonStyle(
+                  //     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //         RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(18.0),
+                  //             side: BorderSide(
+                  //                 color: Theme.of(context)
+                  //                     .colorScheme
+                  //                     .copyWith()
+                  //                     .primary)))),
+                ),
+              ),
             ],
           ),
         ),
