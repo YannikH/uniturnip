@@ -5,12 +5,12 @@ import 'package:uniturnip/json_schema_ui/models/mapPath.dart';
 import 'package:uniturnip/json_schema_ui/models/ui_model.dart';
 
 typedef ChangeCallback = void Function({
-required MapPath path,
-required Map<String, dynamic> data,
+  required MapPath path,
+  required Map<String, dynamic> data,
 });
 
 typedef SubmitCallback = void Function({
-required Map<String, dynamic> data,
+  required Map<String, dynamic> data,
 });
 
 typedef SaveAudioRecordCallback = Future<String> Function(String filepath);
@@ -33,13 +33,12 @@ class JSONSchemaUI extends StatelessWidget {
     this.onSubmit,
     this.saveAudioRecord,
     UIModel? formController,
-  })
-      : _formController = formController ??
-      UIModel(
-        data: data,
-        onUpdate: onUpdate,
-        saveAudioRecord: saveAudioRecord,
-      ),
+  })  : _formController = formController ??
+            UIModel(
+              data: data,
+              onUpdate: onUpdate,
+              saveAudioRecord: saveAudioRecord,
+            ),
         super(key: key);
 
   final _formKey = GlobalKey<FormState>();
@@ -67,18 +66,19 @@ class JSONSchemaUI extends StatelessWidget {
               ),
 
               // Button that submit the whole form using global key
-              Container(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      onSubmit!(data: context
-                          .read<UIModel>()
-                          .data);
-                    }
-                  },
-                  child: const Text("Submit"),
-                ),),
+              Builder(builder: (context) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        onSubmit!(data: context.read<UIModel>().data);
+                      }
+                    },
+                    child: const Text("Submit"),
+                  ),
+                );
+              }),
             ],
           ),
         ),
