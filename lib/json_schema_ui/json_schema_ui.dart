@@ -23,6 +23,7 @@ class JSONSchemaUI extends StatelessWidget {
   final SubmitCallback? onSubmit;
   final SaveAudioRecordCallback? saveAudioRecord;
   final UIModel _formController;
+  final bool hideSubmitButton;
 
   JSONSchemaUI({
     Key? key,
@@ -32,6 +33,7 @@ class JSONSchemaUI extends StatelessWidget {
     this.onUpdate,
     this.onSubmit,
     this.saveAudioRecord,
+    this.hideSubmitButton = false,
     UIModel? formController,
   })  : _formController = formController ??
             UIModel(
@@ -65,6 +67,9 @@ class JSONSchemaUI extends StatelessWidget {
 
               // Button that submit the whole form using global key
               Builder(builder: (context) {
+                if (hideSubmitButton) {
+                  return const SizedBox.shrink();
+                }
                 return ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

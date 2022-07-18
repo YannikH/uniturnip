@@ -157,7 +157,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 ui: _ui,
                 onUpdate: _updateDataAndPath,
                 data: _data,
-                disabled: disabled,
                 saveAudioRecord: saveAudioRecord,
                 onSubmit: ({required Map<String, dynamic> data}) {
                   print(data);
