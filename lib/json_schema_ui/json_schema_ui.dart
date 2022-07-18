@@ -23,6 +23,7 @@ class JSONSchemaUI extends StatelessWidget {
   final SubmitCallback? onSubmit;
   final SaveAudioRecordCallback? saveAudioRecord;
   final UIModel _formController;
+  final bool hideSubmitButton;
 
   JSONSchemaUI({
     Key? key,
@@ -32,6 +33,7 @@ class JSONSchemaUI extends StatelessWidget {
     this.onUpdate,
     this.onSubmit,
     this.saveAudioRecord,
+    this.hideSubmitButton = false,
     UIModel? formController,
   })  : _formController = formController ??
             UIModel(
@@ -47,17 +49,11 @@ class JSONSchemaUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<UIModel>.value(
       value: _formController,
-      // create: (context) => UIModel(
-      //   data: data,
-      //   onUpdate: onUpdate,
-      //   saveAudioRecord: saveAudioRecord,
-      // ),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.end,
             children: [
               JSONSchemaUIField(
                 schema: schema,
@@ -66,32 +62,22 @@ class JSONSchemaUI extends StatelessWidget {
               ),
 
               // Button that submit the whole form using global key
-              Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      onSubmit!(data: context.read<UIModel>().data);
-                    }
-                  },
-                  child: Text(
-                    "Submit",
-                    style: Theme.of(context).textTheme.titleLarge,
+              Builder(builder: (context) {
+                if (hideSubmitButton) {
+                  return const SizedBox.shrink();
+                }
+                return SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        onSubmit!(data: context.read<UIModel>().data);
+                      }
+                    },
+                    child: const Text("Submit"),
                   ),
-                  // style: ButtonStyle(
-                  //     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  //         RoundedRectangleBorder(
-                  //             borderRadius: BorderRadius.circular(18.0),
-                  //             side: BorderSide(
-                  //                 color: Theme.of(context)
-                  //                     .colorScheme
-                  //                     .copyWith()
-                  //                     .primary)))),
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),
